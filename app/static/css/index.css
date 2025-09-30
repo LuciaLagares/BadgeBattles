@@ -1,0 +1,47 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Press Start 2P", monospace;
+}
+
+header {
+  height: 14vh;
+  background-color: rgb(13, 13, 121);
+  padding: 2rem;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+main {
+  height: 72vh;
+  background-color: lightblue;
+}
+
+footer {
+  height: 14vh;
+  background-color: rgb(13, 13, 121);
+  color: whitesmoke;
+  text-align: center;
+  padding: 1rem;
+  box-shadow: 5px -10px 5px whitesmoke;
+}
+
+.bordePokemon {
+  border-style: double;
+  border-radius: 0.75rem;
+  width: fit-content;
+  height: fit-content;
+  text-align: center;
+  background-color: whitesmoke;
+  color: black;
+  box-shadow: inset 0px 5px 1px black, 0px 5px 1px black;
+}
+
+header h1 {
+  margin: 1rem 1rem 0 1rem;
+}
+header p {
+  margin: 0 1rem 1rem 1rem;
+}

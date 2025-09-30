@@ -9,8 +9,8 @@ def hello_world():
 
 @app.route('/bienvenida')
 def hello_welcome():
-    # year=datetime.now().year;
-    return render_template('index.html')
+    year=datetime.datetime.now().year
+    return render_template('index.html', year=year)
 
 if __name__ == '__main__':
     app.run('0.0.0.0', 8080)
