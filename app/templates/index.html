@@ -10,14 +10,14 @@
       rel="stylesheet"
       href="{{ url_for('static', filename='css/index.css')}}"
       /> -->
-  <link rel="stylesheet" href="../static/css/index.css">
+  <link rel="stylesheet" href="../static/css/style.css">
 
   <!-- Links Tailwind and DaisyUI -->
   <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
 <body>
-  <div class="hero h-[90vh] bg-cover"
+  <div class="hero h-[90vh] bg-cover bg-"
     style="background-image: url(../static/images/Batalla\ Épica\ en\ la\ Liga\ Pokémon.png);">
     <div class="hero-overlay"></div>
     <div class="hero-content text-neutral-content text-center">
@@ -40,10 +40,10 @@
         </path>
       </img>
     </aside>
-    <nav>
-      <h6 class="footer-title pt-5 text-center">Badge Battles</h6>
-      <div class="grid grid-flow-col gap-4">
-        <p>David Moure Cerqueira</p>
+    <nav class="flex-column justify-center align-center ">
+      <h6 class="footer-title pt-5 text-center w-[100%]">Badge Battles</h6>
+      <div class="grid grid-flow-col gap-4 ">
+        <p>David Moure Cerqueira </p>
         <p>Lucía Lagares Álvarez</p>
         {{year}}
 
