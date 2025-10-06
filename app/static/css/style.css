@@ -1,4 +1,8 @@
-
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
 .bordePokemon {
   border-style: double;
   border-radius: 0.75rem;

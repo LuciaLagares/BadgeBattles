@@ -6,11 +6,11 @@
     <title>{% block title %}Batallas Pokemon{% endblock %}</title>
 
     <!-- Own links -->
-    <!-- <link
+    <link
       rel="stylesheet"
       href="{{ url_for('static', filename='css/index.css')}}"
-      /> -->
-    <link rel="stylesheet" href="../static/css/style.css">
+      />
+    <!-- <link rel="stylesheet" href="../static/css/style.css"> -->
 
     <!-- Links Tailwind and DaisyUI -->
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
@@ -18,7 +18,7 @@
 
 </head>
 
-<body>
+<body class="overflow-clip">
     <header>
         <div class="navbar bg-neutral  text-neutral-content shadow-sm h-[10vh]">
             <div class="navbar-start">
@@ -65,7 +65,7 @@
             </div>
         </div>
     </header>
-    <main class="h-[80vh]  pt-5 flex flex-column   overflow-y-scroll">
+    <main class="h-[80vh]  flex flex-column overflow-y-scroll ">
         {% block main %}{% endblock %}
     </main>
 
