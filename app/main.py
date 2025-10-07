@@ -30,11 +30,17 @@ def pokemon_list():
     pokemons = app.config["data"]
     return render_template("pokemon_list.html", year=year, pokemons=pokemons)
 
-@app.route("/pokemons/ID/")
-def pokemons_details():
+@app.route("/pokemons/<int:pokemon_ID>/")
+def pokemon_details(pokemon_ID):
     year = datetime.datetime.now().year
+    visual_pokemon=''
     pokemons = app.config["data"]
-    return render_template("pokemon_details.html", year = year, pokemons = pokemons)
+    for pokemon in pokemons:
+        if pokemon['id'] == pokemon_ID:
+            visual_pokemon=pokemon
+
+        
+    return render_template("pokemon_details.html", year = year, pokemon = visual_pokemon)
 
 if __name__ == '__main__':
     app.run('0.0.0.0', 8080, debug="True")
