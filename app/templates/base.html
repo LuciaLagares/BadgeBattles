@@ -10,7 +10,6 @@
       rel="stylesheet"
       href="{{ url_for('static', filename='css/index.css')}}"
       />
-    <!-- <link rel="stylesheet" href="../static/css/style.css"> -->
 
     <!-- Links Tailwind and DaisyUI -->
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
@@ -65,7 +64,7 @@
             </div>
         </div>
     </header>
-    <main class="h-[80vh]  flex flex-column overflow-y-scroll ">
+    <main class="h-[80vh]  flex flex-column overflow-y-scroll justify-center align-center">
         {% block main %}{% endblock %}
     </main>
 

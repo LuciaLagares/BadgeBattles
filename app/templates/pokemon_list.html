@@ -7,8 +7,29 @@ main %}
     
     <a href="{{ url_for('pokemon_details', pokemon_ID=pokemon.id) }}">
 
-        <div class="card bg-base-100 w-96 shadow-sm">
-            <figure class="px-10 pt-10">
+
+        <div class="card bg-base-100  w-65 h-90 shadow-sm" 
+        
+        {%if pokemon.types[0] == 'fire' %}
+        style="border:4px solid red; background-image: url(../static/images/card_bg/fire.jpg); "
+        {%elif pokemon.types[0] == 'electric'  %}
+        style="border:4px solid yellow; background-image: url(../static/images/card_bg/electric.jpg); "
+        {%elif pokemon.types[0] == 'grass'  %}
+        style="border:4px solid green; "
+        {%elif pokemon.types[0] == 'flying'  %}
+        style="border:4px solid lightslategray; "
+        {%elif pokemon.types[0] == 'poison'  %}
+        style="border:4px solid magenta; "
+        {%elif pokemon.types[0] == 'water'  %}
+        style="border:4px solid blue; background-image: url(../static/images/card_bg/water.png); "
+        {%else%}
+        style="border: 4px solid black"
+       
+        {%endif%}
+        
+        >
+        
+            <figure class=" border mx-10 mt-5">
                 <img src="{{pokemon.sprites.front_default}}" alt="Pokemon.name" />
             </figure>
             <div class="card-body items-center text-center">
