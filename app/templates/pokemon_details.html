@@ -3,26 +3,34 @@
 {% block title %}Pokemon Details{% endblock %}
 
 {% block main %}
-<section class="mt-20">
+<section class="mt-20 ">
 
-    <div class="card bg-base-100 w-96 shadow-sm">
+    <div class="card bg-base-100 w-96 shadow-sm ">
 
         <figure class="flex flex-column justify-center align-center">
 
 
             <div class="carousel w-[40vw]">
                 <div id="slide1" class="carousel-item relative w-full ">
-
+                    {%if is_shiny%}
+                    
+                    <img class="  self-center p-10 w-full h-full" src="{{pokemon.sprites.front_shiny}}" />
+                    {%else%}
                     <img class="  self-center p-10 w-full h-full" src="{{pokemon.sprites.front_default}}" />
 
+                    {%endif%}
                     <div class="absolute left-1 right-1 top-1/2 flex -translate-y-1/2 transform justify-between">
                         <a href="#slide4" class="btn btn-circle">❮</a>
                         <a href="#slide2" class="btn btn-circle">❯</a>
                     </div>
                 </div>
                 <div id="slide2" class="carousel-item relative w-full m-5">
+                    {%if is_shiny%}
+                    <img class="self-center p-10 w-full h-full" src="{{pokemon.sprites.back_shiny}}" />
+                    {%else%}
                     <img class="self-center p-10 w-full h-full" src="{{pokemon.sprites.back_default}}" />
 
+                    {%endif%}
                     <div class="absolute left-1 right-1 top-1/2 flex -translate-y-1/2 transform justify-between">
                         <a href="#slide1" class="btn btn-circle">❮</a>
                         <a href="#slide3" class="btn btn-circle">❯</a>

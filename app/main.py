@@ -1,3 +1,5 @@
+import math
+import random
 from flask import Flask, current_app, json, jsonify, render_template
 import datetime
 
@@ -33,14 +35,24 @@ def pokemon_list():
 @app.route("/pokemons/<int:pokemon_ID>/")
 def pokemon_details(pokemon_ID):
     year = datetime.datetime.now().year
-    visual_pokemon=''
+    visual_pokemon=None
+    
     pokemons = app.config["data"]
     for pokemon in pokemons:
         if pokemon['id'] == pokemon_ID:
             visual_pokemon=pokemon
-
+    def is_pokemon_shiny(id, max):
         
-    return render_template("pokemon_details.html", year = year, pokemon = visual_pokemon)
+        shiny=int(random.randint(0,max))
+        while(id>max):
+            id=math.trunc(math.sqrt(id))
+        if id==shiny:
+            return True
+        else:
+            return False
+    is_shiny=is_pokemon_shiny(visual_pokemon['id'],10)    
+        
+    return render_template("pokemon_details.html", year = year, pokemon = visual_pokemon, is_shiny=is_shiny)
 
 if __name__ == '__main__':
     app.run('0.0.0.0', 8080, debug="True")
