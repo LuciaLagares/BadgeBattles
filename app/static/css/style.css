@@ -1,9 +1,18 @@
-*{
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
+@font-face {
+    font-family: 'Pokemon Hollow';
+    src: url('../fonts/PokemonGb-RAeo.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
 }
-.bordePokemon {
+
+body {
+    font-family: 'Pokemon Hollow', sans-serif;
+}
+
+
+
+
+.pokemonBorder {
   border-style: double;
   border-radius: 0.75rem;
   width: fit-content;
@@ -13,5 +22,3 @@
   color: black;
   box-shadow: inset 0px 5px 1px black, 0px 5px 1px black;
 }
-
-
