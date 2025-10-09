@@ -11,13 +11,13 @@
     </div>
     <div class=" w-[80vw] mx-auto h-[35vh] flex flex-row justify-evenly">
         <figure class="flex flex-col justify-center align-center">
-            <div class="carousel w-[35vw] max-w-screen-lg">
-                <div id="slide1" class="carousel-item relative w-full">
+            <div class="carousel w-[35vw]">
+                <div id="slide1" class="carousel-item relative w-full h-[100%]">
                     {%if is_shiny%}
 
-                    <img class="  self-center p-10 w-full h-full" src="{{pokemon.sprites.front_shiny}}" />
+                    <img class=" mx-auto self-center p-10 w-100 h-100" src="{{pokemon.sprites.front_shiny}}" />
                     {%else%}
-                    <img class="  self-center p-10 w-full h-full" src="{{pokemon.sprites.front_default}}" />
+                    <img class=" mx-auto self-center p-10 w-100 h-100" src="{{pokemon.sprites.front_default}}" />
 
                     {%endif%}
                     <div class="absolute left-1 right-1 top-1/2 flex -translate-y-1/2 transform justify-between">
@@ -27,9 +27,9 @@
                 </div>
                 <div id="slide2" class="carousel-item relative w-full m-5">
                     {%if is_shiny%}
-                    <img class="self-center p-10 w-full h-full" src="{{pokemon.sprites.back_shiny}}" />
+                    <img class="mx-auto self-center p-10 w-100 h-100" src="{{pokemon.sprites.back_shiny}}" />
                     {%else%}
-                    <img class="self-center p-10 w-full h-full" src="{{pokemon.sprites.back_default}}" />
+                    <img class="mx-auto self-center p-10 w-100 h-100" src="{{pokemon.sprites.back_default}}" />
 
                     {%endif%}
                     <div class="absolute left-1 right-1 top-1/2 flex -translate-y-1/2 transform justify-between">
