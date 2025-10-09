@@ -3,17 +3,18 @@
 {% block title %}Pokemon Details{% endblock %}
 
 {% block main %}
-<section class="mt-20 ">
 
-    <div class="card bg-base-100 w-96 shadow-sm ">
+<section class="flex flex-col">
+    <div>
 
-        <figure class="flex flex-column justify-center align-center">
-
-
-            <div class="carousel w-[40vw]">
-                <div id="slide1" class="carousel-item relative w-full ">
+        <h1 class="w-full h-[5vh] text-center text-white border-2">{{pokemon.name.capitalize()}}</h1>
+    </div>
+    <div class=" w-[80vw] mx-auto h-[35vh] flex flex-row justify-evenly">
+        <figure class="flex flex-col justify-center align-center">
+            <div class="carousel w-[35vw] max-w-screen-lg">
+                <div id="slide1" class="carousel-item relative w-full">
                     {%if is_shiny%}
-                    
+
                     <img class="  self-center p-10 w-full h-full" src="{{pokemon.sprites.front_shiny}}" />
                     {%else%}
                     <img class="  self-center p-10 w-full h-full" src="{{pokemon.sprites.front_default}}" />
@@ -36,14 +37,33 @@
                         <a href="#slide3" class="btn btn-circle">❯</a>
                     </div>
                 </div>
+            </div>
         </figure>
-        <div class="card-body">
-            <h2 class="card-title">{{pokemon.name.capitalize()}}</h2>
-            <p>A card component has a figure, a body part, and inside body there are title and actions parts</p>
-            <div class="card-actions justify-end">
-                <button class="btn btn-primary">Buy Now</button>
+
+        <div class="text-white">
+            {%for stat in pokemon.stats %}
+            <p>{{stat.name}}</p>
+            <p>{{stat.value}}</p>
+
+            {%endfor%}
+            <p>peso</p>
+
+
+        </div>
+    </div>
+    <div class="w-full h-[40vh]            flex flex-row flex-wrap  justify-around align-center">
+        {%for move in pokemon.moves%}
+        <div class="border-2">
+            <h2 class="text-white text-2xl">{{move.name}}</h2>
+            <div>
+                <div>Type: {{move.type}}</div>
+                <div>Accuracy: {{move.accuracy}}</div>
+                <progress class="progress w-56" value="{{move.accuracy}}" max="100"></progress>
+                <div>Power: {{move.power}}</div>
+                <progress class="progress w-56" value="{{move.power}}" max="150"></progress>
             </div>
         </div>
+        {%endfor%}
     </div>
 </section>
 {% endblock %}
