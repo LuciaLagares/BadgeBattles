@@ -30,7 +30,25 @@ def file_json():
 def pokemon_list():
     year = datetime.datetime.now().year
     pokemons = app.config["data"]
-    return render_template("pokemon_list.html", year=year, pokemons=pokemons)
+
+    colors={
+            'electric':'yellow',
+            'fire':'red',
+            'flying':'lightskyblue',
+            'grass':'olive',
+            'poison': 'fuchsia',
+            'water':'blue',
+            'fighting':'saddlebrown',
+            'dragon':'mediumblue',
+            'normal':'bisque',
+            'ground':'tan',
+            'dark':'darkslategrey',
+            'steel':'lightslategray',
+            'fairy':'violet',
+            'ice':'lightsteelblue'
+    }
+    
+    return render_template("pokemon_list.html", year=year, pokemons=pokemons, colors=colors)
 
 @app.route("/pokemons/<int:pokemon_ID>/")
 def pokemon_details(pokemon_ID):
