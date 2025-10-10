@@ -41,6 +41,8 @@ def pokemon_details(pokemon_ID):
     for pokemon in pokemons:
         if pokemon['id'] == pokemon_ID:
             visual_pokemon=pokemon
+
+            # Randomnizador de Shiny
     def is_pokemon_shiny(id, max):
         
         shiny=int(random.randint(0,max))
@@ -51,8 +53,25 @@ def pokemon_details(pokemon_ID):
         else:
             return False
     is_shiny=is_pokemon_shiny(visual_pokemon['id'],10)    
+
+    colors={
+            'electric':'yellow',
+            'fire':'red',
+            'flying':'lightskyblue',
+            'grass':'olive',
+            'poison': 'fuchsia',
+            'water':'blue',
+            'fighting':'saddlebrown',
+            'dragon':'mediumblue',
+            'normal':'bisque',
+            'ground':'tan',
+            'dark':'darkslategrey',
+            'steel':'lightslategray',
+            'fairy':'violet',
+            'ice':'lightsteelblue'
+        }
         
-    return render_template("pokemon_details.html", year = year, pokemon = visual_pokemon, is_shiny=is_shiny)
+    return render_template("pokemon_details.html", year = year, pokemon = visual_pokemon, is_shiny=is_shiny, colors=colors)
 
 if __name__ == '__main__':
     app.run('0.0.0.0', 8080, debug="True")

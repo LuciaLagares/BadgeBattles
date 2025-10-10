@@ -7,12 +7,16 @@
 <section class="flex flex-col">
     <div>
 
-        <h1 class="w-full h-[5vh] text-center text-white border-2">{{pokemon.name.capitalize()}}</h1>
+        <h1 class="w-full h-[3vh] text-center text-white mt-1">{{pokemon.name.upper()}}</h1>
     </div>
-    <div class=" w-[80vw] mx-auto h-[35vh] flex flex-row justify-evenly">
-        <figure class="flex flex-col justify-center align-center">
-            <div class="carousel w-[35vw]">
-                <div id="slide1" class="carousel-item relative w-full h-[100%]">
+    <!-- Contenedor:Imagen-Peso-Stats -->
+    <div class=" w-[80vw] mx-auto h-[30vh] flex flex-row justify-evenly  mt-2">
+        <!-- Imagen -->
+        <figure class="flex flex-col justify-center align-center rounded-[10%] " style="box-shadow: 5px 5px 50px whitesmoke, -5px 5px 50px whitesmoke; background-position-y: 10%;   background-repeat: no-repeat; background-size: cover ; background-image: url({{url_for('static', filename='/images/bg_pokemon.jpg')}}); ">
+            <div class="carousel w-[25vw] overflow-hidden">
+                <!-- Slide1 -->
+                <div id="slide1" class="carousel-item relative w-full h-[100%] overflow-visible" style="flex-shrink: 0;">
+
                     {%if is_shiny%}
 
                     <img class=" mx-auto self-center p-10 w-100 h-100" src="{{pokemon.sprites.front_shiny}}" />
@@ -20,50 +24,114 @@
                     <img class=" mx-auto self-center p-10 w-100 h-100" src="{{pokemon.sprites.front_default}}" />
 
                     {%endif%}
+                    <!-- Botones slide 1 -->
                     <div class="absolute left-1 right-1 top-1/2 flex -translate-y-1/2 transform justify-between">
-                        <a href="#slide4" class="btn btn-circle">❮</a>
-                        <a href="#slide2" class="btn btn-circle">❯</a>
+                        <a href="#slide4" class="shadow-none bg-transparent border-0 h-100" style="content: ' ';"></a>
+                        <a href="#slide2" class="btn shadow-none bg-transparent border-0 h-100" style="content: ' ';">❯</a>
+               
                     </div>
                 </div>
-                <div id="slide2" class="carousel-item relative w-full m-5">
+                <!-- Slide2 -->
+                <div id="slide2" class="carousel-item relative w-full h-[100%] overflow-visible" style="flex-shrink: 0;">
                     {%if is_shiny%}
-                    <img class="mx-auto self-center p-10 w-100 h-100" src="{{pokemon.sprites.back_shiny}}" />
-                    {%else%}
-                    <img class="mx-auto self-center p-10 w-100 h-100" src="{{pokemon.sprites.back_default}}" />
+                    <img class=" mx-auto self-center p-10 w-100 h-100" src="{{pokemon.sprites.back_shiny}}" />
+                {%else%}
+                <img class="  mx-auto self-center p-10 w-100 h-100" src="{{pokemon.sprites.back_default}}" />
 
-                    {%endif%}
-                    <div class="absolute left-1 right-1 top-1/2 flex -translate-y-1/2 transform justify-between">
-                        <a href="#slide1" class="btn btn-circle">❮</a>
-                        <a href="#slide3" class="btn btn-circle">❯</a>
-                    </div>
+                {%endif%}
+                <!-- Botones slide 2-->
+                <div class="absolute left-1 right-1 top-1/2 flex -translate-y-1/2 transform justify-between">
+                    <a href="#slide1" class="btn shadow-none bg-transparent border-0 h-100" style="content: ' ';">❮</a>
+                    <a href="#slide3" class="shadow-none bg-transparent border-0 h-100" style="content: ' ';"></a>
                 </div>
             </div>
-        </figure>
+    </div>
+    </figure>
+    <!-- Datos Pokemon-->
+    <div class="flex flex-col justify-center gap-4">
+        <!-- ID -->
+        <div>Numero Pokedex: {{pokemon.id}}</div>
+        
+        <!-- Peso -->
+        <div class="flex flex-row justify-between gap-2 ">
+            <svg  xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22">
+                <path fill="currentColor"
+                    d="M20 20H2v-2h1v-4h1v-3h1V8h3V7H7V4h1V3h1V2h4v1h1v1h1v3h-1v1h3v3h1v3h1v4h1M12 7V6h1V5h-1V4h-2v1H9v1h1v1Z" />
+            </svg>
 
-        <div class="text-white">
-            {%for stat in pokemon.stats %}
-            <p>{{stat.name}}</p>
-            <p>{{stat.value}}</p>
+            {%if pokemon.weight<=200%} Lightweight <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                viewBox="0 0 24 24">
+                <path fill="currentColor"
+                    d="M9 5h6v2H9zm10 4h-4V7h4zm2 2h-2V9h2zm0 6v-6h2v6zm0 0v2h-2v-2zM1 11h2v6H1zm2 6h2v2H3zm11-4h-4v-2H8V9H6V7H4v2h2v2h2v2h2v4h4z" />
+                </svg>
 
+
+                {%elif pokemon.weight>200 and pokemon.weight<=700%} Normal <svg xmlns="http://www.w3.org/2000/svg"
+                    width="24" height="24" viewBox="0 0 24 24">
+                    <path fill="currentColor"
+                        d="M13 5h-2v8h-1v4h4v-4h-1zM9 7H5v2H3v2H1v6h2v2h2v-2H3v-6h2V9h4zm12 4h2v6h-2zm-2-2h2v2h-2zm0 0h-4V7h4zm2 8v2h-2v-2z" />
+                    </svg>
+
+                    {%elif pokemon.weight>700%}
+
+                    Heavy
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path fill="currentColor"
+                            d="M15 5H9v2H5v2H3v2H1v6h2v2h2v-2H3v-6h2V9h4V7h6zm8 6h-2v6h-2v2h2v-2h2zm-13 2h4v4h-4zm6-2h-2v2h2zm2-2v2h-2V9zm0 0V7h2v2z" />
+                    </svg>
+                    {%endif%}
+        </div>
+        <!-- Altura -->
+        <div>Height: {{pokemon.height*10}} cm</div>
+        <!-- Tipo e icono -->
+        <div class="flex flex-row gap-2">
+            {%for type in pokemon.types%}
+            <div class="font-bold px-2 rounded-2xl" style="background-color: {{colors[type]}}">
+
+                {{type.capitalize()}}
+            </div>
+            <img class="w-7 h-7 relative  right-1" src="{{url_for('static',filename='images/Types/'+type+'.png')}}"
+                alt="type_icon" />
             {%endfor%}
-            <p>peso</p>
-
-
         </div>
     </div>
-    <div class="w-full h-[40vh]            flex flex-row flex-wrap  justify-around align-center">
+
+    <!-- Stats -->
+    <div class="text-white   grid grid-cols-2  grid-row-3 gap-x-6 gap-y-2 ">
+        {%for stat in pokemon.stats %}
+        <!-- Stat individual -->
+        <div class="border-2 border-black pt-2 px-2 rounded-3xl flex flex-col justify-evenly" style="background-color: darkgrey; box-shadow: 1px 1px 10px rgba(235, 182, 182,0.2),-1px 1px 10px rgba(235, 182, 182)">
+
+            <p>{{stat.name.capitalize()}}:{{stat.value}}</p>
+
+            <progress class=" progress max-w-80 h-5" value="{{stat.value}}" max="150"></progress>
+        </div>
+
+        {%endfor%}
+
+
+    </div>
+
+    </div>
+
+    <!-- Ataques -->
+    <div class="w-full h-[40vh]  mt-2 grid grid-cols-5 grid-row-2 gap-3">
         {%for move in pokemon.moves%}
-        <div class="border-2">
-            <h2 class="text-white text-2xl">{{move.name}}</h2>
-            <div>
-                <div>Type: {{move.type}}</div>
-                <div>Accuracy: {{move.accuracy}}</div>
-                <progress class="progress w-56" value="{{move.accuracy}}" max="100"></progress>
+        <!-- Ataque individual -->
+        <div class="border-2 rounded-2xl pt-2" style="background-color: darkslategray; ">
+            <h2 class="text-white text-center text-2xl" ">{{move.name.capitalize()}}</h2>
+            <!-- Datos de ataques -->
+            <div class=" m-2 text-center" style="line-height: 2rem; ">
+                <div class="flex justify-center">Type: 
+                    <div class="px-1 rounded-3xl" style="background-color: {{colors[move.type]}})"> {{move.type.capitalize()}}</div>
+                </div>
                 <div>Power: {{move.power}}</div>
                 <progress class="progress w-56" value="{{move.power}}" max="150"></progress>
-            </div>
+                <div>Accuracy: {{move.accuracy}}</div>
+                <progress class="progress w-56" value="{{move.accuracy}}" max="100"></progress>
         </div>
-        {%endfor%}
+    </div>
+    {%endfor%}
     </div>
 </section>
 {% endblock %}

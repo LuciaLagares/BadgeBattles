@@ -21,7 +21,7 @@
 
 <body class="overflow-clip">
     <header>
-        <div class="navbar bg-neutral  text-neutral-content shadow-sm h-[10vh]">
+        <div class="navbar bg-neutral  text-neutral-content shadow-sm h-[5vh]">
             <div class="navbar-start">
                 <div class="dropdown">
                     <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
@@ -66,13 +66,13 @@
             </div>
         </div>
     </header>
-    <main class="h-[80vh]  bg-cyan-950 flex flex-column overflow-y-scroll justify-center align-center">
+    <main class="h-[85vh]   flex flex-column overflow-y-scroll justify-center align-center" style="background-repeat: norepeat; background-size: contain; background-image: url({{url_for('static',filename='images/bg_web_dark.jpg')}});">
         {% block main %}{% endblock %}
     </main>
 
-    <footer class="footer sm:footer-horizontal bg-neutral text-neutral-content p-auto h-[10vh]">
-        <aside class="p-5">
-            <img width="50" height="50" viewBox="0 0 24 24" class="rounded-md"
+    <footer class="footer sm:footer-horizontal bg-neutral text-neutral-content  h-[10vh]">
+        <aside >
+            <img   width="50" height="50" viewBox="0 0 24 24" class="rounded-md ml-5 mt-2"
                 src="{{ url_for('static', filename='images/logo.png') }}" fill-rule="evenodd" clip-rule="evenodd"
                 class="fill-current">
             <path
@@ -81,7 +81,7 @@
             </img>
         </aside>
         <nav class="flex-column justify-center align-center ">
-            <h6 class="footer-title pt-5 text-center w-[100%]">Badge Battles</h6>
+            <h6 class="footer-title mt-2 text-center w-[100%]">Badge Battles</h6>
             <div class="grid grid-flow-col gap-4 ">
                 <p>David Moure Cerqueira </p>
                 <p>Lucía Lagares Álvarez</p>

@@ -1,7 +1,7 @@
 {% extends "base.html" %} {% block title %}Pokemon List{% endblock %} {% block
 main %}
 <section
-  class=" flex flex-column flex-wrap justify-center align-center pt-2 gap-2"
+  class=" flex flex-column flex-wrap justify-evenly  pt-2 gap-2"
 >
   {% for pokemon in pokemons %}
   <div class="card m-2 rounded-3xl bg-base-100  w-65 h-fit shadow-sm"
@@ -29,10 +29,9 @@ main %}
         <a  href="{{ url_for('pokemon_details', pokemon_ID=pokemon.id) }}">
             <h2 class="font-bold text-center my-4 w-full">{{pokemon.name.capitalize()}}</h2>
     
-            {#<figure class=" border-5 mx-10 mt-5 " style="background-image: url(../static/images/bg_sprite.jpg);background-size: contain ;border-color: #5C6E06 ">#}
             <figure class=" border-5 mx-10 mt-5 " style="background-color:rgba(89, 106, 4, 0.5); border-radius: 2rem; box-shadow: 5px 2px 5px black;">
 
-                <img  class="transform hover:scale-200 duration-300 ease-in-out" src="{{pokemon.sprites.front_default}}" alt="Pokemon.name" />
+                <img  class="transform hover:scale-200 duration-300 ease-in-out" src="{{pokemon.sprites.front_default}}" alt="{{pokemon.name}}" />
             </figure>
             <div class="card-body items-center text-center  px-2">
                 
@@ -45,12 +44,10 @@ main %}
                     </div>
                     <img 
                     class="w-7 h-7 relative bottom-2 right-1"
-                    src="../static/images/Types/{{type}}.png"
+                    src="{{url_for('static', filename='/images/Types/'+type+'.png')}}"
                     alt="type_icon"
                     />
-                    
-                    
-                    
+
                     {%endfor%}
                 </div>
                 <div class=" transform hover:scale-110 duration-300 ease-in-out grid grid-cols-2 grid-rows-3  gap-x-3 text-left border-2 rounded-xl px-2 " style="border-color: rgb(0, 117, 117); box-shadow: 5px 2px 5px black;">
