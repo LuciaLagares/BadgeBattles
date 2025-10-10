@@ -12,7 +12,7 @@
     <!-- Contenedor:Imagen-Peso-Stats -->
     <div class=" w-[80vw] mx-auto h-[30vh] flex flex-row justify-evenly  mt-2">
         <!-- Imagen -->
-        <figure class="flex flex-col justify-center align-center rounded-[10%] " style="box-shadow: 5px 5px 50px whitesmoke, -5px 5px 50px whitesmoke; background-position-y: 10%;   background-repeat: no-repeat; background-size: cover ; background-image: url({{url_for('static', filename='/images/bg_pokemon.jpg')}}); ">
+        <figure class="flex flex-col justify-center align-center rounded-[10%] " style="box-shadow: 5px 5px 50px whitesmoke, -5px 5px 50px whitesmoke; background-position-y: 10%;   background-repeat: no-repeat; background-size: cover ; background-image: url({{url_for('static', filename='images/bg_pokemon.jpg')}}); ">
             <div class="carousel w-[25vw] overflow-hidden">
                 <!-- Slide1 -->
                 <div id="slide1" class="carousel-item relative w-full h-[100%] overflow-visible" style="flex-shrink: 0;">
@@ -123,7 +123,7 @@
             <!-- Datos de ataques -->
             <div class=" m-2 text-center" style="line-height: 2rem; ">
                 <div class="flex justify-center">Type: 
-                    <div class="px-1 rounded-3xl" style="background-color: {{colors[move.type]}})"> {{move.type.capitalize()}}</div>
+                    <div class="px-1 rounded-3xl" style="background-color: {{colors[move.type]}}"> {{move.type.capitalize()}}</div>
                 </div>
                 <div>Power: {{move.power}}</div>
                 <progress class="progress w-56" value="{{move.power}}" max="150"></progress>
