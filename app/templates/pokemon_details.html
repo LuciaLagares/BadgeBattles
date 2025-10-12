@@ -4,13 +4,13 @@
 
 {% block main %}
 
-<section class="flex flex-col">
+<section class="flex flex-col justify-evenly ">
     <div>
 
         <h1 class="w-full h-[3vh] text-center text-white mt-1">{{pokemon.name.upper()}}</h1>
     </div>
     <!-- Contenedor:Imagen-Peso-Stats -->
-    <div class=" w-[80vw] mx-auto h-[30vh] flex flex-row justify-evenly  mt-2">
+    <div class=" w-[80vw] mx-auto h-[30vh] flex flex-row justify-evenly gap-10 mt-2">
         <!-- Imagen -->
         <figure class="flex flex-col justify-center align-center rounded-[10%] " style="box-shadow: 5px 5px 50px whitesmoke, -5px 5px 50px whitesmoke; background-position-y: 10%;   background-repeat: no-repeat; background-size: cover ; background-image: url({{url_for('static', filename='images/bg_pokemon.jpg')}}); ">
             <div class="carousel w-[25vw] overflow-hidden">
@@ -48,9 +48,9 @@
     </div>
     </figure>
     <!-- Datos Pokemon-->
-    <div class="flex flex-col justify-center gap-4">
+    <div class="flex flex-col justify-evenly gap-4 p-4 sm:p-6 md:p-8 lg:p-12">
         <!-- ID -->
-        <div>Numero Pokedex: {{pokemon.id}}</div>
+        <div> Pokedex Number: {{pokemon.id}}</div>
         
         <!-- Peso -->
         <div class="flex flex-row justify-between gap-2 ">
@@ -84,7 +84,7 @@
         <!-- Altura -->
         <div>Height: {{pokemon.height*10}} cm</div>
         <!-- Tipo e icono -->
-        <div class="flex flex-row gap-2">
+        <div class="flex flex-row  gap-2">
             {%for type in pokemon.types%}
             <div class="font-bold px-2 rounded-2xl" style="background-color: {{colors[type]}}">
 
@@ -115,18 +115,18 @@
     </div>
 
     <!-- Ataques -->
-    <div class="w-full h-[40vh]  mt-2 grid grid-cols-5 grid-row-2 gap-3">
+    <div class="w-full h-[40vh]   grid grid-cols-1 2xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 overflow-y-scroll gap-3">
         {%for move in pokemon.moves%}
         <!-- Ataque individual -->
-        <div class="border-2 rounded-2xl pt-2" style="background-color: darkslategray; ">
-            <h2 class="text-white text-center text-2xl" ">{{move.name.capitalize()}}</h2>
+        <div class="border-2 rounded-2xl  flex flex-col justify-center items-center" style="background-color: darkslategray; ">
+            <h2 class="text-white mx-2 text-center text-2xl" >{{move.name.capitalize()}}</h2>
             <!-- Datos de ataques -->
-            <div class=" m-2 text-center" style="line-height: 2rem; ">
+            <div class="text-center flex flex-col justify-center items-center" style="line-height: 2rem; ">
                 <div class="flex justify-center">Type: 
                     <div class="px-1 rounded-3xl" style="background-color: {{colors[move.type]}}"> {{move.type.capitalize()}}</div>
                 </div>
                 <div>Power: {{move.power}}</div>
-                <progress class="progress w-56" value="{{move.power}}" max="150"></progress>
+                <progress class="progress w-56 " value="{{move.power}}" max="150"  ></progress>
                 <div>Accuracy: {{move.accuracy}}</div>
                 <progress class="progress w-56" value="{{move.accuracy}}" max="100"></progress>
         </div>
