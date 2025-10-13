@@ -38,6 +38,7 @@
                     </ul>
                 </div>
                 <a class="btn btn-ghost text-xl" href="{{url_for('welcome')}}">Badge Battles</a>
+                
             </div>
             <div class="navbar-center hidden lg:flex">
                 <ul class="menu menu-horizontal px-1">
@@ -46,6 +47,8 @@
                 </ul>
             </div>
             <div class="navbar-end">
+                {% block trainer%}{%endblock%}
+                
                 <a class="btn">Button</a>
             </div>
         </div>

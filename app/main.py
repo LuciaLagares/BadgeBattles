@@ -1,6 +1,6 @@
 import math
 import random
-from flask import Flask, current_app, json, jsonify, render_template, request
+from flask import Flask, current_app, json, jsonify, render_template, request, redirect, url_for
 import datetime
 
 app = Flask(__name__, template_folder='templates')
@@ -23,7 +23,8 @@ def welcome():
         if error:
             return render_template('index.html', year=year, error=error)
         else:
-            return render_template('/pokemons/', year=year, trainer=trainer)
+            # return render_template('/pokemons/', year=year, trainer=trainer)
+            return redirect(url_for("pokemon_list",trainer=trainer))
     elif (request.method == 'GET'):
         return render_template('index.html', year=year)
 
@@ -58,8 +59,13 @@ def pokemon_list():
         'fairy': 'violet',
         'ice': 'lightsteelblue'
     }
-
-    return render_template("pokemon_list.html", year=year, pokemons=pokemons, colors=colors)
+    
+    
+    if request.args.get('trainer') is not None:
+        trainer=request.args.get('trainer')
+        return render_template("pokemon_list.html", year=year, pokemons=pokemons, colors=colors, trainer=trainer)
+    else: 
+        return render_template("pokemon_list.html", year=year, pokemons=pokemons, colors=colors)
 
 
 @app.route("/pokemons/<int:pokemon_ID>/")
