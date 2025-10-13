@@ -48,7 +48,7 @@
     </div>
     </figure>
     <!-- Datos Pokemon-->
-    <div class="flex flex-col justify-evenly gap-4 p-4 sm:p-6 md:p-8 lg:p-12">
+    <div class="flex flex-col justify-evenly gap-4 p-4 sm:p-6 md:p-8 lg:p-12 text-white">
         <!-- ID -->
         <div> Pokedex Number: {{pokemon.id}}</div>
         
@@ -126,7 +126,7 @@
                     <div class="px-1 rounded-3xl" style="background-color: {{colors[move.type]}}"> {{move.type.capitalize()}}</div>
                 </div>
                 <div>Power: {{move.power}}</div>
-                <progress class="progress w-56 " value="{{move.power}}" max="150"  ></progress>
+                <progress class="progress w-56 " value="{{move.power}}" max="150"></progress>
                 <div>Accuracy: {{move.accuracy}}</div>
                 <progress class="progress w-56" value="{{move.accuracy}}" max="100"></progress>
         </div>
