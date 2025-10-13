@@ -11,6 +11,7 @@ with open("./data/data.json", encoding="utf-8") as fichero_data:
 
 @app.route('/', methods=['GET', 'POST'])
 def welcome():
+    pokemons = app.config["data"]
     year = datetime.datetime.now().year
     if (request.method == 'POST'):
         trainer = request.form['trainer']
@@ -23,8 +24,7 @@ def welcome():
         if error:
             return render_template('index.html', year=year, error=error)
         else:
-            # return render_template('/pokemons/', year=year, trainer=trainer)
-            return redirect(url_for("pokemon_list",trainer=trainer))
+            return redirect(url_for('pokemon_list', trainer=trainer))
     elif (request.method == 'GET'):
         return render_template('index.html', year=year)
 
@@ -42,7 +42,7 @@ def file_json():
 def pokemon_list():
     year = datetime.datetime.now().year
     pokemons = app.config["data"]
-
+    trainer = request.args.get('trainer')
     colors = {
         'electric': 'yellow',
         'fire': 'red',
@@ -59,13 +59,8 @@ def pokemon_list():
         'fairy': 'violet',
         'ice': 'lightsteelblue'
     }
-    
-    
-    if request.args.get('trainer') is not None:
-        trainer=request.args.get('trainer')
-        return render_template("pokemon_list.html", year=year, pokemons=pokemons, colors=colors, trainer=trainer)
-    else: 
-        return render_template("pokemon_list.html", year=year, pokemons=pokemons, colors=colors)
+
+    return render_template("pokemon_list.html", year=year, pokemons=pokemons, colors=colors, trainer=trainer)
 
 
 @app.route("/pokemons/<int:pokemon_ID>/")
