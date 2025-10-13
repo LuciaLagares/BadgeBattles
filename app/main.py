@@ -1,6 +1,6 @@
 import math
 import random
-from flask import Flask, current_app, json, jsonify, render_template
+from flask import Flask, current_app, json, jsonify, render_template, request
 import datetime
 
 app = Flask(__name__, template_folder='templates')
@@ -9,12 +9,23 @@ with open("./data/data.json", encoding="utf-8") as fichero_data:
     app.config["data"] = json.load(fichero_data)
 
 
-@app.route('/')
-# def hello_world():
-#     return 'Hello, World!'
+@app.route('/', methods=['GET', 'POST'])
 def welcome():
     year = datetime.datetime.now().year
-    return render_template('index.html', year=year)
+    if (request.method == 'POST'):
+        trainer = request.form['trainer']
+        error=False
+        
+        if (len(trainer) < 3):
+            error = 'The trainer name needs to be longer than 3 letters'
+        elif (len(trainer) > 15):
+            error = 'The trainer name needs to be shorter than 15 letters'
+        if error:
+            return render_template('index.html', year=year, error=error)
+        else:
+            return render_template('/pokemons/', year=year, trainer=trainer)
+    elif (request.method == 'GET'):
+        return render_template('index.html', year=year)
 
 
 @app.route("/file")

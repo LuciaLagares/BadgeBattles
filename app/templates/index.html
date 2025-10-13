@@ -5,18 +5,38 @@
 {% block main %}
 
 <div class="hero  bg-cover bg-no-repeat"
-style="background-image: url(../static/images/Batalla\ Épica\ en\ la\ Liga\ Pokémon.png);">
-<div class="hero-overlay"></div>
-<div class="hero-content text-neutral-content text-center">
-  <div class="max-w-md">
-    <h1 class="mb-5 text-5xl font-bold">Badge Battles</h1>
-    <p class="mb-5">
-      Welcome to this page, where you have the chance of winning all the
-      badges!
-    </p>
-    <a class="btn btn-primary"  href="{{url_for('pokemon_list')}}">Show pokemons</a>
+  style="background-image: url(../static/images/Batalla\ Épica\ en\ la\ Liga\ Pokémon.png);">
+  <div class="hero-overlay"></div>
+  <div class="hero-content text-neutral-content text-center flex flex-col justify-center items-center">
+    <div class="max-w-md">
+      <h1 class="mb-5 text-5xl font-bold">Badge Battles</h1>
+      <p class="mb-5">
+        Welcome to this page, where you have the chance of winning all the
+        badges!
+      </p>
+    </div>
+    <form class="flex flex-col justify-center items-center" action="/" method="POST">
+      <div>
+        <label for="trainer">Trainer name:</label>
+        <input type="text" name="trainer" id="trainer" autofocus required>
+      </div>
+      <div>
+
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password" disabled>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Show pokemons</button>
+
+      
+      <div>
+          {{error}}
+      </div>
+
+    </form>
   </div>
 </div>
-</div>
+
+
 
 {% endblock %}
