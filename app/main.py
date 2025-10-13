@@ -1,6 +1,6 @@
 import math
 import random
-from flask import Flask, current_app, json, jsonify, render_template, request
+from flask import Flask, current_app, json, jsonify, render_template, request, redirect, url_for
 import datetime
 
 app = Flask(__name__, template_folder='templates')
@@ -11,6 +11,7 @@ with open("./data/data.json", encoding="utf-8") as fichero_data:
 
 @app.route('/', methods=['GET', 'POST'])
 def welcome():
+    pokemons = app.config["data"]
     year = datetime.datetime.now().year
     if (request.method == 'POST'):
         trainer = request.form['trainer']
@@ -23,7 +24,7 @@ def welcome():
         if error:
             return render_template('index.html', year=year, error=error)
         else:
-            return render_template('/pokemons/', year=year, trainer=trainer)
+            return redirect(url_for('pokemon_list', trainer=trainer))
     elif (request.method == 'GET'):
         return render_template('index.html', year=year)
 
@@ -41,7 +42,7 @@ def file_json():
 def pokemon_list():
     year = datetime.datetime.now().year
     pokemons = app.config["data"]
-
+    trainer = request.args.get('trainer')
     colors = {
         'electric': 'yellow',
         'fire': 'red',
@@ -59,7 +60,7 @@ def pokemon_list():
         'ice': 'lightsteelblue'
     }
 
-    return render_template("pokemon_list.html", year=year, pokemons=pokemons, colors=colors)
+    return render_template("pokemon_list.html", year=year, pokemons=pokemons, colors=colors, trainer=trainer)
 
 
 @app.route("/pokemons/<int:pokemon_ID>/")
