@@ -1,38 +1,64 @@
 {% extends "base.html" %}
 
- {% block trainer%}{%endblock%}
+{% block trainer%}{%endblock%}
 
 {% block main %}
-<section class=" flex flex-col">
-    <!-- Combat View -->
-     <div class="grid grid-cols-2 grid-rows-2">
-        <!-- My Pokemon -->
-         <div>
+<section class=" flex flex-col w-full h-full">
+   <!-- Zona del VS -->
+   <div class="flex w-full flex-col lg:flex-row">
+      <div class="card bg-base-300 rounded-box grid h-32 grow place-items-center">Nosotros</div>
+      <div class="divider lg:divider-horizontal">OR</div>
+      <div class="card bg-base-300 rounded-box grid h-32 grow place-items-center">MichaelJackson</div>
+   </div>
+   <!-- Combat View -->
+   <div class="flex flex-col-reverse justify-between  border-2 w-full h-[60%] text-white">
+      <!-- My Pokemon -->
+      <div class=" flex flex-row-reverse justify-evenly w-full border-2 border-red mb-4 h-[15vh]">
 
-            <!-- Image -->
-             <h2>  {{my_pokemon.name}}</h2>
-             <figure>
-                <img src="{{my_pokemon.sprites.back_default}}" alt="BackImage">
-             </figure>
+         <!-- Data(HP, Type) -->
+         <div class="border-2 border-black  rounded-4xl border-b-8 px-20 my-2 py-2"
+            style="background-color: blanchedalmond;">
+            <h2> {{my_pokemon.name.upper()}}</h2>
 
-            <!-- Data(HP, Type) -->
+            <div class="border-2 ">
+               {{my_pokemon.stats[0].name.upper()}}:
+               <progress class="w-[35vw] max-w-75 border-2 border-black rounded-2xl"
+                  value="{{my_pokemon.stats[0].value}}" max="{{my_pokemon.stats[0].value}}"></progress>
+            </div>
+            <p>{{my_pokemon.stats[0].value}}/{{my_pokemon.stats[0].value}}</p>
          </div>
-        <!-- Enemy Pokemon -->
-             <div>
+         <!-- Image -->
+         <figure class="border-2 border-white w-[15%] h-[100%]">
+            <img class="h-full h-full object-cover scale-200" src="{{my_pokemon.sprites.back_default}}" alt="BackImage">
+         </figure>
 
-            <!-- Image -->
-             <h2>  {{enemy_pokemon.name}}</h2>
-             <figure>
-                <img src="{{enemy_pokemon.sprites.front_default}}" alt="BackImage">
-             </figure>
+      </div>
+      <!-- Enemy Pokemon -->
+      <div class=" flex flex justify-evenly w-full border-2 border-red mb-4 h-[15vh]">
 
-            <!-- Data(HP, Type) -->
+         <!-- Data(HP, Type) -->
+         <div class="border-2 border-black  rounded-4xl border-b-8 px-20 my-2 py-2"
+            style="background-color: blanchedalmond;">
+            <h2> {{enemy_pokemon.name.capitalize()}}</h2>
          </div>
+         <!-- Image -->
+         <figure class="border-2 border-white w-[15%] h-[100%]">
+            <img class="h-full h-full object-cover scale-200" src="{{enemy_pokemon.sprites.front_default}}"
+               alt="BackImage">
+         </figure>
+
+      </div>
+      <!-- Data(HP, Type) -->
+   </div>
+
+   <div class="h-[50%]">
+      <h2>Ataques</h2>
+   </div>
 
 
 
 
-     </div>
+   </div>
 
 </section>
 
