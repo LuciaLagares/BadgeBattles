@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+ {% block trainer%}{%endblock%}
+
+{% block main %}
+<section class=" flex flex-col">
+    <!-- Combat View -->
+     <div class="grid grid-cols-2 grid-rows-2">
+        <!-- My Pokemon -->
+         <div>
+
+            <!-- Image -->
+             <h2>  {{my_pokemon.name}}</h2>
+             <figure>
+                <img src="{{my_pokemon.sprites.back_default}}" alt="BackImage">
+             </figure>
+
+            <!-- Data(HP, Type) -->
+         </div>
+        <!-- Enemy Pokemon -->
+             <div>
+
+            <!-- Image -->
+             <h2>  {{enemy_pokemon.name}}</h2>
+             <figure>
+                <img src="{{enemy_pokemon.sprites.front_default}}" alt="BackImage">
+             </figure>
+
+            <!-- Data(HP, Type) -->
+         </div>
+
+
+
+
+     </div>
+
+</section>
+
+
+{% endblock %}

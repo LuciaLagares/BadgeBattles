@@ -43,6 +43,10 @@ def pokemon_list():
     year = datetime.datetime.now().year
     pokemons = app.config["data"]
     trainer = request.args.get('trainer')
+    pokemon_finder = request.args.get('pokemon_finder')
+    pokemon_found=None
+    error = ''
+    # enemy_pokemon=None
     colors = {
         'electric': 'yellow',
         'fire': 'red',
@@ -59,8 +63,27 @@ def pokemon_list():
         'fairy': 'violet',
         'ice': 'lightsteelblue'
     }
-
-    return render_template("pokemon_list.html", year=year, pokemons=pokemons, colors=colors, trainer=trainer)
+    
+    # def enemyPokemonSelector():
+    #     randomPokemonNumber=random.randint(0,len(pokemons)-1)
+    #     enemy_pokemon=pokemons[randomPokemonNumber]
+  
+    #     return enemy_pokemon
+    # enemy_pokemon=enemyPokemonSelector()
+    
+    if(pokemon_finder is not None):
+        for pokemon in pokemons:
+            if pokemon['name'] == pokemon_finder.lower():
+                pokemon_found = pokemon
+                break
+        if pokemon_found is not None:
+            # return render_template("pokemon_battle.html", year=year, my_pokemon=pokemon_found, enemy_pokemon=enemy_pokemon, trainer=trainer, colors=colors)
+            return redirect(url_for('pokemon_battle',year=year, my_pokemon=pokemon_found, trainer=trainer, colors=colors))
+        else:
+            error = 'Your pokemon is not in the list'
+            return render_template("pokemon_list.html", year=year, pokemons=pokemons, colors=colors, trainer=trainer, error=error)
+    else:    
+        return render_template("pokemon_list.html", year=year, pokemons=pokemons, colors=colors, trainer=trainer)
 
 
 @app.route("/pokemons/<int:pokemon_ID>/")
@@ -69,6 +92,7 @@ def pokemon_details(pokemon_ID):
     visual_pokemon = None
 
     pokemons = app.config["data"]
+    
     for pokemon in pokemons:
         if pokemon['id'] == pokemon_ID:
             visual_pokemon = pokemon
@@ -103,6 +127,24 @@ def pokemon_details(pokemon_ID):
     }
 
     return render_template("pokemon_details.html", year=year, pokemon=visual_pokemon, is_shiny=is_shiny, colors=colors)
+
+@app.route("/pokemon_battle/")
+def pokemon_battle():
+    #  year=year, my_pokemon=pokemon_found, trainer=trainer, colors=colors
+    pokemons=app.config["data"]
+    year = request.args.get('year')
+    my_pokemon=request.args.get('my_pokemon')
+    trainer=request.args.get('trainer')
+    colors=request.args.get('colors')
+    enemy_pokemon=None
+    
+    def enemyPokemonSelector():
+        randomPokemonNumber=random.randint(0,len(pokemons)-1)
+        enemy_pokemon=pokemons[randomPokemonNumber]
+        return enemy_pokemon
+    
+    enemy_pokemon=enemyPokemonSelector()
+    return render_template("pokemon_battle.html", year=year, my_pokemon=my_pokemon, enemy_pokemon=enemy_pokemon, trainer=trainer, colors=colors)
 
 
 if __name__ == '__main__':

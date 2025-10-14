@@ -1,68 +1,79 @@
-{% extends "base.html" %} {% block title %}Pokemon List{% endblock %} 
+{% extends "base.html" %} {% block title %}Pokemon List{% endblock %}
 {% block trainer%}
 {% if trainer%}
 <div class="text-xl mx-5"> Welcome <strong>{{trainer.capitalize()}}</strong></div>
 {% endif%}
 {%endblock%}
+
 {% block main %}
 
 
-<div class="w-[100%] h-[100%] flex justify-center overflow-y-scroll 2xl:overflow-y-hidden">
-
-    <section class="grid w-[80vw] grid-cols-[repeat(auto-fit,minmax(250px,_max-content))] justify-center gap-x-20 pt-2 " >
+<div class="w-[100%] h-[100%] flex flex-nowrap justify-around items-center:left overflow-y-scroll 2xl:overflow-y-hidden">
+      
+    <section
+        class="grid w-[80vw] grid-cols-[repeat(auto-fit,minmax(250px,_max-content))] justify-center gap-x-20 pt-2 ">
         <!-- Iteración cartas pokemon -->
         {% for pokemon in pokemons %}
         <!-- Carta individual -->
         <div class="card rounded-3xl bg-base-100  w-65 h-[97%] shadow-sm  " style="border: 4px solid {{colors[pokemon.types[0]]}}; 
         background-image:url('{{url_for('static', filename='images/card_bg/'+pokemon.types[0]+'.png')}}')">
-        <!-- Enlace para página detalle-->
-        <a href="{{ url_for('pokemon_details', pokemon_ID=pokemon.id) }}">
-            <!-- Titulo -->
-            <h2 class="font-bold text-center my-4 w-full">{{pokemon.name.capitalize()}}</h2>
-            <!-- Imagen -->
-            <figure class=" border-5 mx-15"
-            style="background-color:rgba(89, 106, 4, 0.5); border-radius: 2rem; box-shadow: 5px 2px 5px black;">
-            
-            <img class="transform hover:scale-200 duration-300 ease-in-out" src="{{pokemon.sprites.front_default}}"
-            alt="{{pokemon.name}}" />
-        </figure>
-        <!-- Cuerpo carta -->
-        <div class="card-body items-center text-center  px-2">
-            
-            <div class="flex flex-row gap-2">
-                
-                {%for type in pokemon.types%}
-                <div class="font-bold">
-                    
-                    {{type.capitalize()}}
-                </div>
-                <img class="w-7 h-7 relative bottom-2 right-1"
-                src="{{url_for('static', filename='/images/Types/'+type+'.png')}}" alt="type_icon" />
-                
-                {%endfor%}
-            </div>
-            <div class=" transform hover:scale-110 duration-300 ease-in-out grid grid-cols-2 grid-rows-3  gap-x-3 text-left border-2 rounded-xl px-2 "
-            style="border-color: rgb(0, 117, 117); box-shadow: 5px 2px 5px black;">
-            
-            {%for stat in pokemon.stats%}
-            <div class="font-bold text-s w-30" style="font-family: Comic Sans MS, Arial, sans-serif;">
-                {{stat.name.capitalize()}}
-                
-                <progress class="progress progress-neutral w-25" value="{{stat.value}}" max="130"></progress>
-            </div>
-            {%endfor%}
-        </div>
+            <!-- Enlace para página detalle-->
+            <a href="{{ url_for('pokemon_details', pokemon_ID=pokemon.id) }}">
+                <!-- Titulo -->
+                <h2 class="font-bold text-center my-4 w-full">{{pokemon.name.capitalize()}}</h2>
+                <!-- Imagen -->
+                <figure class=" border-5 mx-15"
+                    style="background-color:rgba(89, 106, 4, 0.5); border-radius: 2rem; box-shadow: 5px 2px 5px black;">
 
-        <!-- <div class="card-actions">
+                    <img class="transform hover:scale-200 duration-300 ease-in-out"
+                        src="{{pokemon.sprites.front_default}}" alt="{{pokemon.name}}" />
+                </figure>
+                <!-- Cuerpo carta -->
+                <div class="card-body items-center text-center  px-2">
+
+                    <div class="flex flex-row gap-2">
+
+                        {%for type in pokemon.types%}
+                        <div class="font-bold">
+
+                            {{type.capitalize()}}
+                        </div>
+                        <img class="w-7 h-7 relative bottom-2 right-1"
+                            src="{{url_for('static', filename='/images/Types/'+type+'.png')}}" alt="type_icon" />
+
+                        {%endfor%}
+                    </div>
+                    <div class=" transform hover:scale-110 duration-300 ease-in-out grid grid-cols-2 grid-rows-3  gap-x-3 text-left border-2 rounded-xl px-2 "
+                        style="border-color: rgb(0, 117, 117); box-shadow: 5px 2px 5px black;">
+
+                        {%for stat in pokemon.stats%}
+                        <div class="font-bold text-s w-30" style="font-family: Comic Sans MS, Arial, sans-serif;">
+                            {{stat.name.capitalize()}}
+
+                            <progress class="progress progress-neutral w-25" value="{{stat.value}}"
+                                max="130"></progress>
+                        </div>
+                        {%endfor%}
+                    </div>
+
+                    <!-- <div class="card-actions">
             <button class="btn btn-primary">Show details</button> 
         </div> -->
-    </div>
-</a>
-</div>
+                </div>
+            </a>
+        </div>
 
-{%endfor%}
+        {%endfor%}
 
 
-</section>
+    </section>
+    <form class="text-white w-[10%]" action="/pokemons/" method="GET">
+            <label for="pokemon_finder">Name of the pokemon:</label>
+            <input class="w-[100%]" type="text" name="pokemon_finder" id="pokemon_finder" required>
+            <button type="submit" class="btn btn-primary">Search</button>
+            <div>
+                {{error}}
+            </div>
+        </form>
 </div>
 {% endblock %}
