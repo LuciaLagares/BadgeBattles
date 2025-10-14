@@ -44,9 +44,9 @@ def pokemon_list():
     pokemons = app.config["data"]
     trainer = request.args.get('trainer')
     pokemon_finder = request.args.get('pokemon_finder')
-    pokemon_found=None
+    pokemon_found_id=''
     error = ''
-    # enemy_pokemon=None
+
     colors = {
         'electric': 'yellow',
         'fire': 'red',
@@ -64,21 +64,14 @@ def pokemon_list():
         'ice': 'lightsteelblue'
     }
     
-    # def enemyPokemonSelector():
-    #     randomPokemonNumber=random.randint(0,len(pokemons)-1)
-    #     enemy_pokemon=pokemons[randomPokemonNumber]
-  
-    #     return enemy_pokemon
-    # enemy_pokemon=enemyPokemonSelector()
-    
     if(pokemon_finder is not None):
         for pokemon in pokemons:
             if pokemon['name'] == pokemon_finder.lower():
-                pokemon_found = pokemon
+                pokemon_found_id = pokemon['id']
                 break
-        if pokemon_found is not None:
+        if pokemon_found_id is not None:
             # return render_template("pokemon_battle.html", year=year, my_pokemon=pokemon_found, enemy_pokemon=enemy_pokemon, trainer=trainer, colors=colors)
-            return redirect(url_for('pokemon_battle',year=year, my_pokemon=pokemon_found, trainer=trainer, colors=colors))
+            return redirect(url_for('pokemon_battle',year=year, pokemon_found_id=pokemon_found_id, trainer=trainer))
         else:
             error = 'Your pokemon is not in the list'
             return render_template("pokemon_list.html", year=year, pokemons=pokemons, colors=colors, trainer=trainer, error=error)
@@ -133,18 +126,27 @@ def pokemon_battle():
     #  year=year, my_pokemon=pokemon_found, trainer=trainer, colors=colors
     pokemons=app.config["data"]
     year = request.args.get('year')
-    my_pokemon=request.args.get('my_pokemon')
+    my_pokemon_id=int(request.args.get('pokemon_found_id'))
     trainer=request.args.get('trainer')
-    colors=request.args.get('colors')
+
+    
     enemy_pokemon=None
+    my_pokemon=None
+
+    for pokemon in pokemons:
+        if pokemon['id'] == my_pokemon_id:
+            my_pokemon = pokemon         
+            break
+        
     
     def enemyPokemonSelector():
         randomPokemonNumber=random.randint(0,len(pokemons)-1)
         enemy_pokemon=pokemons[randomPokemonNumber]
         return enemy_pokemon
     
+    
     enemy_pokemon=enemyPokemonSelector()
-    return render_template("pokemon_battle.html", year=year, my_pokemon=my_pokemon, enemy_pokemon=enemy_pokemon, trainer=trainer, colors=colors)
+    return render_template("pokemon_battle.html", year=year, my_pokemon=my_pokemon, enemy_pokemon=enemy_pokemon, trainer=trainer)
 
 
 if __name__ == '__main__':
