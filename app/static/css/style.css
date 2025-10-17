@@ -14,10 +14,8 @@ body {
 
 .pokemonBorder {
   border-style: double;
-  border-radius: 0.75rem;
-  width: fit-content;
-  height: fit-content;
-  text-align: center;
+  border-radius: 1rem;
+
   background-color: whitesmoke;
   color: black;
   box-shadow: inset 0px 5px 1px black, 0px 5px 1px black;
