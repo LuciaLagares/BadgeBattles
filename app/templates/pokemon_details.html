@@ -86,7 +86,7 @@
         <!-- Tipo e icono -->
         <div class="flex flex-row  gap-2">
             {%for type in pokemon.types%}
-            <div class="font-bold px-2 rounded-2xl" style="background-color: {{colors[type]}}">
+            <div class="text-black border-1 font-bold px-2 rounded-2xl" style="background-color: {{colors[type]}}">
 
                 {{type.capitalize()}}
             </div>
@@ -123,7 +123,7 @@
             <!-- Datos de ataques -->
             <div class="text-center flex flex-col justify-center items-center" style="line-height: 2rem; ">
                 <div class="flex justify-center">Type: 
-                    <div class="px-1 rounded-3xl" style="background-color: {{colors[move.type]}}"> {{move.type.capitalize()}}</div>
+                    <div class="border-1 px-1 rounded-3xl" style="background-color: {{colors[move.type]}}"> {{move.type.capitalize()}}</div>
                 </div>
                 <div>Power: {{move.power}}</div>
                 <progress class="progress w-56 " value="{{move.power}}" max="150"></progress>

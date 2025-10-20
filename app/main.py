@@ -3,6 +3,8 @@ import random
 from flask import Flask, current_app, json, jsonify, render_template, request, redirect, url_for
 import datetime
 
+from colors import colors 
+
 app = Flask(__name__, template_folder='templates')
 
 with open("./data/data.json", encoding="utf-8") as fichero_data:
@@ -11,10 +13,10 @@ with open("./data/data.json", encoding="utf-8") as fichero_data:
 
 @app.route('/', methods=['GET', 'POST'])
 def welcome():
-    pokemons = app.config["data"]
     year = datetime.datetime.now().year
     if (request.method == 'POST'):
         trainer = request.form['trainer']
+        gender = request.form['gender']
         error = False
 
         if (len(trainer) < 3):
@@ -24,7 +26,7 @@ def welcome():
         if error:
             return render_template('index.html', year=year, error=error)
         else:
-            return redirect(url_for('pokemon_list', trainer=trainer))
+            return redirect(url_for('pokemon_list', trainer=trainer, gender=gender))
     elif (request.method == 'GET'):
         return render_template('index.html', year=year)
 
@@ -38,45 +40,33 @@ def file_json():
 #     return render_template('index.html', year=year)
 
 
-@app.route("/pokemons/")
+@app.route("/pokemons/", methods=["GET", "POST"])
 def pokemon_list():
     year = datetime.datetime.now().year
     pokemons = app.config["data"]
     trainer = request.args.get('trainer')
-    pokemon_finder = request.args.get('pokemon_finder')
-    pokemon_found_id = None
+    gender = request.args.get('gender')
     error = ''
 
-    colors = {
-        'electric': 'yellow',
-        'fire': 'red',
-        'flying': 'lightskyblue',
-        'grass': 'olive',
-        'poison': 'fuchsia',
-        'water': 'blue',
-        'fighting': 'saddlebrown',
-        'dragon': 'mediumblue',
-        'normal': 'bisque',
-        'ground': 'tan',
-        'dark': 'darkslategrey',
-        'steel': 'lightslategray',
-        'fairy': 'violet',
-        'ice': 'lightsteelblue'
-    }
 
-    if (pokemon_finder is not None):
-        for pokemon in pokemons:
-            if pokemon['name'] == pokemon_finder.lower():
-                pokemon_found_id = pokemon['id']
-                break
-        if pokemon_found_id is not None:
-            # return render_template("pokemon_battle.html", year=year, my_pokemon=pokemon_found, enemy_pokemon=enemy_pokemon, trainer=trainer, colors=colors)
-            return redirect(url_for('pokemon_battle', year=year, pokemon_found_id=pokemon_found_id, trainer=trainer))
+    if request.method == "POST":
+        pokemon_finder = request.form.get('pokemon_finder')
+        pokemon_found_id = None
+        if (pokemon_finder is not None):
+            for pokemon in pokemons:
+                if pokemon['name'] == pokemon_finder.lower():
+                    pokemon_found_id = pokemon['id']
+                    break
+            if pokemon_found_id is not None:
+
+                return redirect(url_for('pokemon_battle', year=year, pokemon_found_id=pokemon_found_id, trainer=trainer, gender=gender))
+            else:
+                error = 'Your pokemon is not in the list'
+                return render_template("pokemon_list.html", year=year, pokemons=pokemons, colors=colors, trainer=trainer, error=error,gender=gender)
         else:
-            error = 'Your pokemon is not in the list'
-            return render_template("pokemon_list.html", year=year, pokemons=pokemons, colors=colors, trainer=trainer, error=error)
+            return render_template("pokemon_list.html", year=year, pokemons=pokemons, colors=colors, trainer=trainer,gender=gender)
     else:
-        return render_template("pokemon_list.html", year=year, pokemons=pokemons, colors=colors, trainer=trainer)
+        return render_template("pokemon_list.html", year=year, pokemons=pokemons, colors=colors, trainer=trainer,error=error,gender=gender)
 
 
 @app.route("/pokemons/<int:pokemon_ID>/")
@@ -102,22 +92,7 @@ def pokemon_details(pokemon_ID):
             return False
     is_shiny = is_pokemon_shiny(visual_pokemon['id'], 10)
 
-    colors = {
-        'electric': 'yellow',
-        'fire': 'red',
-        'flying': 'lightskyblue',
-        'grass': 'olive',
-        'poison': 'fuchsia',
-        'water': 'blue',
-        'fighting': 'saddlebrown',
-        'dragon': 'mediumblue',
-        'normal': 'bisque',
-        'ground': 'tan',
-        'dark': 'darkslategrey',
-        'steel': 'lightslategray',
-        'fairy': 'violet',
-        'ice': 'lightsteelblue'
-    }
+
 
     return render_template("pokemon_details.html", year=year, pokemon=visual_pokemon, is_shiny=is_shiny, colors=colors)
 
@@ -129,81 +104,28 @@ def pokemon_battle():
     year = request.args.get('year')
     my_pokemon_id = request.args.get('pokemon_found_id')
     trainer = request.args.get('trainer')
+    gender = request.args.get('gender')
     enemy_pokemon = None
     my_pokemon = None
+    moves=[]
 
-    # Rival Dict
-    rivals = [
-        {
-            'name': 'Iker Jimenez',
-            'sprite': url_for('static', filename='images/rival_sprite/Iker.webp'),
-        },
-        {
-            'name': 'Cristiano Ronaldo',
-            'sprite': url_for('static', filename='images/rival_sprite/Cristiano.webp'),
-        },
-        {
-            'name': 'Santiago Abascal',
-            'sprite': url_for('static', filename='images/rival_sprite/Abascal.webp'),
-        },
-        {
-            'name': 'Estudiante DAW',
-            'sprite': url_for('static', filename='images/rival_sprite/Estudiante.webp'),
-        },
-        {
-            'name': 'Felipe VI',
-            'sprite': url_for('static', filename='images/rival_sprite/Felipe_VI.webp'), },
-        {
-            'name': 'Francisco Franco',
-            'sprite': url_for('static', filename='images/rival_sprite/Franco.webp'),
-        },
-        {
-            'name': 'Guiri',
-            'sprite': url_for('static', filename='images/rival_sprite/Guiri.webp'),
-        },
-        {
-            'name': 'Ignatius',
-            'sprite': url_for('static', filename='images/rival_sprite/Ignatius.webp'),
-        },
-        {
-            'name': 'C++ Programmer',
-            'sprite': url_for('static', filename='images/rival_sprite/Programador.webp'),
-        },
-        {
-            'name': 'Pedro Sanchez',
-            'sprite': url_for('static', filename='images/rival_sprite/Pedro_Sanchez.webp'),
-        },
-        {
-            'name': 'Mariano Rajoy',
-            'sprite': url_for('static', filename='images/rival_sprite/Rajoy.webp'),
-        },
-        {
-            'name': 'Pérez Reverte',
-            'sprite': url_for('static', filename='images/rival_sprite/Reverte.webp'),
-        }
-    ]
+    
 
-    colors = {
-        'electric': 'yellow',
-        'fire': 'red',
-        'flying': 'lightskyblue',
-        'grass': 'olive',
-        'poison': 'fuchsia',
-        'water': 'blue',
-        'fighting': 'saddlebrown',
-        'dragon': 'mediumblue',
-        'normal': 'bisque',
-        'ground': 'tan',
-        'dark': 'darkslategrey',
-        'steel': 'lightslategray',
-        'fairy': 'violet',
-        'ice': 'lightsteelblue'
-    }
-    #
+   
+
     for pokemon in pokemons:
         if str(pokemon['id']) == my_pokemon_id:
             my_pokemon = pokemon
             break
+
+        moves=[]
+    def random_moves(pokemon):
+        random_move=pokemon['moves'][random.randint(0,len(pokemon['moves'])-1)]
+        if(random_move not in moves):
+            moves.append(random_move)
+        if len(moves)<4:
+            return random_moves(pokemon)
+        return moves
 
     def enemyPokemonSelector():
         randomPokemonNumber = random.randint(0, len(pokemons)-1)
@@ -214,12 +136,15 @@ def pokemon_battle():
         return enemy_pokemon
 
     def rivalSpriteSelector():
+         # Rival Dict
+        from rivals import rivals
         return rivals[random.randint(0, len(rivals)-1)]
 
     enemy_pokemon = enemyPokemonSelector()
     rival = rivalSpriteSelector()
+    moves=random_moves(my_pokemon)
 
-    return render_template("pokemon_battle.html", year=year, my_pokemon=my_pokemon, enemy_pokemon=enemy_pokemon, trainer=trainer, colors=colors, rival=rival)
+    return render_template("pokemon_battle.html", year=year, my_pokemon=my_pokemon, enemy_pokemon=enemy_pokemon, trainer=trainer, colors=colors, rival=rival, gender=gender, moves=moves)
 
 
 if __name__ == '__main__':

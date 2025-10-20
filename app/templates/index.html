@@ -15,22 +15,34 @@
         badges!
       </p>
     </div>
-    <form class="flex flex-col justify-center items-center" action="/" method="POST">
-      <div>
+    <form class="flex flex-col items-start gap-4" action="/" method="POST">
+      <div class="flex flex-col justify-start items-start"">
         <label for="trainer">Trainer name:</label>
         <input type="text" name="trainer" id="trainer" autofocus required>
       </div>
-      <div>
+      <div class="flex flex-col justify-start items-start">
 
         <label for="password">Password:</label>
         <input type="password" name="password" id="password" disabled>
       </div>
 
-      <button type="submit" class="btn btn-primary">Show pokemons</button>
+      <div class="flex flex-col gap-2">
+        <label for="gender">Gender:</label>
+        <label class=" pl-2 flex justify-between">
+          Male
+          <input type="radio" name="gender" value="male">
+        </label>
+        <label class=" pl-2 flex justify-start gap-2">
+          Female
+          <input type="radio" name="gender" value="female" required>
+        </label>
+      </div>
 
-      
+      <button type="submit" class="btn btn-primary self-center">Show pokemons</button>
+
+
       <div>
-          {{error}}
+        {{error}}
       </div>
 
     </form>

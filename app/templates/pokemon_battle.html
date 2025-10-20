@@ -4,131 +4,161 @@
 
 {% block main %}
 <section class=" flex flex-col w-full h-full ">
-  
 
-      <!-- Zona del VS -->
-      <div class="flex w-full flex-col lg:flex-row">
-         <!-- Us -->
-         <div
-         class="w-full bg-[url({{url_for('static', filename='images/bg_own.jpg')}})] card bg-cover bg-no-repeat card rounded-box grid h-35 place-items-center overflow-hidden"
+
+   <!-- Zona del VS -->
+   <div class="flex w-full flex-col lg:flex-row">
+      <!-- Us -->
+      <div
+         class=" w-full bg-[url({{url_for('static', filename='images/bg_own.jpg')}})] card bg-cover bg-no-repeat card rounded-box grid h-35 grid-cols-2 place-items-center overflow-hidden"
          style="box-shadow: 4px 4px 5px blue, -4px -0px 5px blue ; border-bottom-left-radius: 0;">
-         Nosotros</div>
-         <!-- VS -->
-         <div class="divider text-5xl  lg:divider-horizontal">
-            <img class=" scale-50 xl:scale-800 lg:scale-350 md:scale-200 sm:scale-100"
+         {%if gender == 'male'%}
+         <img class=" scale-50 xl:scale-140 relative top-4"
+            src="{{url_for('static', filename='images/character_sprite/male_character.png')}}" alt="{{gender}}">
+         {%else%}
+         <img class=" scale-50 xl:scale-140 relative top-4"
+            src="{{url_for('static', filename='images/character_sprite/female_character.png')}}" alt="{{gender}}">
+         {%endif%}
+         <div class="text-white text-2xl">{{trainer}}</div>
+      </div>
+      <!-- VS -->
+      <div class="divider text-5xl  lg:divider-horizontal">
+         <img class=" scale-50 xl:scale-800 lg:scale-350 md:scale-200 sm:scale-100"
             src="{{url_for('static', filename='images/vs.png')}}" style="position: relative; z-index: 50;" alt="vs">
-         </div>
-         <!-- Enemy -->
-         <div
-         class="w-full bg-[url({{url_for('static', filename='images/bg_enemy.jpg')}})] card bg-contain card rounded-box grid h-35 grid-cols-2 place-items-center overflow-hidden"
+      </div>
+      <!-- Enemy -->
+      <div
+         class=" w-full bg-[url({{url_for('static', filename='images/bg_enemy.jpg')}})] card bg-contain card rounded-box grid h-35 grid-cols-2 place-items-center overflow-hidden"
          style="box-shadow: 4px 4px 5px red, -4px -0px 5px red ; border-bottom-right-radius: 0;">
-   
-         
          <div class="text-white text-2xl">{{rival.name}}</div>
          <img src="{{rival.sprite}}" alt="{{rival.name}}">
       </div>
    </div>
    <!-- Combat View -->
-   <div
-   class="flex flex-col-reverse justify-between gap-15 border-2 w-full h-[60%] text-black pt-8  bg-[url({{url_for('static', filename='images/background_battle/bg-battle.jpg')}})]  bg-no-repeat bg-cover
+   <div class="flex flex-col-reverse justify-between gap-15 border-2 w-full h-[60%] text-black pt-8  bg-[url({{url_for('static', filename='images/background_battle/bg-battle.jpg')}})] bg-[center_top_-20px]  bg-cover
    overflow-hidden"
-   style="background-position: center center; box-shadow: inset 5px 5px 5px black, inset -5px -2px 5px black;">
-   <!-- My Pokemon -->
-   <div class=" flex flex-row-reverse justify-evenly w-full  mb-4 h-[15vh]">
-      
-      <!-- Data(HP, Type) -->
-      <div class="border-2 border-black  rounded-4xl border-b-8 px-20 my-2 py-2 flex flex-col justify-center"
-      style="background-color: blanchedalmond;">
-      <h2> {{my_pokemon.name.upper()}}</h2>
-      
-      <div>
-         {{my_pokemon.stats[0].name.upper()}}:
-         <progress class="w-[35vw] max-w-75 border-2 border-black rounded-2xl"
-         value="{{my_pokemon.stats[0].value}}" max="{{my_pokemon.stats[0].value}}"></progress>
-      </div>
-      
-      <div class="flex justify-between" >
-         <p class="mt-1">{{my_pokemon.stats[0].value}}/{{my_pokemon.stats[0].value}}</p>
-         <div class="flex gap-5">
-            {% for type in my_pokemon.types %}
-            <div class="flex m-1 gap-1 ">
-               
-                     <div class=" px-2 bg-[{{colors[type]}}] rounded-3xl">
+      style="background-position: center center; box-shadow: inset 5px 5px 5px black, inset -5px -2px 5px black;">
+      <!-- My Pokemon -->
+      <div class=" flex flex-row-reverse justify-evenly w-full  mb-4 h-[15vh]">
+
+         <!-- Data(HP, Type) -->
+         <div class="border-2 border-black  rounded-4xl border-b-8 px-20 my-2 py-2 flex flex-col justify-center"
+            style="background-color: blanchedalmond;">
+            <h2> {{my_pokemon.name.upper()}}</h2>
+
+            <div>
+               {{my_pokemon.stats[0].name.upper()}}:
+               <progress class="w-[35vw] max-w-75 border-2 border-black rounded-2xl"
+                  value="{{my_pokemon.stats[0].value}}" max="{{my_pokemon.stats[0].value}}"></progress>
+            </div>
+
+            <div class="flex justify-between">
+               <p class="mt-1">{{my_pokemon.stats[0].value}}/{{my_pokemon.stats[0].value}}</p>
+               <div class="flex gap-5">
+                  {% for type in my_pokemon.types %}
+                  <div class="flex m-1 gap-1 ">
+
+                     <div class="border-1 px-2 bg-[{{colors[type]}}] rounded-3xl">
                         {{type|capitalize}} </div>
-                        <div><img class="w-5 h-5 bg-transparent"
+                     <div><img class="w-5 h-5 bg-transparent"
                            src="{{url_for('static', filename='/images/Types/'+type+'.png')}}" alt="type_icon" /></div>
-                        </div>
-                        {%endfor%}
-                     </div>
                   </div>
-               </div>
-               <!-- Image -->
-               <figure class=" w-[15%] h-[100%]">
-                  <img class="h-full h-full object-cover scale-300 relative top-8" src="{{my_pokemon.sprites.back_default}}"
-                  alt="BackImage">
-               </figure>
-               
-            </div>
-            <!-- Enemy Pokemon -->
-            <div class=" flex flex justify-evenly w-full  mb-4 h-[15vh]">
-               
-               
-               <!-- Data(HP, Type) -->
-               <div class="border-2 border-black  rounded-4xl border-b-8 px-20 my-2 py-2 flex flex-col justify-center"
-               style="background-color: blanchedalmond;">
-               
-               
-               
-               <h2> {{enemy_pokemon.name.upper()}}</h2>
-               
-               
-            
-               
-               <div>
-                  {{enemy_pokemon.stats[0].name.upper()}}:
-                  
-                  <progress class="w-[35vw] max-w-75 border-2 border-black rounded-2xl"
-                  value="{{enemy_pokemon.stats[0].value}}" max="{{enemy_pokemon.stats[0].value}}"></progress>
-               </div>
-               
-               <div class="flex justify-between">
-                  <p class="mt-1">{{enemy_pokemon.stats[0].value}}/{{enemy_pokemon.stats[0].value}}</p>
-                  <div class="flex gap-5">
-                     {% for type in enemy_pokemon.types %}
-                     <div class="flex m-1 gap-1 ">
-
-                        <div class=" px-2 bg-[{{colors[type]}}] rounded-3xl">
-                           {{type|capitalize}} </div>
-                           <div><img class="w-5 h-5 bg-transparent"
-                              src="{{url_for('static', filename='/images/Types/'+type+'.png')}}" alt="type_icon" /></div>
-                           </div>
-                           {%endfor%}
-                        </div>
-                     </div>
-                  </div>
-                  <!-- Image -->
-                  <figure class=" w-[15%] h-[100%]">
-                     <img class="h-full h-full object-cover scale-180" src="{{enemy_pokemon.sprites.front_default}}"
-                     alt="BackImage">
-                  </figure>
-                  
+                  {%endfor%}
                </div>
             </div>
- 
-            <div class="h-[30%] w-full pokemonBorder " style="position: relative; z-index: 50;">
-               <div class="h-[100%] rounded-2xl p-4" style="border:4px solid black;   box-shadow: inset 0 0 0 6px navy; " >
-
-                  <h2>Ataques</h2>
-                  <div class=" w-full" style="content: '';">lorem</div>
-               </div>
-            </div>
-            
-            
-            
-            
          </div>
-         
-      </section>
-      
-      
-      {% endblock %}
+         <!-- Image -->
+         <figure class=" w-[15%] h-[100%]">
+            <img class="h-full h-full object-cover scale-300 relative top-8" src="{{my_pokemon.sprites.back_default}}"
+               alt="BackImage">
+         </figure>
+
+      </div>
+      <!-- Enemy Pokemon -->
+      <div class=" flex flex justify-evenly w-full  mb-4 h-[15vh]">
+
+
+         <!-- Data(HP, Type) -->
+         <div class="border-2 border-black  rounded-4xl border-b-8 px-20 my-2 py-2 flex flex-col justify-center"
+            style="background-color: blanchedalmond;">
+
+
+
+            <h2> {{enemy_pokemon.name.upper()}}</h2>
+
+
+
+
+            <div>
+               {{enemy_pokemon.stats[0].name.upper()}}:
+
+               <progress class="w-[35vw] max-w-75 border-2 border-black rounded-2xl"
+                  value="{{enemy_pokemon.stats[0].value}}" max="{{enemy_pokemon.stats[0].value}}"></progress>
+            </div>
+
+            <div class="flex justify-between">
+               <p class="mt-1">{{enemy_pokemon.stats[0].value}}/{{enemy_pokemon.stats[0].value}}</p>
+               <div class="flex gap-5">
+                  {% for type in enemy_pokemon.types %}
+                  <div class="flex m-1 gap-1 ">
+
+                     <div class="px-2 bg-[{{colors[type]}}] border-1 rounded-3xl">
+                        {{type|capitalize}} </div>
+                     <div><img class="w-5 h-5 bg-transparent"
+                           src="{{url_for('static', filename='/images/Types/'+type+'.png')}}" alt="type_icon" /></div>
+                  </div>
+                  {%endfor%}
+               </div>
+            </div>
+         </div>
+         <!-- Image -->
+         <figure class=" w-[15%] h-[100%]">
+            <img class="h-full h-full object-cover scale-180" src="{{enemy_pokemon.sprites.front_default}}"
+               alt="BackImage">
+         </figure>
+
+      </div>
+   </div>
+
+   <div class="h-[30%] w-full bg-cyan-800 " style="position: relative; z-index: 50;">
+      <div class="h-[100%] rounded-2xl p-4 grid grid-cols-2 gap-2"
+         style="border:4px solid black;   box-shadow: inset 0 0 0 4px red, inset 8px 0 0  4px red, inset -8px 0 0 4px red; ">
+
+
+
+         {%for move in moves%}
+
+
+         <div class="border-2 grid grid-cols-2 p-2 rounded-2xl" style="box-shadow:inset 0 0 0 4px navy, 0 5px  10px 2px black">
+            <div class="flex gap-2  items-center"  >{{move.name|upper}}</div>
+            <div class="flex gap-2  items-center">
+               <div>Type:</div>
+               <div class="border-1 bg-[{{colors[(move.type).lower()]}}] px-2 py-0 rounded-2xl">{{move.type|capitalize}}
+               </div>
+            </div>
+            <div>
+               <div class="flex gap-2 pt-2 items-center">Accuracy: {{move.accuracy}}</div>
+               <progress class="progress progress-info w-[50%]" value="{{move.accuracy}}" max="100"> </progress>
+            </div>
+            <div>
+
+               <div class="flex gap-2  items-center">Power: {{move.power}}</div>
+               <progress class="progress progress-warning w-[50%]" value="{{move.power}}" max="125"> </progress>
+            </div>
+         </div>
+         {%endfor%}
+      </div>
+   </div>
+
+
+   </div>
+
+
+
+
+   </div>
+
+</section>
+
+
+{% endblock %}

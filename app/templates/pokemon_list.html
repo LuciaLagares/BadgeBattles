@@ -9,7 +9,7 @@
 
 
 <div class="w-[100%] h-[100%] flex flex-nowrap justify-around items-center:left overflow-y-scroll 2xl:overflow-y-hidden">
-      
+     
     <section
         class="grid w-[80vw] grid-cols-[repeat(auto-fit,minmax(250px,_max-content))] justify-center gap-x-20 pt-2 ">
         <!-- Iteración cartas pokemon -->
@@ -67,7 +67,7 @@
 
 
     </section>
-    <form class="text-white w-[10%]" action="/pokemons/" method="GET">
+    <form class="text-white w-[10%]" action="{{url_for('pokemon_list', trainer=trainer, gender=gender)}}" method="POST">
             <label for="pokemon_finder">Name of the pokemon:</label>
             <input class="w-[100%]" type="text" name="pokemon_finder" id="pokemon_finder" required>
             <button type="submit" class="btn btn-primary">Search</button>
