@@ -14,7 +14,7 @@ rivals = [
             'sprite': url_for('static', filename='images/rival_sprite/Cristiano.webp'),
         },
         {
-            'name': 'Santiago Abascal',
+            'name': 'Alvaro Alfarero',
             'sprite': url_for('static', filename='images/rival_sprite/Abascal.webp'),
         },
         {
@@ -22,12 +22,10 @@ rivals = [
             'sprite': url_for('static', filename='images/rival_sprite/Estudiante.webp'),
         },
         {
-            'name': 'Felipe VI',
-            'sprite': url_for('static', filename='images/rival_sprite/Felipe_VI.webp'), },
-        {
-            'name': 'Francisco Franco',
-            'sprite': url_for('static', filename='images/rival_sprite/Franco.webp'),
-        },
+            'name': 'Rey Pokemon',
+            'sprite': url_for('static', filename='images/rival_sprite/Felipe_VI.webp'), 
+            },
+        
         {
             'name': 'Guiri',
             'sprite': url_for('static', filename='images/rival_sprite/Guiri.webp'),
@@ -41,15 +39,12 @@ rivals = [
             'sprite': url_for('static', filename='images/rival_sprite/Programador.webp'),
         },
         {
-            'name': 'Pedro Sanchez',
+            'name': 'Presidente Johto',
             'sprite': url_for('static', filename='images/rival_sprite/Pedro_Sanchez.webp'),
         },
         {
-            'name': 'Mariano Rajoy',
+            'name': 'SalaryMan',
             'sprite': url_for('static', filename='images/rival_sprite/Rajoy.webp'),
         },
-        {
-            'name': 'Pérez Reverte',
-            'sprite': url_for('static', filename='images/rival_sprite/Reverte.webp'),
-        }
+        
     ]
