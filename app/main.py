@@ -106,9 +106,9 @@ def pokemon_battle():
 
     
     rival = rivalSpriteSelector()
-    moves=random_moves(my_pokemon)
+  
 
-    return render_template("pokemon_battle.html", year=year, my_pokemon=my_pokemon, enemy_pokemon=enemy_pokemon, trainer=trainer, colors=colors, rival=rival, gender=gender, moves=moves)
+    return render_template("pokemon_battle.html", year=year, my_pokemon=my_pokemon, enemy_pokemon=enemy_pokemon, trainer=trainer, colors=colors, rival=rival, gender=gender, moves=random_moves)
 
 
 if __name__ == '__main__':
