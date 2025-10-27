@@ -18,7 +18,7 @@
         <div class="card rounded-3xl bg-base-100  w-65 h-[97%] shadow-sm  " style="border: 4px solid {{colors[pokemon.types[0]]}}; 
         background-image:url('{{url_for('static', filename='images/card_bg/'+pokemon.types[0]+'.png')}}')">
             <!-- Enlace para página detalle-->
-            <a href="{{ url_for('pokemon_details', pokemon_ID=pokemon.id) }}">
+            <a href="{{ url_for('pokemon.pokemon_details', pokemon_ID=pokemon.id) }}">
                 <!-- Titulo -->
                 <h2 class="font-bold text-center my-4 w-full">{{pokemon.name.capitalize()}}</h2>
                 <!-- Imagen -->
@@ -67,7 +67,7 @@
 
 
     </section>
-    <form class="text-white w-[10%]" action="{{url_for('pokemon_list', trainer=trainer, gender=gender)}}" method="POST">
+    <form class="text-white w-[10%]" action="{{url_for('pokemon.pokemon_list', trainer=trainer, gender=gender)}}" method="POST">
             <label for="pokemon_finder">Name of the pokemon:</label>
             <input class="w-[100%]" type="text" name="pokemon_finder" id="pokemon_finder" required>
             <button type="submit" class="btn btn-primary">Search</button>

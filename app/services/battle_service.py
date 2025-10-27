@@ -1,4 +1,4 @@
-import repositories.pokemon_repo as pokemon_repo
+import app.repositories.pokemon_repo as pokemon_repo
 import random
 
 def enemyPokemonSelector(my_pokemon):
@@ -7,7 +7,7 @@ def enemyPokemonSelector(my_pokemon):
     enemy_pokemon = pokemons[randomPokemonNumber]
     if len(pokemons) >= 2:
         if (enemy_pokemon.id == my_pokemon.id):
-            return enemyPokemonSelector()
+            return enemyPokemonSelector(my_pokemon)
     return enemy_pokemon
 
 def random_moves(pokemon, moves):
