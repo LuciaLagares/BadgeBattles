@@ -1,5 +1,5 @@
 import json
-from models.pokemon import Pokemon
+from app.models.pokemon import Pokemon
 from pathlib import Path
 
 

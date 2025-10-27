@@ -16,7 +16,10 @@
       </p>
     </div>
     <form class="flex flex-col items-start gap-4" action="/" method="POST">
+      {{form.hiddent_tag()}}
       <div class="flex flex-col justify-start items-start"">
+        {{form.trainer.label}}
+        {{for}}
         <label for="trainer">Trainer name:</label>
         <input type="text" name="trainer" id="trainer" autofocus required>
       </div>

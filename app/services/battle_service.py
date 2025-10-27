@@ -1,4 +1,4 @@
-import repositories.pokemon_repo as pokemon_repo
+import app.repositories.pokemon_repo as pokemon_repo
 import random
 
 def enemyPokemonSelector(my_pokemon):
