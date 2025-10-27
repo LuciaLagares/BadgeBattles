@@ -10,4 +10,10 @@ Aplicación de servidor que consiste en peleas entre pokemon, en la que para hon
 
 __Instrucciones__
 
+Crear entorno virtual usando python -m venv .venv
+Instalar las dependencias con ./venv/Scripts/pip.exe install -r ./requirements.txt
+
+Ejecutar el documento main.py
+
+Static contiene elementos static
 Será necesario para descargar este proyecto tener Python 3.13.7 y Flask 3.1.2
