@@ -5,6 +5,9 @@ import datetime
 
 from colors import colors 
 
+import services.pokemon_service as pokemon_service
+import services.battle_service as battle_service
+
 app = Flask(__name__, template_folder='templates')
 
 with open("./data/data.json", encoding="utf-8") as fichero_data:
@@ -71,28 +74,12 @@ def pokemon_list():
 
 @app.route("/pokemons/<int:pokemon_ID>/")
 def pokemon_details(pokemon_ID):
+    
     year = datetime.datetime.now().year
-    visual_pokemon = None
-
-    pokemons = app.config["data"]
-
-    for pokemon in pokemons:
-        if pokemon['id'] == pokemon_ID:
-            visual_pokemon = pokemon
-
-            # Randomnizador de Shiny
-    def is_pokemon_shiny(id, max):
-
-        shiny = int(random.randint(0, max))
-        while (id > max):
-            id = math.trunc(math.sqrt(id))
-        if id == shiny:
-            return True
-        else:
-            return False
-    is_shiny = is_pokemon_shiny(visual_pokemon['id'], 10)
-
-
+    visual_pokemon = pokemon_service.obtener_pokemon_por_ID(pokemon_ID)
+    
+    # Randomnizador de Shiny
+    is_shiny = pokemon_service.is_pokemon_shiny(visual_pokemon.id, 10)
 
     return render_template("pokemon_details.html", year=year, pokemon=visual_pokemon, is_shiny=is_shiny, colors=colors)
 
@@ -100,51 +87,28 @@ def pokemon_details(pokemon_ID):
 @app.route("/pokemon_battle/")
 def pokemon_battle():
     #  year=year, my_pokemon=pokemon_found, trainer=trainer, colors=colors
-    pokemons = app.config["data"]
     year = request.args.get('year')
-    my_pokemon_id = request.args.get('pokemon_found_id')
+    my_pokemon_id = int(request.args.get('pokemon_found_id'))
     trainer = request.args.get('trainer')
     gender = request.args.get('gender')
     enemy_pokemon = None
-    my_pokemon = None
-    moves=[]
+    my_pokemon = pokemon_service.obtener_pokemon_por_ID(my_pokemon_id)
 
-    
+    random_moves = battle_service.random_moves(my_pokemon, [])
 
-   
+    enemy_pokemon = battle_service.enemyPokemonSelector(my_pokemon)
 
-    for pokemon in pokemons:
-        if str(pokemon['id']) == my_pokemon_id:
-            my_pokemon = pokemon
-            break
-
-        moves=[]
-    def random_moves(pokemon):
-        random_move=pokemon['moves'][random.randint(0,len(pokemon['moves'])-1)]
-        if(random_move not in moves):
-            moves.append(random_move)
-        if len(moves)<4:
-            return random_moves(pokemon)
-        return moves
-
-    def enemyPokemonSelector():
-        randomPokemonNumber = random.randint(0, len(pokemons)-1)
-        enemy_pokemon = pokemons[randomPokemonNumber]
-        if len(pokemons) >= 2:
-            if (enemy_pokemon['id'] == my_pokemon['id']):
-                return enemyPokemonSelector()
-        return enemy_pokemon
 
     def rivalSpriteSelector():
          # Rival Dict
         from rivals import rivals
         return rivals[random.randint(0, len(rivals)-1)]
 
-    enemy_pokemon = enemyPokemonSelector()
+    
     rival = rivalSpriteSelector()
-    moves=random_moves(my_pokemon)
+  
 
-    return render_template("pokemon_battle.html", year=year, my_pokemon=my_pokemon, enemy_pokemon=enemy_pokemon, trainer=trainer, colors=colors, rival=rival, gender=gender, moves=moves)
+    return render_template("pokemon_battle.html", year=year, my_pokemon=my_pokemon, enemy_pokemon=enemy_pokemon, trainer=trainer, colors=colors, rival=rival, gender=gender, moves=random_moves)
 
 
 if __name__ == '__main__':
