@@ -22,4 +22,16 @@ def is_pokemon_shiny(id, max):
             return True
         else:
             return False
+        
+def obtener_pokemon_por_nombre(pokemon_finder):
+    if (pokemon_finder is not None):
+        pokemons=listar_pokemons()
+        for pokemon in pokemons:
+            if pokemon.name.lower() == pokemon_finder.lower():
+                return obtener_pokemon_por_ID(pokemon.id)
+    else:
+        return None
+                 
+                
+            
 

@@ -17,9 +17,6 @@ app.register_blueprint(home_bp, url_prefix = '/')
 app.register_blueprint(pokemon_bp, url_prefix = '/pokemons')
 app.register_blueprint(battle_bp, url_prefix = '/battle')
 
-with open("./data/data.json", encoding="utf-8") as fichero_data:
-    app.config["data"] = json.load(fichero_data)
-
 
 if __name__ == '__main__':
     app.run('0.0.0.0', 8080, debug="True")
