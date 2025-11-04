@@ -1,20 +1,15 @@
-
 import datetime
-from flask import Blueprint, app, redirect, render_template, request, url_for
+from flask import Blueprint, current_app, jsonify, redirect, render_template, request, url_for
 
 from app import colors
 from app.services import pokemon_service
-from app.repositories import pokemon_repo
 
-
-pokemon_bp=Blueprint('pokemon',__name__,template_folder='templates')
-
-
+pokemon_bp = Blueprint('pokemon', __name__, template_folder='templates')
 
 @pokemon_bp.route("/", methods=["GET", "POST"])
 def pokemon_list():
     year = datetime.datetime.now().year
-    pokemons = pokemon_repo.obtener_pokemons()
+    pokemons = current_app.config["data"]
     trainer = request.args.get('trainer')
     gender = request.args.get('gender')
     error = ''
@@ -30,7 +25,7 @@ def pokemon_list():
                     break
             if pokemon_found_id is not None:
 
-                return redirect(url_for('pokemon_battle', year=year, pokemon_found_id=pokemon_found_id, trainer=trainer, gender=gender))
+                return redirect(url_for('battle.pokemon_battle', year=year, pokemon_found_id=pokemon_found_id, trainer=trainer, gender=gender))
             else:
                 error = 'Your pokemon is not in the list'
                 return render_template("pokemon_list.html", year=year, pokemons=pokemons, colors=colors, trainer=trainer, error=error,gender=gender)
