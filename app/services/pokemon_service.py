@@ -8,6 +8,7 @@ def listar_pokemons():
 
 
 def obtener_pokemon_por_ID(id):
+    
     if id < 0 or id is None:
         return None
 
@@ -23,14 +24,17 @@ def is_pokemon_shiny(id, max):
         else:
             return False
         
-def obtener_pokemon_por_nombre(pokemon_finder):
-    if (pokemon_finder is not None):
+def obtener_pokemon_por_nombre(pokemon_name):
+    if pokemon_name:
+        print('++++++++++++++',pokemon_name,'+++++++++++++++')
         pokemons=listar_pokemons()
         for pokemon in pokemons:
-            if pokemon.name.lower() == pokemon_finder.lower():
-                return obtener_pokemon_por_ID(pokemon.id)
-    else:
-        return None
+            print('++++++++++++++',pokemon,'+++++++++++++++')
+            
+            if pokemon.name.lower() == pokemon_name.lower():
+                return pokemon
+    # else:
+    #     return None
                  
                 
             

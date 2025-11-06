@@ -10,16 +10,7 @@ def obtener_pokemons():
     pokemons = []
     
     for p in _POKEMONS:
-        pokemon = Pokemon(
-            id=p['id'],
-            name=p['name'],
-            height=p['height'],
-            weight=p['weight'],
-            moves=p['moves'],
-            sprites=p['sprites'],
-            stats=p['stats'],
-            types=p['types']
-        ) 
+        pokemon = Pokemon(**p) 
         pokemons.append(pokemon)
     return pokemons
 

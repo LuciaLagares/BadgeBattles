@@ -20,11 +20,12 @@ def pokemon_list():
     error = ''
 
     if request.method == "POST":
-        pokemon_finder = request.form.get('pokemon_finder')
-        pokemon_found_id = obtener_pokemon_por_nombre(pokemon_finder)
+        pokemon_name = request.form.get('pokemon_finder')
         
-        if pokemon_found_id is not None:
-            return redirect(url_for('battle.pokemon_battle', year=year, pokemon_found_id=pokemon_found_id, trainer=trainer, gender=gender))  
+
+        
+        if pokemon_name is not None:
+            return redirect(url_for('battle.pokemon_battle', year=year, pokemon=pokemon_name, trainer=trainer, gender=gender))  
         else:
             error = 'Your pokemon is not in the list'
             return render_template("pokemon_list.html", year=year, pokemons=pokemons, colors=colors, trainer=trainer, error=error, gender=gender)
