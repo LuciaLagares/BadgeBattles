@@ -12,14 +12,14 @@
       <div
          class=" w-full bg-[url({{url_for('static', filename='images/bg_own.jpg')}})] card bg-cover bg-no-repeat card rounded-box grid h-35 grid-cols-2 place-items-center overflow-hidden"
          style="box-shadow: 4px 4px 5px blue, -4px -0px 5px blue ; border-bottom-left-radius: 0;">
-         {%if gender == 'male'%}
+         {%if session.gender == 'male'%}
          <img class=" scale-50 xl:scale-140 relative top-4"
-            src="{{url_for('static', filename='images/character_sprite/male_character.png')}}" alt="{{gender}}">
+            src="{{url_for('static', filename='images/character_sprite/male_character.png')}}" alt="{{session.gender}}">
          {%else%}
          <img class=" scale-50 xl:scale-140 relative top-4"
-            src="{{url_for('static', filename='images/character_sprite/female_character.png')}}" alt="{{gender}}">
+            src="{{url_for('static', filename='images/character_sprite/female_character.png')}}" alt="{{session.gender}}">
          {%endif%}
-         <div class="text-white text-2xl">{{trainer}}</div>
+         <div class="text-white text-2xl">{{session.trainer}}</div>
       </div>
       <!-- VS -->
       <div class="divider text-5xl  lg:divider-horizontal">

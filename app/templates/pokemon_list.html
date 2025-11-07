@@ -1,7 +1,7 @@
 {% extends "base.html" %} {% block title %}Pokemon List{% endblock %}
 {% block trainer%}
-{% if trainer%}
-<div class="text-xl mx-5"> Welcome <strong>{{trainer.capitalize()}}</strong></div>
+{% if session.trainer%}
+<div class="text-xl mx-5"> Welcome <strong>{{session.trainer.capitalize()}}</strong></div>
 {% endif%}
 {%endblock%}
 
@@ -67,7 +67,7 @@
 
 
     </section>
-    <form class="text-white w-[10%]" action="{{url_for('pokemon.pokemon_list', trainer=trainer, gender=gender)}}" method="POST">
+    <form class="text-white w-[10%]" action="{{url_for('pokemon.pokemon_list')}}" method="POST">
             <label for="pokemon_finder">Name of the pokemon:</label>
             <input class="w-[100%]" type="text" name="pokemon_finder" id="pokemon_finder" required>
             <button type="submit" class="btn btn-primary">Search</button>

@@ -1,7 +1,11 @@
 {% extends "base.html" %}
 
 {% block title %}Pokemon Details{% endblock %}
-
+{% block trainer%}
+{% if session.trainer%}
+<div class="text-xl mx-5"> Welcome <strong>{{session.trainer.capitalize()}}</strong></div>
+{% endif%}
+{%endblock%}
 {% block main %}
 
 <section class="flex flex-col justify-evenly ">

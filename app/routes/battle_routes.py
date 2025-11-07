@@ -2,7 +2,7 @@ import datetime
 import random
 from flask import Blueprint, current_app, jsonify, redirect, render_template, request
 import logging
-from app import colors
+from app.colors import colors
 from app.services import battle_service, pokemon_service
 logging.basicConfig(level=logging.DEBUG)
 battle_bp = Blueprint('battle', __name__, template_folder='templates')
@@ -32,4 +32,4 @@ def pokemon_battle():
     rival = rivalSpriteSelector()
   
 
-    return render_template("pokemon_battle.html", year=year, my_pokemon=my_pokemon, enemy_pokemon=enemy_pokemon, trainer=trainer, colors=colors, rival=rival, gender=gender, moves=random_moves)
+    return render_template("pokemon_battle.html", my_pokemon=my_pokemon, enemy_pokemon=enemy_pokemon, colors=colors, rival=rival, moves=random_moves)
