@@ -1,5 +1,6 @@
 from app.models.battle import Battle
 import app.repositories.pokemon_repo as pokemon_repo
+from app.services.pokemon_service import obtener_valor_stat
 import random
 
 
@@ -20,10 +21,10 @@ def random_moves(pokemon, moves):
         return random_moves(pokemon, moves)
     return moves
 
-def createBattle(my_pokemon,enemy_pokemon,my_pokemon_moves):
+def create_battle(my_pokemon,enemy_pokemon,my_pokemon_moves):
     # 0,my_pokemon,enemy_pokemon,'',
-    health_player=my_pokemon.stats[0]['value']-10
-    health_rival=enemy_pokemon.stats[0]['value']
+    health_player=obtener_valor_stat(my_pokemon,'hp')
+    health_rival=obtener_valor_stat(enemy_pokemon,'hp')
     moves_rival=random_moves(enemy_pokemon,[])
     battle=Battle(0,my_pokemon,enemy_pokemon,'hola',health_player,health_rival,my_pokemon_moves, moves_rival)
     

@@ -19,5 +19,7 @@ def pokemon_battle():
     # enemy_moves = battle_service.random_moves(enemy_pokemon, [])
     rival = battle_service.rivalSpriteSelector()
     session['rival']=rival
-    session['battle']=battle_service.createBattle(my_pokemon,enemy_pokemon,my_pokemon_moves)
+    session['battle']=battle_service.create_battle(my_pokemon,enemy_pokemon,my_pokemon_moves)
+    print('---------------------------',session['battle'].health_player,type (session['battle'].health_player),'-----------------------------------------')
+
     return render_template("pokemon_battle.html", colors=colors)

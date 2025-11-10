@@ -33,7 +33,14 @@ def obtener_pokemon_por_nombre(pokemon_name):
                 return pokemon
     # else:
     #     return None
-                 
+def obtener_valor_stat(pokemon,stat_name):
+    searched_stat=None;
+    for stat in pokemon.stats:
+        if stat['name']==stat_name:
+            searched_stat=stat.get('value',0)
+            break
+    return searched_stat;
+            
                 
             
 
