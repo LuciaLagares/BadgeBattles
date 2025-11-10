@@ -1,6 +1,3 @@
-
-
- # Rival Dict
 from flask import url_for
 
 

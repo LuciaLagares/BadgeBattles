@@ -26,10 +26,8 @@ def is_pokemon_shiny(id, max):
         
 def obtener_pokemon_por_nombre(pokemon_name):
     if pokemon_name:
-        print('++++++++++++++',pokemon_name,'+++++++++++++++')
         pokemons=listar_pokemons()
         for pokemon in pokemons:
-            print('++++++++++++++',pokemon,'+++++++++++++++')
             
             if pokemon.name.lower() == pokemon_name.lower():
                 return pokemon
