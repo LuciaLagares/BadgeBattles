@@ -4,7 +4,7 @@ from pathlib import Path
 from flask import Blueprint, app, current_app, jsonify, redirect, render_template, request, session, url_for
 
 from app.colors import colors
-from app.services import pokemon_service
+from app.services import battle_service, pokemon_service
 from app.services.pokemon_service import listar_pokemons
 
 
@@ -19,7 +19,14 @@ def pokemon_list():
     if request.method == "POST":
         pokemon_selected = request.form.get('pokemon_finder')
         session['pokemon_selected'] = pokemon_service.obtener_pokemon_por_nombre(pokemon_selected)
+
         if session['pokemon_selected'] is not None:
+            enemy_pokemon = battle_service.enemyPokemonSelector(session.get('pokemon_selected'))
+            session['enemy_pokemon']=enemy_pokemon
+            rival = battle_service.rivalSpriteSelector()
+            session['rival']=rival
+            my_pokemon_moves = battle_service.random_moves(session.get('pokemon_selected'), [])
+            session['my_pokemon_moves']=my_pokemon_moves
             return redirect(url_for('battle.pokemon_battle'))  
         else:
             error = 'Your pokemon is not in the list'
@@ -31,7 +38,7 @@ def pokemon_list():
 @pokemon_bp.route("/<int:pokemon_ID>/")
 def pokemon_details(pokemon_ID):
 
-    year = datetime.datetime.now().year
+
     visual_pokemon = pokemon_service.obtener_pokemon_por_ID(pokemon_ID)
 
     # Randomnizador de Shiny

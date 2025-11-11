@@ -17,7 +17,8 @@
             src="{{url_for('static', filename='images/character_sprite/male_character.png')}}" alt="{{session.gender}}">
          {%else%}
          <img class=" scale-50 xl:scale-140 relative top-4"
-            src="{{url_for('static', filename='images/character_sprite/female_character.png')}}" alt="{{session.gender}}">
+            src="{{url_for('static', filename='images/character_sprite/female_character.png')}}"
+            alt="{{session.gender}}">
          {%endif%}
          <div class="text-white text-2xl">{{session.trainer}}</div>
       </div>
@@ -53,7 +54,7 @@
             </div>
 
             <div class="flex justify-between">
-               <p class="mt-1">{{session.battle.health_player}}/{{session.pokemon_selected.stats[0].value}}</p>
+               <p class="mt-1">{{session.pokemon_selected.stats[0].value}}/{{session.battle.health_player}}</p>
                <div class="flex gap-5">
                   {% for type in session.pokemon_selected.types %}
                   <div class="flex m-1 gap-1 ">
@@ -69,8 +70,8 @@
          </div>
          <!-- Image -->
          <figure class=" w-[15%] h-[100%]">
-            <img class="h-full h-full object-cover scale-300 relative top-8" src="{{session.pokemon_selected.sprites.back_default}}"
-               alt="BackImage">
+            <img class="h-full h-full object-cover scale-300 relative top-8"
+               src="{{session.pokemon_selected.sprites.back_default}}" alt="BackImage">
          </figure>
 
       </div>
@@ -93,11 +94,11 @@
                {{session.enemy_pokemon.stats[0].name.upper()}}:
 
                <progress class="w-[35vw] max-w-75 border-2 border-black rounded-2xl"
-                  value="{{session.battle.health_rival}}" max="{{session.enemy_pokemon.stats[0].value}}"></progress>
+                  value="{{session.enemy_pokemon.stats[0].value}}" max="{{session.battle.health_rival}}"></progress>
             </div>
 
             <div class="flex justify-between">
-               <p class="mt-1">{{session.battle.health_rival}}/{{session.enemy_pokemon.stats[0].value}}</p>
+               <p class="mt-1">{{session.enemy_pokemon.stats[0].value}}/{{session.battle.health_rival}}</p>
                <div class="flex gap-5">
                   {% for type in session.enemy_pokemon.types %}
                   <div class="flex m-1 gap-1 ">
@@ -121,40 +122,43 @@
    </div>
 
    <div class="h-[30%] w-full bg-cyan-800 " style="position: relative; z-index: 50;">
-      <div class="h-[100%] rounded-2xl p-4 grid grid-cols-2 gap-2"
-         style="border:4px solid black;   box-shadow: inset 0 0 0 4px red, inset 8px 0 0  4px red, inset -8px 0 0 4px red; ">
+      <!-- <div class="h-[100%] rounded-2xl p-4 grid grid-cols-2 gap-2"
+         style="border:4px solid black;   box-shadow: inset 0 0 0 4px red, inset 8px 0 0  4px red, inset -8px 0 0 4px red; "> -->
 
 
+         <form action="{{url_for('battle.pokemon_battle')}}" method="POST" class="h-[100%] rounded-2xl p-4 grid grid-cols-2 gap-2"
+         style="border:4px solid black;   box-shadow: inset 0 0 0 4px red, inset 8px 0 0  4px red, inset -8px 0 0 4px red">
 
-         {%for move in session.my_pokemon_moves%}
+            {%for move in session.my_pokemon_moves%}
 
+            <button name="opcion" type="submit" value="{{loop.index0}}" class="cursor-pointer relative bottom-2" >
 
-         <div class="border-2 grid grid-cols-2 p-2 rounded-2xl" style="box-shadow:inset 0 0 0 4px navy, 0 5px  10px 2px black">
-            <div class="flex gap-2  items-center"  >{{move.name|upper}}</div>
-            <div class="flex gap-2  items-center">
-               <div>Type:</div>
-               <div class="border-1 bg-[{{colors[(move.type).lower()]}}] px-2 py-0 rounded-2xl">{{move.type|capitalize}}
+               <div  class="border-2 grid grid-cols-2 p-2 rounded-2xl "
+                  style="box-shadow:inset 0 0 0 4px navy, 0 5px  10px 2px black">
+                  <div class="flex gap-2  items-center ">{{move.name|upper}}</div>
+                  <div class="flex gap-2  items-center ">
+                     <div >Type:</div>
+                     <div class="border-1 bg-[{{colors[(move.type).lower()]}}] px-2 py-0 rounded-2xl ">
+                        {{move.type|capitalize}}
+                     </div>
+                  </div>
+                  <div>
+                     <div class="flex gap-2 pt-2 items-center ">Accuracy: {{move.accuracy}}</div>
+                     <progress class="progress progress-info w-[50%] " value="{{move.accuracy}}" max="100"> </progress>
+                  </div>
+                  <div>
+
+                     <div class="flex gap-2  items-center ">Power: {{move.power}}</div>
+                     <progress class="progress progress-warning w-[50%] " value="{{move.power}}" max="125"> </progress>
+                  </div>
                </div>
-            </div>
-            <div>
-               <div class="flex gap-2 pt-2 items-center">Accuracy: {{move.accuracy}}</div>
-               <progress class="progress progress-info w-[50%]" value="{{move.accuracy}}" max="100"> </progress>
-            </div>
-            <div>
-
-               <div class="flex gap-2  items-center">Power: {{move.power}}</div>
-               <progress class="progress progress-warning w-[50%]" value="{{move.power}}" max="125"> </progress>
-            </div>
-         </div>
-         {%endfor%}
-      </div>
+            </button>
+            {%endfor%}
+         </form>
+      <!-- </div> -->
    </div>
 
-
    </div>
-
-
-
 
    </div>
 
