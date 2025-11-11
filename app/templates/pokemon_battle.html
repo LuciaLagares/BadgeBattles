@@ -1,8 +1,17 @@
 {% extends "base.html" %}
 
-{% block trainer%}{%endblock%}
+{% block trainer%}
+{% if  session.battle.log%}
+<div class="mt-3 h-[50px]  w-[900px] overflow-auto bg-red-500 z-49">
+
+   {{session.battle.log}}
+</div>
+{%endif%}
+
+{%endblock%}
 
 {% block main %}
+
 <section class=" flex flex-col w-full h-full ">
 
 
@@ -50,7 +59,7 @@
             <div>
                {{session.pokemon_selected.stats[0].name.upper()}}:
                <progress class="w-[35vw] max-w-75 border-2 border-black rounded-2xl"
-                  value="{{session.battle.health_player}}" max="{{session.pokemon_selected.stats[0].value}}"></progress>
+                  value="{{session.pokemon_selected.stats[0].value}}" max="{{session.battle.health_player}}"></progress>
             </div>
 
             <div class="flex justify-between">
@@ -75,6 +84,7 @@
          </figure>
 
       </div>
+
       <!-- Enemy Pokemon -->
       <div class=" flex flex justify-evenly w-full  mb-4 h-[15vh]">
 

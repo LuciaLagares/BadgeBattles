@@ -40,57 +40,76 @@ def attack(battle, option):
     # Declaramos los pokemon con nombre propio para que sea más comodo trabajar
     my_pokemon = battle.data_pokemon_player
     enemy_pokemon = battle.data_pokemon_rival
+ 
+    
     # Obtenemos el movimiento desde la opcion pulsada
     my_move = battle.moves_player[option]
     # Comparamos que pokemon es más rapido para que empiece el
     enemy_move = enemyAttack(enemy_pokemon.moves)
-    if enemy_pokemon.stats[5]['value'] > my_pokemon.stats[5]['value']:
+    if enemy_pokemon.stats[5]['value'] >= my_pokemon.stats[5]['value']:
         # Funcion que devuelve un ataque aleatorio
 
-        if calculatePrecision:
+        writeLog(battle, enemy_pokemon, enemy_move)
+        if calculatePrecision(enemy_move):
             # si el ataque acierta
-            # battle.log+=f'{ enemy_pokemon.name} ha usado: {enemy_move}'
-            writeLog(battle.log, enemy_pokemon, enemy_move)
             damage = calcularPSaRestar(enemy_pokemon, my_pokemon, enemy_move)
-            my_pokemon.stats[0]['value'] = restarHP(my_pokemon,damage)
-            if not evaluatePokemon(my_pokemon.stats[0]['value']):
-                battle.log+=f'{my_pokemon} se ha debilitado. {enemy_pokemon} ha ganado!'
-                my_pokemon.stats[0]['value']=0
-                return battle.log
-            else:
-                writeLog(battle.log, my_pokemon, my_move)
-                damage = calcularPSaRestar(my_pokemon, enemy_pokemon, my_move)
-                enemy_pokemon.stats[0]['value'] = restarHP(my_pokemon,damage)
-            if not evaluatePokemon(enemy_pokemon.stats[0]['value']):
-                battle.log+=f'{enemy_pokemon} se ha debilitado. {my_pokemon} ha ganado!'
-                enemy_pokemon.stats[0]['value']=0
-                return battle.log
+            my_pokemon.stats[0]['value'] = restarHP(my_pokemon, damage)
         else:
             # si falla
-            battle.log += 'pero falló/n'
+            battle.log += 'pero falló\n'
+            
+            #Si falla el ataque, el otro pokemon va a tener toda la vida, por lo que no va entrar en el if.
+            if not evaluatePokemon(my_pokemon.stats[0]['value']):
+                battle.log += f'{my_pokemon} se ha debilitado. {enemy_pokemon} ha ganado!'
+                my_pokemon.stats[0]['value'] = 0
+                return -1#termina el turno-------------------------------------------
+            else:
+                writeLog(battle, my_pokemon, my_move)
+                if calculatePrecision(my_move):
+                    damage = calcularPSaRestar(
+                        my_pokemon, enemy_pokemon, my_move)
+                    enemy_pokemon.stats[0]['value'] = restarHP(
+                        enemy_pokemon, damage)
+                else:
+                    battle.log += 'pero falló\n'
+                    if not evaluatePokemon(enemy_pokemon.stats[0]['value']):
+                        battle.log += f'{enemy_pokemon} se ha debilitado. {my_pokemon} ha ganado!'
+                        enemy_pokemon.stats[0]['value'] = 0
+                        return 1#termina el turno-------------------------------------------
+
     else:
         # si nuestro pokemon ataca antes
-        # battle.log+=f'{ my_pokemon.name} ha usado: {my_move}'
-        writeLog(battle.log, my_pokemon, my_move)
-        damage = calcularPSaRestar(my_pokemon, enemy_pokemon, my_move)
-        enemy_pokemon.stats[0]['value'] = restarHP(my_pokemon,damage)
-        if not evaluatePokemon(enemy_pokemon.stats[0]['value']):
-            battle.log+=f'{enemy_pokemon} se ha debilitado. {my_pokemon} ha ganado!'
-            enemy_pokemon.stats[0]['value']=0
-            return battle.log
+
+        writeLog(battle, my_pokemon, my_move)
+        if calculatePrecision(my_move):
+            damage = calcularPSaRestar(my_pokemon, enemy_pokemon, my_move)
+            enemy_pokemon.stats[0]['value'] = restarHP(enemy_pokemon, damage)
         else:
-            writeLog(battle.log, enemy_pokemon, enemy_move)
-            damage = calcularPSaRestar(enemy_pokemon, my_pokemon, enemy_move)
-            my_pokemon.stats[0]['value'] = restarHP(my_pokemon,damage)
+            battle.log += 'pero falló\n'
+            
+        if not evaluatePokemon(enemy_pokemon.stats[0]['value']):
+            battle.log += f'\n{enemy_pokemon} se ha debilitado. {my_pokemon} ha ganado!'
+            enemy_pokemon.stats[0]['value'] = 0
+            return 1#termina el turno
+        else:
+            writeLog(battle, enemy_pokemon, enemy_move)
+            if calculatePrecision(enemy_move):
+                damage = calcularPSaRestar(enemy_pokemon, my_pokemon, enemy_move)
+                my_pokemon.stats[0]['value'] = restarHP(my_pokemon, damage)
+            else:
+                battle.log += 'pero falló\n'
+
             if not evaluatePokemon(my_pokemon.stats[0]['value']):
-                battle.log+=f'{my_pokemon} se ha debilitado. {enemy_pokemon} ha ganado!'
-                my_pokemon.stats[0]['value']=0
-                return battle.log
-    
+                battle.log += f'\n{my_pokemon} se ha debilitado. {enemy_pokemon} ha ganado!'
+                my_pokemon.stats[0]['value'] = 0
+                return -1#termina el turno
+    return 0
+
+
 def calculatePrecision(move):
     probability = move['accuracy']/10
-    random = random.randint(0, 10)
-    if probability <= random:
+    random_number = random.randint(1, 10)
+    if probability >= random_number:
         return True
     else:
         return False
@@ -100,9 +119,8 @@ def enemyAttack(moves):
     return moves[random.randint(0, len(moves)-1)]
 
 
-def writeLog(log, pokemon, move):
-    log += f'\n{pokemon.name} ha usado: {move}'
-    
+def writeLog(battle, pokemon, move):
+    battle.log += f'{pokemon.name.capitalize()} ha usado: {move['name'].capitalize()}\n'
 
 
 def calcularPSaRestar(attacker, reciever, move):
@@ -114,7 +132,7 @@ def calcularPSaRestar(attacker, reciever, move):
 
     if power > hp_reciever:
         index_damage += 1.25
-    elif power < hp_reciever:
+    elif power == hp_reciever:
         index_damage += 1
     else:
         index_damage += 0.75
@@ -127,16 +145,14 @@ def calcularPSaRestar(attacker, reciever, move):
 
 def restarHP(pokemon, damage):
     hp = pokemon.stats[0]['value']-damage
-    return hp
+    return int(hp)
+
 
 def evaluatePokemon(hp):
-    if hp>=0:
+    if hp >= 0:
         return True
     else:
         return False
-
-
-
 
 
 def rivalSpriteSelector():
