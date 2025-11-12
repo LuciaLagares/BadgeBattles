@@ -33,12 +33,12 @@ def pokemon_battle():
         
         if resultado == -1:
 
-            looser = session['battle'].data_pokemon_player.name
+            looser = session['battle'].data_pokemon_player
             winner = session['battle'].data_pokemon_rival
 
 
         elif resultado == 1:
-            looser = session['battle'].data_pokemon_rival.name
+            looser = session['battle'].data_pokemon_rival
             winner = session['battle'].data_pokemon_player
             
         else:
