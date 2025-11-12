@@ -1,7 +1,15 @@
+
+
+{%block main%}
+<div>
+   <img src="{{winner.sprites.front_default}}" alt="FrontImage">
+   <img src="{{url_for('static', filename='images/vs.png')}}" style="position: relative; z-index: 50;" alt="vs">
+   <img src="{{looser.sprites.front_default}}" alt="FrontImageLooser">
+</div>
 <div class="grow h-[60vh] w-[70vw] bg-base-100 z-50">
    <p>Log de combate:</p>
    {%if logList%}
-   
+
    {% for log in logList%}
    <div>{{log}}</div>
    {%endfor%}
@@ -13,3 +21,4 @@
    <p>El combate ha durado {{turnos}} turnos</p>
    <a href="{{url_for('pokemon.pokemon_list')}}" class="btn btn-primary"> Volver a elegir pokemon</a>
 </div>
+{%endblock%}
