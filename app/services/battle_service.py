@@ -50,7 +50,7 @@ def attack(battle, option):
     if enemy_pokemon.stats[5]['value'] >= my_pokemon.stats[5]['value']:
         if calculatePrecision(enemy_move):
             # si el ataque acierta
-            damage = calcularPSaRestar(enemy_pokemon, my_pokemon, enemy_move)
+            damage = calcularPSARestar(enemy_pokemon, my_pokemon, enemy_move)
             my_pokemon.stats[0]['value'] = restarHP(my_pokemon, damage)
             writeLog(battle, enemy_pokemon, enemy_move, damage, my_pokemon)
         else:
@@ -64,7 +64,7 @@ def attack(battle, option):
             return -1  # termina el turno-------------------------------------------
         else:
             if calculatePrecision(my_move):
-                damage = calcularPSaRestar(my_pokemon, enemy_pokemon, my_move)
+                damage = calcularPSARestar(my_pokemon, enemy_pokemon, my_move)
                 enemy_pokemon.stats[0]['value'] = restarHP(
                     enemy_pokemon, damage)
                 writeLog(battle, my_pokemon, my_move, damage, enemy_pokemon)
@@ -78,7 +78,7 @@ def attack(battle, option):
     else:
         # si nuestro pokemon ataca antes
         if calculatePrecision(my_move):
-            damage = calcularPSaRestar(my_pokemon, enemy_pokemon, my_move)
+            damage = calcularPSARestar(my_pokemon, enemy_pokemon, my_move)
             enemy_pokemon.stats[0]['value'] = restarHP(enemy_pokemon, damage)
             writeLog(battle, my_pokemon, my_move, damage, enemy_pokemon)
         else:
@@ -90,7 +90,7 @@ def attack(battle, option):
             return 1  # termina el turno
         else:
             if calculatePrecision(enemy_move):
-                damage = calcularPSaRestar(
+                damage = calcularPSARestar(
                     enemy_pokemon, my_pokemon, enemy_move)
                 my_pokemon.stats[0]['value'] = restarHP(my_pokemon, damage)
                 writeLog(battle, enemy_pokemon, enemy_move, damage, my_pokemon)
@@ -129,7 +129,7 @@ def ganadorLog(battle, ganador, perdedor):
         f'{perdedor.name.capitalize()} se ha debilitado. {ganador.name.capitalize()} ha ganado!')
 
 
-def calcularPSaRestar(attacker, reciever, move):
+def calcularPSARestar(attacker, reciever, move):
     index_damage = 0
     power = move['power']
     move_type = move['type']

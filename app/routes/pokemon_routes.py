@@ -4,6 +4,7 @@ from pathlib import Path
 from flask import Blueprint, app, current_app, jsonify, redirect, render_template, request, session, url_for
 
 from app.colors import colors
+from app.decorators import login_required
 from app.services import battle_service, pokemon_service
 from app.services.pokemon_service import listar_pokemons
 
@@ -36,6 +37,7 @@ def pokemon_list():
 
 
 @pokemon_bp.route("/<int:pokemon_ID>/")
+@login_required
 def pokemon_details(pokemon_ID):
 
 

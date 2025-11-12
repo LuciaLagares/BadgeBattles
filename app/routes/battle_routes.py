@@ -2,12 +2,14 @@
 from flask import Blueprint, redirect, render_template, request, session, url_for
 import logging
 from app.colors import colors
+from app.decorators import login_required
 from app.services import battle_service
 logging.basicConfig(level=logging.DEBUG)
 battle_bp = Blueprint('battle', __name__, template_folder='templates')
 
 
 @battle_bp.route("/", methods=['GET', 'POST'])
+@login_required
 def pokemon_battle():
     resultado = None
     my_pokemon = None
