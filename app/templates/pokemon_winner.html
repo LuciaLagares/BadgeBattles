@@ -1,26 +1,31 @@
 {%extends "base.html" %}
 
 {%block main%}
-<div class="flex flex-col h-85">
-   <div class="flex flex-row">
-      <img src="{{winner.sprites.front_default}}" alt="FrontImage">
-      <img src="{{url_for('static', filename='images/vs.png')}}" style="position: relative; z-index: 50;" alt="vs">
-      <img src="{{looser.sprites.front_default}}" alt="FrontImageLooser">
+<div class="flex flex-col justify-evenly">
+   <div class="flex flex-row justify-between">
+      <img class="h-100 w-100" src="{{winner.sprites.front_default}}" alt="FrontImage">
+      <img class="h-75 w-75" src="{{url_for('static', filename='images/vs.png')}}" style="position: relative; z-index: 50;" alt="vs">
+      <img class="h-100 w-100 opacity-50" src="{{looser.sprites.front_default}}" alt="FrontImageLooser">
    </div>
-   <div class="grow h-[60vh] w-[70vw] bg-base-100 z-50">
-      <p>Log de combate:</p>
-      {%if logList%}
-      
-      {% for log in logList%}
-      <div>{{log}}</div>
-      {%endfor%}
-      {%else%}
-      <p>no hay log</p>
-      {%endif%}
-      <p>Ha ganado el pokemon {{winner.name|capitalize}}</p>
-      <p>Ha perdido el pokemon {{looser.name|capitalize}}</p>
-      <p>El combate ha durado {{turnos}} turnos</p>
+   <div>
+      <div class="flex flex-col gap-6">
+         <p class="text-[2rem] text-black" >Log de combate:</p>
+         <div class="flex overflow-auto border-2 rounded-xl flex-col p-4 bg-base-100 h-[150px]">
+            
+            {%if logList%}
+            
+            {% for log in logList%}
+            <div>{{log}}</div>
+            {%endfor%}
+            {%else%}
+            <p>no hay log</p>
+            {%endif%}
+            <p>Ha ganado el pokemon {{winner.name|capitalize}}</p>
+            <p>Ha perdido el pokemon {{looser.name|capitalize}}</p>
+            <p>El combate ha durado {{turnos}} turnos</p>
+         </div>
+      </div>
+   </div>
       <a href="{{url_for('pokemon.pokemon_list')}}" class="btn btn-primary"> Volver a elegir pokemon</a>
-   </div>
 </div>
 {%endblock%}
