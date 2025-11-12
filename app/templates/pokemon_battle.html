@@ -3,8 +3,9 @@
 {% block trainer%}
 {% if  session.battle.log%}
 <div class="mt-3 h-[50px]  w-[900px] overflow-auto bg-red-500 z-49">
-
-   {{session.battle.log}}
+   {% for log in session.battle.log%}
+      <div>{{log}}</div>
+   {%endfor%}
 </div>
 {%endif%}
 
