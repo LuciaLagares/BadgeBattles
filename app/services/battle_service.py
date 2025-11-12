@@ -24,7 +24,7 @@ def random_moves(pokemon, moves):
 
 
 def create_battle(my_pokemon, enemy_pokemon, my_pokemon_moves):
-    # 0,my_pokemon,enemy_pokemon,'',
+
     health_player = obtener_valor_stat(my_pokemon, 'hp')
     health_rival = obtener_valor_stat(enemy_pokemon, 'hp')
     moves_rival = random_moves(enemy_pokemon, [])
@@ -59,23 +59,21 @@ def attack(battle, option):
             battle.log += 'pero falló\n'
             
             #Si falla el ataque, el otro pokemon va a tener toda la vida, por lo que no va entrar en el if.
-            if not evaluatePokemon(my_pokemon.stats[0]['value']):
-                battle.log += f'{my_pokemon} se ha debilitado. {enemy_pokemon} ha ganado!'
-                my_pokemon.stats[0]['value'] = 0
-                return -1#termina el turno-------------------------------------------
+        if not evaluatePokemon(my_pokemon.stats[0]['value']):
+            battle.log += f'{my_pokemon} se ha debilitado. {enemy_pokemon} ha ganado!'
+            my_pokemon.stats[0]['value'] = 0
+            return -1#termina el turno-------------------------------------------
+        else:
+            writeLog(battle, my_pokemon, my_move)
+            if calculatePrecision(my_move):
+                damage = calcularPSaRestar(my_pokemon, enemy_pokemon, my_move)
+                enemy_pokemon.stats[0]['value'] = restarHP(enemy_pokemon, damage)
             else:
-                writeLog(battle, my_pokemon, my_move)
-                if calculatePrecision(my_move):
-                    damage = calcularPSaRestar(
-                        my_pokemon, enemy_pokemon, my_move)
-                    enemy_pokemon.stats[0]['value'] = restarHP(
-                        enemy_pokemon, damage)
-                else:
-                    battle.log += 'pero falló\n'
-                    if not evaluatePokemon(enemy_pokemon.stats[0]['value']):
-                        battle.log += f'{enemy_pokemon} se ha debilitado. {my_pokemon} ha ganado!'
-                        enemy_pokemon.stats[0]['value'] = 0
-                        return 1#termina el turno-------------------------------------------
+                battle.log += 'pero falló\n'
+            if not evaluatePokemon(enemy_pokemon.stats[0]['value']):
+                battle.log += f'{enemy_pokemon} se ha debilitado. {my_pokemon} ha ganado!'
+                enemy_pokemon.stats[0]['value'] = 0
+                return 1#termina el turno-------------------------------------------
 
     else:
         # si nuestro pokemon ataca antes
@@ -88,7 +86,7 @@ def attack(battle, option):
             battle.log += 'pero falló\n'
             
         if not evaluatePokemon(enemy_pokemon.stats[0]['value']):
-            battle.log += f'\n{enemy_pokemon} se ha debilitado. {my_pokemon} ha ganado!'
+            battle.log += f'\n{enemy_pokemon.name.capitalize()} se ha debilitado. {my_pokemon.name.capitalize()} ha ganado!'
             enemy_pokemon.stats[0]['value'] = 0
             return 1#termina el turno
         else:
@@ -100,10 +98,10 @@ def attack(battle, option):
                 battle.log += 'pero falló\n'
 
             if not evaluatePokemon(my_pokemon.stats[0]['value']):
-                battle.log += f'\n{my_pokemon} se ha debilitado. {enemy_pokemon} ha ganado!'
+                battle.log += f'\n{my_pokemon.name.capitalize()} se ha debilitado. {enemy_pokemon.name.capitalize()} ha ganado!'
                 my_pokemon.stats[0]['value'] = 0
                 return -1#termina el turno
-    return 0
+   
 
 
 def calculatePrecision(move):
@@ -120,26 +118,26 @@ def enemyAttack(moves):
 
 
 def writeLog(battle, pokemon, move):
-    battle.log += f'{pokemon.name.capitalize()} ha usado: {move['name'].capitalize()}\n'
+    battle.log += f'{pokemon.name.capitalize()} ha usado: {move['name'].capitalize()}'
 
 
 def calcularPSaRestar(attacker, reciever, move):
     index_damage = 0
     power = move['power']
     move_type = move['type']
-    hp_reciever = reciever.stats[0]['value']
+    defense_reciever = reciever.stats[2]['value']
     type_attacker = attacker.types
 
-    if power > hp_reciever:
-        index_damage += 1.25
-    elif power == hp_reciever:
+    if power > defense_reciever:
+        index_damage += 1.15
+    elif power == defense_reciever:
         index_damage += 1
     else:
         index_damage += 0.75
     if move_type in type_attacker:
-        index_damage *= 1.25
+        index_damage *= 1.10
     else:
-        index_damage *= 0.75
+        index_damage *= 0.80
     return power*index_damage
 
 
@@ -149,7 +147,7 @@ def restarHP(pokemon, damage):
 
 
 def evaluatePokemon(hp):
-    if hp >= 0:
+    if hp > 0:
         return True
     else:
         return False
