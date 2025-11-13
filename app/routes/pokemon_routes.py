@@ -1,12 +1,8 @@
-import datetime
-import json
-from pathlib import Path
-from flask import Blueprint, app, current_app, jsonify, redirect, render_template, request, session, url_for
-
+from flask import Blueprint, redirect, render_template, request, session, url_for
 from app.colors import colors
 from app.decorators import login_required
 from app.services import battle_service, pokemon_service
-from app.services.pokemon_service import listar_pokemons
+from app.services.pokemon_service import get_pokemons
 
 
 pokemon_bp = Blueprint('pokemon', __name__, template_folder='templates')
@@ -14,24 +10,27 @@ pokemon_bp = Blueprint('pokemon', __name__, template_folder='templates')
 
 @pokemon_bp.route("/", methods=["GET", "POST"])
 def pokemon_list():
-    pokemons = listar_pokemons()
+    pokemons = get_pokemons()
     error = ''
 
     if request.method == "POST":
         pokemon_selected = request.form.get('pokemon_finder')
-        session['pokemon_selected'] = pokemon_service.obtener_pokemon_por_nombre(pokemon_selected)
+        session['pokemon_selected'] = pokemon_service.get_pokemon_by_name(
+            pokemon_selected)
 
         if session['pokemon_selected'] is not None:
-            enemy_pokemon = battle_service.enemyPokemonSelector(session.get('pokemon_selected'))
-            session['enemy_pokemon']=enemy_pokemon
+            enemy_pokemon = battle_service.enemy_pokemon_selector(
+                session.get('pokemon_selected'))
+            session['enemy_pokemon'] = enemy_pokemon
             rival = battle_service.rivalSpriteSelector()
-            session['rival']=rival
-            my_pokemon_moves = battle_service.random_moves(session.get('pokemon_selected'), [])
-            session['my_pokemon_moves']=my_pokemon_moves
-            return redirect(url_for('battle.pokemon_battle'))  
+            session['rival'] = rival
+            my_pokemon_moves = battle_service.random_moves(
+                session.get('pokemon_selected'), [])
+            session['my_pokemon_moves'] = my_pokemon_moves
+            return redirect(url_for('battle.pokemon_battle'))
         else:
             error = 'Your pokemon is not in the list'
-            return render_template("pokemon_list.html", pokemons=pokemons, colors=colors,error=error)
+            return render_template("pokemon_list.html", pokemons=pokemons, colors=colors, error=error)
     else:
         return render_template("pokemon_list.html", pokemons=pokemons, colors=colors, error=error)
 
@@ -40,8 +39,7 @@ def pokemon_list():
 @login_required
 def pokemon_details(pokemon_ID):
 
-
-    visual_pokemon = pokemon_service.obtener_pokemon_por_ID(pokemon_ID)
+    visual_pokemon = pokemon_service.get_pokemon_by_ID(pokemon_ID)
 
     # Randomnizador de Shiny
     is_shiny = pokemon_service.is_pokemon_shiny(visual_pokemon.id, 10)

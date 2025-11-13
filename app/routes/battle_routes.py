@@ -50,4 +50,4 @@ def pokemon_battle():
         session.pop('enemy_pokemon', None)
         return render_template("pokemon_winner.html", winner=winner, looser=looser, turnos=turnos, logList=logHistoric, colors=colors)
 
-        # redirect(url_for("battle.pokemon_battle"))
+

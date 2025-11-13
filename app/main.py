@@ -1,17 +1,12 @@
-
 from flask import Flask
-
-
 from app.routes.home_routes import home_bp
 from app.routes.pokemon_routes import pokemon_bp
 from app.routes.battle_routes import battle_bp
-from app.colors import colors 
 import logging
 
-import app.services.pokemon_service as pokemon_service
-import app.services.battle_service as battle_service
 
-from flask import Flask, session
+
+from flask import Flask
 from flask_session import Session  # Importar la extensión
 
 app = Flask(__name__, template_folder='templates')

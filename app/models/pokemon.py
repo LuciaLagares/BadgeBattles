@@ -11,5 +11,5 @@ class Pokemon:
         self.types = types
         
     def __str__(self):
-        return f'{self.name.capitalize()} (ID: {self.id})'
+        return f'{self.name.capitalize()}'
 

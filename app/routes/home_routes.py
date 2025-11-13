@@ -30,7 +30,4 @@ def welcome():
 @home_bp.route("/file")
 def file_json():
     return jsonify(current_app.config["data"])
-# @app.route('/bienvenida')
-# def hello_welcome():
-#     year=datetime.datetime.now().year
-#     return render_template('index.html', year=year)
+
