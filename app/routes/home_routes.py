@@ -9,26 +9,28 @@ home_bp = Blueprint('home', __name__, template_folder='templates')
 
 @home_bp.route('/', methods=['GET', 'POST'])
 def welcome():
+    year = datetime.datetime.now().year
+    session["year"] = year
   
     if (request.method == 'POST'):
+        session.clear()
         name = request.form.get('trainer')
         gender = request.form.get('gender')
         error = False
 
-        if (len(trainer) < 3):
+        if (len(name) < 3):
             error = 'The trainer name needs to be longer than 3 letters'
-        elif (len(trainer) > 15):
+        elif (len(name) > 15):
             error = 'The trainer name needs to be shorter than 15 letters'
         if error:
             return render_template('index.html', error=error)
         else:
-            trainer=Trainer(name,gender)
-            session['trainer'] = trainer
+            # trainer=Trainer(name,gender)
+            # session['trainer'] = trainer
+            session['trainer'] = name
+          
             return redirect(url_for('pokemon.pokemon_list'))
     elif (request.method == 'GET'):
-        session.clear()
-        year = datetime.datetime.now().year
-        session["year"] = year
         return render_template('index.html')
     
 @home_bp.route("/file")
