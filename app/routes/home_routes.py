@@ -3,15 +3,16 @@ import datetime
 from flask import Blueprint, app, current_app, jsonify, redirect, render_template, request, session, url_for
 from flask_session import Session
 
+from app.models.trainer import Trainer
+
 home_bp = Blueprint('home', __name__, template_folder='templates')
 
 @home_bp.route('/', methods=['GET', 'POST'])
 def welcome():
-    year = datetime.datetime.now().year
-    session["year"] = year
+  
     if (request.method == 'POST'):
-        trainer = request.form['trainer']
-        gender = request.form['gender']
+        name = request.form.get('trainer')
+        gender = request.form.get('gender')
         error = False
 
         if (len(trainer) < 3):
@@ -21,10 +22,13 @@ def welcome():
         if error:
             return render_template('index.html', error=error)
         else:
+            trainer=Trainer(name,gender)
             session['trainer'] = trainer
-            session['gender'] = gender
             return redirect(url_for('pokemon.pokemon_list'))
     elif (request.method == 'GET'):
+        session.clear()
+        year = datetime.datetime.now().year
+        session["year"] = year
         return render_template('index.html')
     
 @home_bp.route("/file")

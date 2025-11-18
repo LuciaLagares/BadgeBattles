@@ -1,7 +1,7 @@
 {% extends "base.html" %} {% block title %}Pokemon List{% endblock %}
 {% block trainer%}
 {% if session.trainer%}
-<div class="text-xl mx-5"> Welcome <strong>{{session.trainer.capitalize()}}</strong></div>
+<div class="text-xl mx-5"> Welcome <strong>{{session.trainer.name.capitalize()}}</strong></div>
 {% endif%}
 {%endblock%}
 
