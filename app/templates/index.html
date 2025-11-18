@@ -15,7 +15,7 @@
         badges!
       </p>
     </div>
-    <form class="flex flex-col items-start gap-4" action="{{url_for('welcome')}}/" method="POST">
+    <form class="flex flex-col items-start gap-4" action="{{url_for('home.welcome')}}" method="POST">
       <div class="flex flex-col justify-start items-start""> 
         <label for="trainer">Trainer name:</label>
         <input type="text" name="trainer" id="trainer" autofocus required>

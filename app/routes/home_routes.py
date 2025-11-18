@@ -14,6 +14,7 @@ def welcome():
   
     if (request.method == 'POST'):
         session.clear()
+        session["year"] = year
         name = request.form.get('trainer')
         gender = request.form.get('gender')
         error = False
@@ -25,10 +26,10 @@ def welcome():
         if error:
             return render_template('index.html', error=error)
         else:
-            # trainer=Trainer(name,gender)
-            # session['trainer'] = trainer
-            session['trainer'] = name
-          
+            trainer=Trainer(name,gender)
+            session['trainer'] = trainer
+            
+
             return redirect(url_for('pokemon.pokemon_list'))
     elif (request.method == 'GET'):
         return render_template('index.html')
