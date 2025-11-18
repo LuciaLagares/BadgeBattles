@@ -35,7 +35,7 @@ def create_battle(my_pokemon, enemy_pokemon, my_pokemon_moves):
     return battle
 
 
-def attack(battle, option):
+def attack_battle(battle, option):
     # Avanzamos el turno
     battle.turno += 1
     # Declaramos los pokemon con nombre propio para que sea más comodo trabajar
@@ -48,64 +48,38 @@ def attack(battle, option):
     enemy_move = enemy_attack(enemy_pokemon.moves)
     # Comparamos que pokemon es más rapido para que empiece el combate
     if enemy_pokemon.stats[5]['value'] >= my_pokemon.stats[5]['value']:
-        # Si el enemigo es más rápido
-        if calculate_precision(enemy_move):
-            # si el ataque acierta
-            damage = calculate_HP_to_substract(
-                enemy_pokemon, my_pokemon, enemy_move)
-            my_pokemon.stats[0]['value'] = substract_HP(my_pokemon, damage)
-            write_log(battle, enemy_pokemon, enemy_move, damage, my_pokemon)
-        else:
-            # si falla
-            miss_log(battle, enemy_pokemon, enemy_move)
 
-            # Si falla el ataque, el otro pokemon va a tener toda la vida, por lo que no va entrar en el if.
-        if not evaluate_pokemon(my_pokemon.stats[0]['value']):
-            winner_log(battle, enemy_pokemon, my_pokemon)
-            my_pokemon.stats[0]['value'] = 0
-            return -1  # termina el turno-------------------------------------------
+        if attack(enemy_pokemon,my_pokemon,enemy_move,battle):
+            return -1
         else:
-            if calculate_precision(my_move):
-                damage = calculate_HP_to_substract(
-                    my_pokemon, enemy_pokemon, my_move)
-                enemy_pokemon.stats[0]['value'] = substract_HP(
-                    enemy_pokemon, damage)
-                write_log(battle, my_pokemon, my_move, damage, enemy_pokemon)
-            else:
-                miss_log(battle, my_pokemon, my_move)
-            if not evaluate_pokemon(enemy_pokemon.stats[0]['value']):
-                winner_log(battle, my_pokemon, enemy_pokemon)
-                enemy_pokemon.stats[0]['value'] = 0
-                return 1  # termina el turno-------------------------------------------
+            if attack(my_pokemon,enemy_pokemon,my_move,battle):
+                return 1 
+    else:    
+        if attack(my_pokemon,enemy_pokemon,my_move,battle):
+            return 1
+        else:
+            if attack(enemy_pokemon,my_pokemon,enemy_move,battle):
+                return -1
 
+
+def attack(attacker, reciever, attacker_move, battle):
+    if calculate_precision(attacker_move):
+        # si el ataque acierta
+        damage = calculate_HP_to_substract(
+            attacker, reciever, attacker_move)
+        reciever.stats[0]['value'] = substract_HP(reciever, damage)
+        write_log(battle, attacker, attacker_move, damage, reciever)
     else:
-        # si nuestro pokemon ataca antes
-        if calculate_precision(my_move):
-            damage = calculate_HP_to_substract(
-                my_pokemon, enemy_pokemon, my_move)
-            enemy_pokemon.stats[0]['value'] = substract_HP(
-                enemy_pokemon, damage)
-            write_log(battle, my_pokemon, my_move, damage, enemy_pokemon)
-        else:
-            miss_log(battle, my_pokemon, my_move)
+        # si falla
+        miss_log(battle, attacker, attacker_move)
 
-        if not evaluate_pokemon(enemy_pokemon.stats[0]['value']):
-            winner_log(battle, my_pokemon, enemy_pokemon)
-            enemy_pokemon.stats[0]['value'] = 0
-            return 1  # termina el turno
-        else:
-            if calculate_precision(enemy_move):
-                damage = calculate_HP_to_substract(
-                    enemy_pokemon, my_pokemon, enemy_move)
-                my_pokemon.stats[0]['value'] = substract_HP(my_pokemon, damage)
-                write_log(battle, enemy_pokemon,
-                          enemy_move, damage, my_pokemon)
-            else:
-                miss_log(battle, enemy_pokemon, enemy_move)
-            if not evaluate_pokemon(my_pokemon.stats[0]['value']):
-                winner_log(battle, enemy_pokemon, my_pokemon)
-                my_pokemon.stats[0]['value'] = 0
-                return -1  # termina el turno
+        # Si falla el ataque, el otro pokemon va a tener toda la vida, por lo que no va entrar en el if.
+    if not evaluate_pokemon(reciever.stats[0]['value']):
+        winner_log(battle, attacker, reciever)
+        reciever.stats[0]['value'] = 0
+        return True  # termina el turno-------------------------------------------
+    return False
+# si devuelve un booleano con true es que ha ganado
 
 
 def calculate_precision(move):
