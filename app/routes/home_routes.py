@@ -33,7 +33,12 @@ def welcome():
             return redirect(url_for('pokemon.pokemon_list'))
     elif (request.method == 'GET'):
         return render_template('index.html')
-    
+
+@home_bp.route("/logout")
+def logout():
+    session.clear()
+    return redirect(url_for("home.welcome"))
+
 @home_bp.route("/file")
 def file_json():
     return jsonify(current_app.config["data"])
