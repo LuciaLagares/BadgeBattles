@@ -9,8 +9,9 @@ colors = {
         'dragon': 'mediumblue',
         'normal': 'bisque',
         'ground': 'tan',
-        'dark': 'darkslategrey',
+        'dark': 'grey',
         'steel': 'lightslategray',
         'fairy': 'violet',
-        'ice': 'lightsteelblue'
+        'ice': 'lightsteelblue',
+        
 }
