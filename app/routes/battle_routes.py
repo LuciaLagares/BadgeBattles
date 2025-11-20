@@ -29,22 +29,14 @@ def pokemon_battle():
         option = int(request.form.get('opcion'))
         if not session.get('battle'):
             return redirect(url_for("pokemon.pokemon_list"))
-        resultado = battle_service.attack_battle(session.get('battle'), option)
-
-        if resultado == -1:
-
-            looser = session['battle'].data_pokemon_player
-            winner = session['battle'].data_pokemon_rival
-
-        elif resultado == 1:
-            looser = session['battle'].data_pokemon_rival
-            winner = session['battle'].data_pokemon_player
+        winner,looser = battle_service.attack_battle(session.get('battle'), option)
+        if winner and looser:
+            turnos = session['battle'].turno
+            logHistoric = session['battle'].log
+            session.pop('battle', None)
+            session.pop('pokemon_selected', None)
+            session.pop('enemy_pokemon', None)
+            return render_template("pokemon_winner.html", winner=winner, looser=looser, turnos=turnos, logList=logHistoric, colors=colors)
 
         else:
             return render_template("pokemon_battle.html", colors=colors)
-        turnos = session['battle'].turno
-        logHistoric = session['battle'].log
-        session.pop('battle', None)
-        session.pop('pokemon_selected', None)
-        session.pop('enemy_pokemon', None)
-        return render_template("pokemon_winner.html", winner=winner, looser=looser, turnos=turnos, logList=logHistoric, colors=colors)

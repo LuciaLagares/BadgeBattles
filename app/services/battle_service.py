@@ -50,16 +50,17 @@ def attack_battle(battle, option):
     if enemy_pokemon.stats[5]['value'] >= my_pokemon.stats[5]['value']:
 
         if attack(enemy_pokemon,my_pokemon,enemy_move,battle):
-            return -1
+            return enemy_pokemon,my_pokemon
         else:
             if attack(my_pokemon,enemy_pokemon,my_move,battle):
-                return 1 
+                return my_pokemon,enemy_pokemon 
     else:    
         if attack(my_pokemon,enemy_pokemon,my_move,battle):
-            return 1
+            return my_pokemon,enemy_pokemon
         else:
             if attack(enemy_pokemon,my_pokemon,enemy_move,battle):
-                return -1
+                return enemy_pokemon,my_pokemon
+    return False,False
 
 
 def attack(attacker, reciever, attacker_move, battle):
