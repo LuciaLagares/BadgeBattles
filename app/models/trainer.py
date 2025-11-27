@@ -13,6 +13,13 @@ class Trainer(db.Model):
         self.name = name
         self.password = password
         self.gender = gender
-
+    
+    def to_dict(self):
+        trainer={
+            "id":self.id,
+            "name":self.name,
+            "gender":self.gender,  
+        }
+        return trainer
 
     
