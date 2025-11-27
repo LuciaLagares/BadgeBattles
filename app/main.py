@@ -22,8 +22,8 @@ app.secret_key = "clave_secreta"
 
 
 BASE_DIR=os.path.abspath(os.path.join(os.path.dirname(__file__),".."))
-BD_PATH=os.path.join(BASE_DIR,"data","**************.db") #y ponerlo abajo f"sqlite:///{BD_PATH}""
-app.config["SQLALCHEMY_DATABASE_URI"]="sqlite:////data/battle.db"
+BD_PATH=os.path.join(BASE_DIR,"data","trainer.db") #y ponerlo abajo f"sqlite:///{BD_PATH}""
+app.config["SQLALCHEMY_DATABASE_URI"]=f"sqlite:///{BD_PATH}"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db.init_app(app)
 # db=SQLAlchemy(app) 

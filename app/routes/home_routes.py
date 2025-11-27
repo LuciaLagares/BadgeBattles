@@ -3,7 +3,7 @@ import datetime
 from flask import Blueprint, app, current_app, jsonify, redirect, render_template, request, session, url_for
 from flask_session import Session
 
-from app.models.trainer import Trainer
+from app.services.trainer_service import register_trainer
 
 home_bp = Blueprint('home', __name__, template_folder='templates')
 
@@ -17,6 +17,7 @@ def welcome():
         session["year"] = year
         name = request.form.get('trainer')
         gender = request.form.get('gender')
+        password = request.form.get('password')
         error = False
 
         if (len(name) < 3):
@@ -26,8 +27,9 @@ def welcome():
         if error:
             return render_template('index.html', error=error)
         else:
-            trainer=Trainer(name,gender)
-            session['trainer'] = trainer
+            trainer=register_trainer(name, password, gender)
+            # session['trainer'] = trainer.__dict__
+            print(trainer.__dict__)
             
 
             return redirect(url_for('pokemon.pokemon_list'))
