@@ -9,7 +9,25 @@ class Pokemon:
         self.sprites = sprites
         self.moves = moves
         self.types = types
-        
+
     def __str__(self):
         return f'{self.name.capitalize()}'
 
+    def to_dict(self):
+        pokemon = {
+            "id": self.id,
+            "name": self.name,
+            "weight": self.weight,
+            "height": self.height,
+            "stats": self.stats,
+            "sprites": self.sprites,
+            "moves": self.moves,
+            "types": self.types,
+
+        }
+        return pokemon
+
+    @staticmethod
+    def from_dict(dict):
+        
+        return Pokemon(**dict)

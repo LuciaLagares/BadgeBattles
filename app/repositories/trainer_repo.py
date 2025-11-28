@@ -11,11 +11,15 @@ def create_trainer(name,password,gender):
     return trainer
     
 def get_trainer_by_name(name_db):
-    trainer=Trainer.query.filter_by(name=name_db)
-    return trainer
+    trainer=Trainer.query.filter_by(name=name_db).first()
+    if trainer:
+        return trainer
+    return None
 
 def get_all_trainers():
     trainers=Trainer.query.all()
-    return trainers
+    if trainers:
+        return trainers
+    return None
 
     
