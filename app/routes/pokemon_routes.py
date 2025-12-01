@@ -15,18 +15,22 @@ def pokemon_list():
 
     if request.method == "POST":
         pokemon_selected = request.form.get('pokemon_finder')
-        session['pokemon_selected'] = pokemon_service.get_pokemon_by_name(
+        my_pokemon = pokemon_service.get_pokemon_by_name(
             pokemon_selected)
 
-        if session['pokemon_selected'] is not None:
+        if my_pokemon is not None:
             enemy_pokemon = battle_service.enemy_pokemon_selector(
-                session.get('pokemon_selected'))
-            session['enemy_pokemon'] = enemy_pokemon
+                my_pokemon)
+
+            session['enemy_pokemon'] = enemy_pokemon.to_dict()
             rival = battle_service.rivalSpriteSelector()
             session['rival'] = rival
             my_pokemon_moves = battle_service.random_moves(
-                session.get('pokemon_selected'), [])
+                my_pokemon, [])
+
+            session['pokemon_selected'] = my_pokemon.to_dict()
             session['my_pokemon_moves'] = my_pokemon_moves
+
             return redirect(url_for('battle.pokemon_battle'))
         else:
             error = 'Your pokemon is not in the list'

@@ -1,7 +1,20 @@
+from sqlalchemy import Column, Date, Integer, String
+from app.database import db
 from app.models.pokemon import Pokemon
 
 
-class Battle:
+class Battle(db.Model):
+    __tablename__='BattleDB'
+    
+    id=Column(Integer, autoincrement=True,primary_key=True)
+    trainer1_id=Column(Integer, nullable=False)
+    trainer2_id=Column(Integer, nullable=False)
+    trainer1_pokemon=Column(String(100), nullable=False)
+    trainer2_pokemon=Column(String(100), nullable=False)
+    date=Date()
+    resultado=Column(String(100), nullable=False)
+    
+    
 
     def __init__(self, turno, data_pokemon_player, data_pokemon_rival, log, health_player, health_rival, moves_player, moves_rival):
 
@@ -14,6 +27,7 @@ class Battle:
         self.moves_player = moves_player
         self.moves_rival = moves_rival
 
+    
     def to_dict(self):
         battle = {
             "turno": self.turno,
@@ -31,8 +45,7 @@ class Battle:
         pokemon_player=Pokemon.from_dict(dict["data_pokemon_player"])
         pokemon_rival=Pokemon.from_dict(dict["data_pokemon_rival"])
         return Battle(
-            dict['turno'], 
-            dict['data_pokemon_player'] ,
+            dict['turno'],
             pokemon_player,
             pokemon_rival,
             dict['log'],

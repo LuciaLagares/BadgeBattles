@@ -36,6 +36,7 @@ def get_pokemon_by_name(pokemon_name):
 
             if pokemon.name.lower() == pokemon_name.lower():
                 return pokemon
+    return None
 
 
 def get_stat_value(pokemon, stat_name):
