@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, String
 from app.database.db import db
 from werkzeug.security import generate_password_hash, check_password_hash
+from sqlalchemy import relationship
 class Trainer(db.Model):
     __tablename__ = "TrainerDB"
     
@@ -8,6 +9,8 @@ class Trainer(db.Model):
     name = Column(String(100), nullable = False, unique = True)
     gender = Column(String(100), nullable = False)
     password_hashed = Column(String(255), nullable = False)
+    
+    battles=relationship("Battle",back_populates='trainers')
     
 
     def __init__(self, name, password,gender):
