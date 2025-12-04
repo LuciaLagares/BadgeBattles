@@ -1,4 +1,5 @@
 import os
+import sqlite3
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from app.routes.home_routes import home_bp
@@ -6,6 +7,9 @@ from app.routes.pokemon_routes import pokemon_bp
 from app.routes.battle_routes import battle_bp
 from app.database.db import db
 import logging
+
+from app.models.trainer import Trainer
+from app.models.battleDB import BattleDB 
 
 
 
@@ -22,9 +26,16 @@ app.secret_key = "clave_secreta"
 
 
 BASE_DIR=os.path.abspath(os.path.join(os.path.dirname(__file__),".."))
-BD_PATH=os.path.join(BASE_DIR,"data","trainer.db") #y ponerlo abajo f"sqlite:///{BD_PATH}""
-app.config["SQLALCHEMY_DATABASE_URI"]=f"sqlite:///{BD_PATH}"
+DB_PATH=os.path.join(BASE_DIR,"data","trainer.db") #y ponerlo abajo f"sqlite:///{BD_PATH}""
+def sqlite_creator():
+    conn = sqlite3.connect(DB_PATH)
+    conn.execute("PRAGMA foreign_keys = ON")
+    return conn
+app.config["SQLALCHEMY_DATABASE_URI"]=f"sqlite:///{DB_PATH}"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
+    "creator": sqlite_creator
+}
 db.init_app(app)
 # db=SQLAlchemy(app) 
 
@@ -39,8 +50,8 @@ app.register_blueprint(battle_bp, url_prefix = '/battle')
 
 @app.cli.command("create-tables") #Para ejecutar usar: ./.venv/Scripts/flask --app app.main create-tables
 def create_tables():
+ 
     db.drop_all()
-    
     db.create_all()
     print("Tables created.")
 

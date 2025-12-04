@@ -15,6 +15,11 @@ def get_trainer_by_name(name_db):
     if trainer:
         return trainer
     return None
+def get_trainer_by_id(id_db):
+    trainer=Trainer.query.filter_by(id=id_db).first()
+    if trainer:
+        return trainer
+    return None
 
 def get_all_trainers():
     trainers=Trainer.query.all()
