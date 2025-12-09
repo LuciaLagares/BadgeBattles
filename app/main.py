@@ -9,12 +9,13 @@ from app.database.db import db
 import logging
 
 from app.models.trainer import Trainer
-from app.models.battleDB import BattleDB 
-
+from app.models.battleDB import BattleDB
 
 
 from flask import Flask
-from flask_session import Session  # Importar la extensión
+from flask_session import Session
+
+from app.services.trainer_service import add_opponets_service  # Importar la extensión
 
 app = Flask(__name__, template_folder='templates')
 
@@ -25,35 +26,52 @@ app.config["SESSION_FILE_DIR"] = "./.flask_session"  # Carpeta donde se guardan
 app.secret_key = "clave_secreta"
 
 
-BASE_DIR=os.path.abspath(os.path.join(os.path.dirname(__file__),".."))
-DB_PATH=os.path.join(BASE_DIR,"data","trainer.db") #y ponerlo abajo f"sqlite:///{BD_PATH}""
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+# y ponerlo abajo f"sqlite:///{BD_PATH}""
+DB_PATH = os.path.join(BASE_DIR, "data", "trainer.db")
+
+
 def sqlite_creator():
-    conn = sqlite3.connect(DB_PATH)
+    conn = sqlite3.connect(DB_PATH, check_same_thread=False)
     conn.execute("PRAGMA foreign_keys = ON")
     return conn
-app.config["SQLALCHEMY_DATABASE_URI"]=f"sqlite:///{DB_PATH}"
+
+
+app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{DB_PATH}"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+
 app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
     "creator": sqlite_creator
 }
+
+
 db.init_app(app)
-# db=SQLAlchemy(app) 
+# db=SQLAlchemy(app)
 
 Session(app)
 
 
+app.register_blueprint(home_bp, url_prefix='/')
+app.register_blueprint(pokemon_bp, url_prefix='/pokemons')
+app.register_blueprint(battle_bp, url_prefix='/battle')
 
-app.register_blueprint(home_bp, url_prefix = '/')
-app.register_blueprint(pokemon_bp, url_prefix = '/pokemons')
-app.register_blueprint(battle_bp, url_prefix = '/battle')
 
-
-@app.cli.command("create-tables") #Para ejecutar usar: ./.venv/Scripts/flask --app app.main create-tables
+# Para ejecutar usar: ./.venv/Scripts/flask --app app.main create-tables
+@app.cli.command("create-tables")
 def create_tables():
- 
+
     db.drop_all()
     db.create_all()
     print("Tables created.")
+
+
+@app.cli.command("add-opponents")
+def add_opponets():
+
+    add_opponets_service()
+    print('Opponents added succesfully')
+
 
 logging.basicConfig(level=logging.DEBUG)
 if __name__ == '__main__':

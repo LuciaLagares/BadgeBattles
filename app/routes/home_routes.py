@@ -13,6 +13,9 @@ home_bp = Blueprint('home', __name__, template_folder='templates')
 def welcome():
     year = datetime.datetime.now().year
     session["year"] = year
+    if 'trainer' in session:
+
+        return redirect(url_for('pokemon.pokemon_list'))
 
     if (request.method == 'POST'):
         session.clear()
@@ -40,6 +43,7 @@ def welcome():
                 return render_template('index.html', error=error)
             return redirect(url_for('pokemon.pokemon_list'))
     elif (request.method == 'GET'):
+    
         return render_template('index.html')
 
 

@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 {% block title %}Pokemon Battle{% endblock %}
 {% block trainer%}
-{% if  session.battle.log%}
+{% if session.battle.log%}
 <div class="mt-3 h-[50px]  w-[900px] overflow-auto bg-red-500 z-49">
    {% for log in session.battle.log%}
-      <div>{{log}}</div>
+   <div>{{log}}</div>
    {%endfor%}
 </div>
 {%endif%}
@@ -22,13 +22,10 @@
       <div
          class=" w-full bg-[url({{url_for('static', filename='images/bg_own.jpg')}})] card bg-cover bg-no-repeat card rounded-box grid h-35 grid-cols-2 place-items-center overflow-hidden"
          style="box-shadow: 4px 4px 5px blue, -4px -0px 5px blue ; border-bottom-left-radius: 0;">
-         {%if session.trainer.gender == 'male'%}
+         {%if session.trainer.sprite%}
          <img class=" scale-50 xl:scale-140 relative top-4"
-            src="{{url_for('static', filename='images/character_sprite/male_character.png')}}" alt="{{session.trainer.gender}}">
-         {%else%}
-         <img class=" scale-50 xl:scale-140 relative top-4"
-            src="{{url_for('static', filename='images/character_sprite/female_character.png')}}"
-            alt="{{session.gender}}">
+            src="{{url_for('static', filename=session.trainer.sprite)}}" alt="No existe">
+
          {%endif%}
          <div class="text-white text-2xl">{{session.trainer.name}}</div>
       </div>
@@ -42,7 +39,7 @@
          class=" w-full bg-[url({{url_for('static', filename='images/bg_enemy.jpg')}})] card bg-contain card rounded-box grid h-35 grid-cols-2 place-items-center overflow-hidden"
          style="box-shadow: 4px 4px 5px red, -4px -0px 5px red ; border-bottom-right-radius: 0;">
          <div class="text-white text-2xl">{{session.rival.name}}</div>
-         <img src="{{session.rival.sprite}}" alt="{{session.rival.name}}">
+         <img  src="{{url_for('static', filename=session.rival.sprite)}}" alt="{{session.rival.name}}">
       </div>
    </div>
    <!-- Combat View -->
@@ -137,35 +134,36 @@
          style="border:4px solid black;   box-shadow: inset 0 0 0 4px red, inset 8px 0 0  4px red, inset -8px 0 0 4px red; "> -->
 
 
-         <form action="{{url_for('battle.pokemon_battle')}}" method="POST" class="h-[100%] rounded-2xl p-4 grid grid-cols-2 gap-2"
+      <form action="{{url_for('battle.pokemon_battle')}}" method="POST"
+         class="h-[100%] rounded-2xl p-4 grid grid-cols-2 gap-2"
          style="border:4px solid black;   box-shadow: inset 0 0 0 4px red, inset 8px 0 0  4px red, inset -8px 0 0 4px red">
 
-            {%for move in session.my_pokemon_moves%}
+         {%for move in session.my_pokemon_moves%}
 
-            <button name="opcion" type="submit" value="{{loop.index0}}" class="cursor-pointer relative bottom-2" >
+         <button name="opcion" type="submit" value="{{loop.index0}}" class="cursor-pointer relative bottom-2">
 
-               <div  class="border-2 grid grid-cols-2 p-2 rounded-2xl "
-                  style="box-shadow:inset 0 0 0 4px navy, 0 5px  10px 2px black">
-                  <div class="flex gap-2  items-center ">{{move.name|upper}}</div>
-                  <div class="flex gap-2  items-center ">
-                     <div >Type:</div>
-                     <div class="border-1 bg-[{{colors[(move.type).lower()]}}] px-2 py-0 rounded-2xl ">
-                        {{move.type|capitalize}}
-                     </div>
-                  </div>
-                  <div>
-                     <div class="flex gap-2 pt-2 items-center ">Accuracy: {{move.accuracy}}</div>
-                     <progress class="progress progress-info w-[50%] " value="{{move.accuracy}}" max="100"> </progress>
-                  </div>
-                  <div>
-
-                     <div class="flex gap-2  items-center ">Power: {{move.power}}</div>
-                     <progress class="progress progress-warning w-[50%] " value="{{move.power}}" max="125"> </progress>
+            <div class="border-2 grid grid-cols-2 p-2 rounded-2xl "
+               style="box-shadow:inset 0 0 0 4px navy, 0 5px  10px 2px black">
+               <div class="flex gap-2  items-center ">{{move.name|upper}}</div>
+               <div class="flex gap-2  items-center ">
+                  <div>Type:</div>
+                  <div class="border-1 bg-[{{colors[(move.type).lower()]}}] px-2 py-0 rounded-2xl ">
+                     {{move.type|capitalize}}
                   </div>
                </div>
-            </button>
-            {%endfor%}
-         </form>
+               <div>
+                  <div class="flex gap-2 pt-2 items-center ">Accuracy: {{move.accuracy}}</div>
+                  <progress class="progress progress-info w-[50%] " value="{{move.accuracy}}" max="100"> </progress>
+               </div>
+               <div>
+
+                  <div class="flex gap-2  items-center ">Power: {{move.power}}</div>
+                  <progress class="progress progress-warning w-[50%] " value="{{move.power}}" max="125"> </progress>
+               </div>
+            </div>
+         </button>
+         {%endfor%}
+      </form>
       <!-- </div> -->
    </div>
 

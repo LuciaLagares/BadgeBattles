@@ -1,6 +1,8 @@
 import math
+from operator import indexOf
 from app.models.battle import Battle
 import app.repositories.pokemon_repo as pokemon_repo
+from app.repositories.trainer_repo import get_all_trainers
 from app.services.pokemon_service import get_stat_value
 import random
 
@@ -143,6 +145,13 @@ def evaluate_pokemon(hp):
         return False
 
 
-def rivalSpriteSelector():
-    from app.rivals import rivals
-    return rivals[random.randint(0, len(rivals)-1)]
+def rivalSpriteSelector(trainer_id):
+    rivals=get_all_trainers()
+    rivals_without_trainer=[]
+    for rival in rivals:
+        if rival.id==trainer_id:
+            continue
+        rivals_without_trainer.append(rival)
+    return rivals_without_trainer[random.randint(0, len(rivals_without_trainer)-1)]
+    
+    

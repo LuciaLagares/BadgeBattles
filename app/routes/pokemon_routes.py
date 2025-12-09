@@ -23,8 +23,10 @@ def pokemon_list():
                 my_pokemon)
 
             session['enemy_pokemon'] = enemy_pokemon.to_dict()
-            rival = battle_service.rivalSpriteSelector()
-            session['rival'] = rival
+            trainer=session['trainer']
+            trainer_id=trainer['id']
+            rival = battle_service.rivalSpriteSelector(trainer_id)
+            session['rival'] = rival.to_dict()
             my_pokemon_moves = battle_service.random_moves(
                 my_pokemon, [])
 

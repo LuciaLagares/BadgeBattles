@@ -4,8 +4,8 @@ from app.models.battleDB import BattleDB
 
 def create_battle(attacker_id, defender_id, attacker_pokemon, defender_pokemon, result, date):
 
-    battle = BattleDB(attacker_id, defender_id,
-                      attacker_pokemon, defender_pokemon, result, date)
+    battle = BattleDB(attacker_id=attacker_id, defender_id=defender_id,
+                      attacker_pokemon=attacker_pokemon, defender_pokemon=defender_pokemon, result=result, date=date)
     db.session.add(battle)
     db.session.commit()
     return battle

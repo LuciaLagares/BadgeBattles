@@ -3,9 +3,9 @@ from app.database.db import db
 from app.models.trainer import Trainer
 
 
-def create_trainer(name,password,gender):
-    
-    trainer=Trainer(name,password,gender)
+def create_trainer(name,password,gender,sprite):
+   
+    trainer=Trainer(name,password,gender,sprite)
     db.session.add(trainer)
     db.session.commit()
     return trainer

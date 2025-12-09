@@ -6,41 +6,37 @@ from sqlalchemy.orm import relationship
 
 class Trainer(db.Model):
     __tablename__ = "TrainerDB"
-    
-    id = Column(Integer, autoincrement=True,primary_key = True)
-    name = Column(String(100), nullable = False, unique = True)
-    gender = Column(String(100), nullable = False)
-    password_hashed = Column(String(255), nullable = False)
+
+    id = Column(Integer, autoincrement=True, primary_key=True)
+    name = Column(String(100), nullable=False, unique=True)
+    gender = Column(String(100), nullable=False)
+    password_hashed = Column(String(255), nullable=False)
+    sprite = Column(String(100), nullable=True)
     battle_as_attacker = relationship(
-    "BattleDB",
-    back_populates="attacker",
-    foreign_keys="BattleDB.attacker_id"
+        "BattleDB",
+        back_populates="attacker",
+        foreign_keys="BattleDB.attacker_id"
     )
     battle_as_defender = relationship(
-    "BattleDB",
-    back_populates="defender",
-    foreign_keys="BattleDB.defender_id"
+        "BattleDB",
+        back_populates="defender",
+        foreign_keys="BattleDB.defender_id"
     )
-    
 
-    def __init__(self, name, password,gender):
+    def __init__(self, name, password, gender, sprite):
         self.name = name
         self.password_hashed = generate_password_hash(password)
         self.gender = gender
-    
+        self.sprite = sprite
+
     def check_password(self, password):
         return check_password_hash(self.password_hashed, password)
-    
+
     def to_dict(self):
-        trainer={
-            "id":self.id,
-            "name":self.name,
-            "gender":self.gender,  
+        trainer = {
+            "id": self.id,
+            "name": self.name,
+            "gender": self.gender,
+            "sprite":self.sprite
         }
         return trainer
-    
-
-    
-    
-
-    
