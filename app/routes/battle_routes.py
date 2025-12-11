@@ -1,10 +1,14 @@
 
+from datetime import datetime
 from flask import Blueprint, redirect, render_template, request, session, url_for
 import logging
+
+from sqlalchemy import Date
 from app.colors import colors
 from app.decorators import login_required
 from app.models.battle import Battle
 from app.models.pokemon import Pokemon
+from app.repositories.battle_repo import create_battle
 from app.services import battle_service
 logging.basicConfig(level=logging.DEBUG)
 battle_bp = Blueprint('battle', __name__, template_folder='templates')
@@ -46,12 +50,33 @@ def pokemon_battle():
             return redirect(url_for("pokemon.pokemon_list"))
         winner,looser = battle_service.attack_battle(session.get('battle'), option)
         if winner and looser:
+            # attacker_id,defender_id,attacker_pokemon,defender_pokemon,result
+            attacker=session['trainer']
+            attacker_id=attacker['id']
+            defender=session['rival']
+            defender_id=defender['id']
+            attacker_pokemon=session['pokemon_selected']
+            attacker_pokemon_id=attacker_pokemon['id']
+            defender_pokemon=session['enemy_pokemon']
+            defender_pokemon_id=defender_pokemon['id']
+            if winner.id==attacker_pokemon_id:
+                result=True
+            else:
+                result=False
+                
+            fecha=datetime.now()
+            create_battle(attacker_id=attacker_id,defender_id=defender_id,attacker_pokemon=attacker_pokemon_id,defender_pokemon=defender_pokemon_id,result=result,date=fecha)    
+            
+            
+            
+            
             turnos = session['battle'].turno
             logHistoric = session['battle'].log
             session.pop('battle', None)
             session.pop('pokemon_selected', None)
             session.pop('my_pokemon_moves', None)
             session.pop('enemy_pokemon', None)
+            session.pop('rival',None)
             return render_template("pokemon_winner.html", winner=winner, looser=looser, turnos=turnos, logList=logHistoric, colors=colors)
 
         else:
