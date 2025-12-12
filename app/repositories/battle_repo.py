@@ -3,7 +3,7 @@ from app.database.db import db
 from app.models.battleDB import BattleDB
 
 
-def create_battle(attacker_id, defender_id, attacker_pokemon, defender_pokemon, result, date):
+def create_battleDB(attacker_id, defender_id, attacker_pokemon, defender_pokemon, result, date):
 
     battle = BattleDB(attacker_id=attacker_id, defender_id=defender_id,
                       attacker_pokemon_id=attacker_pokemon, defender_pokemon_id=defender_pokemon, result=result, date=date)

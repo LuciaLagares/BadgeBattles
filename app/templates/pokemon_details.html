@@ -3,7 +3,24 @@
 {% block title %}Pokemon Details{% endblock %}
 {% block trainer%}
 {% if session.trainer%}
-<div class="text-xl mx-5"> Welcome <strong>{{session.trainer.name.capitalize()}}</strong></div>
+<div class="text-xl mx-5">
+    <a href="{{url_for('trainer.trainer_details')}}" class="flex flex-row justify-items-center items-center gap-4">
+
+
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <path fill="currentColor"
+                d="M17 5V3h-1V2h-2V1h-4v1H8v1H7v2H6v4h1v2h1v1h2v1h4v-1h2v-1h1V9h1V5zm-2 4v1h-1v1h-4v-1H9V9H8V5h1V4h1V3h4v1h1v1h1v4zm6 10v-1h-1v-1h-1v-1h-2v-1H7v1H5v1H4v1H3v1H2v3h1v1h18v-1h1v-3zM5 19v-1h2v-1h10v1h2v1h1v2H4v-2z" />
+        </svg>
+        <div class="flex flex-col">
+            <h6 class="text-[0.9rem] border-b">My BadgeBattles</h6>
+            <div>
+                <p class="text-[0.8rem]">
+                    Welcome <strong>{{session.trainer.name.capitalize()}}</strong>
+                </p>
+            </div>
+        </div>
+    </a>
+</div>
 {% endif%}
 {%endblock%}
 {% block main %}
@@ -16,10 +33,12 @@
     <!-- Contenedor:Imagen-Peso-Stats -->
     <div class=" w-[80vw] mx-auto h-[30vh] flex flex-row justify-evenly gap-10 mt-2">
         <!-- Imagen -->
-        <figure class="flex flex-col justify-center align-center rounded-[10%] " style="box-shadow: 5px 5px 50px whitesmoke, -5px 5px 50px whitesmoke; background-position-y: 10%;   background-repeat: no-repeat; background-size: cover ; background-image: url({{url_for('static', filename='images/bg_pokemon.jpg')}}); ">
+        <figure class="flex flex-col justify-center align-center rounded-[10%] "
+            style="box-shadow: 5px 5px 50px whitesmoke, -5px 5px 50px whitesmoke; background-position-y: 10%;   background-repeat: no-repeat; background-size: cover ; background-image: url({{url_for('static', filename='images/bg_pokemon.jpg')}}); ">
             <div class="carousel w-[25vw] overflow-hidden">
                 <!-- Slide1 -->
-                <div id="slide1" class="carousel-item relative w-full h-[100%] overflow-visible" style="flex-shrink: 0;">
+                <div id="slide1" class="carousel-item relative w-full h-[100%] overflow-visible"
+                    style="flex-shrink: 0;">
 
                     {%if is_shiny%}
 
@@ -31,111 +50,116 @@
                     <!-- Botones slide 1 -->
                     <div class="absolute left-1 right-1 top-1/2 flex -translate-y-1/2 transform justify-between">
                         <a href="#slide4" class="shadow-none bg-transparent border-0 h-100" style="content: ' ';"></a>
-                        <a href="#slide2" class="btn shadow-none bg-transparent border-0 h-100" >❯</a>
-               
+                        <a href="#slide2" class="btn shadow-none bg-transparent border-0 h-100">❯</a>
+
                     </div>
                 </div>
                 <!-- Slide2 -->
-                <div id="slide2" class="carousel-item relative w-full h-[100%] overflow-visible" style="flex-shrink: 0;">
+                <div id="slide2" class="carousel-item relative w-full h-[100%] overflow-visible"
+                    style="flex-shrink: 0;">
                     {%if is_shiny%}
                     <img class=" mx-auto self-center p-10 w-100 h-100" src="{{pokemon.sprites.back_shiny}}" />
-                {%else%}
-                <img class="  mx-auto self-center p-10 w-100 h-100" src="{{pokemon.sprites.back_default}}" />
+                    {%else%}
+                    <img class="  mx-auto self-center p-10 w-100 h-100" src="{{pokemon.sprites.back_default}}" />
 
-                {%endif%}
-                <!-- Botones slide 2-->
-                <div class="absolute left-1 right-1 top-1/2 flex -translate-y-1/2 transform justify-between">
-                    <a href="#slide1" class="btn shadow-none bg-transparent border-0 h-100">❮</a>
-                    <a href="#slide3" class="shadow-none bg-transparent border-0 h-100" style="content: ' ';"></a>
+                    {%endif%}
+                    <!-- Botones slide 2-->
+                    <div class="absolute left-1 right-1 top-1/2 flex -translate-y-1/2 transform justify-between">
+                        <a href="#slide1" class="btn shadow-none bg-transparent border-0 h-100">❮</a>
+                        <a href="#slide3" class="shadow-none bg-transparent border-0 h-100" style="content: ' ';"></a>
+                    </div>
                 </div>
             </div>
-    </div>
-    </figure>
-    <!-- Datos Pokemon-->
-    <div class="flex flex-col justify-evenly gap-4 p-4 sm:p-6 md:p-8 lg:p-12 text-white">
-        <!-- ID -->
-        <div> Pokedex Number: {{pokemon.id}}</div>
-        
-        <!-- Peso -->
-        <div class="flex flex-row justify-between gap-2 ">
-            <svg  xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22">
-                <path fill="currentColor"
-                    d="M20 20H2v-2h1v-4h1v-3h1V8h3V7H7V4h1V3h1V2h4v1h1v1h1v3h-1v1h3v3h1v3h1v4h1M12 7V6h1V5h-1V4h-2v1H9v1h1v1Z" />
-            </svg>
+        </figure>
+        <!-- Datos Pokemon-->
+        <div class="flex flex-col justify-evenly gap-4 p-4 sm:p-6 md:p-8 lg:p-12 text-white">
+            <!-- ID -->
+            <div> Pokedex Number: {{pokemon.id}}</div>
 
-            {%if pokemon.weight<=200%} Lightweight <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                viewBox="0 0 24 24">
-                <path fill="currentColor"
-                    d="M9 5h6v2H9zm10 4h-4V7h4zm2 2h-2V9h2zm0 6v-6h2v6zm0 0v2h-2v-2zM1 11h2v6H1zm2 6h2v2H3zm11-4h-4v-2H8V9H6V7H4v2h2v2h2v2h2v4h4z" />
+            <!-- Peso -->
+            <div class="flex flex-row justify-between gap-2 ">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22">
+                    <path fill="currentColor"
+                        d="M20 20H2v-2h1v-4h1v-3h1V8h3V7H7V4h1V3h1V2h4v1h1v1h1v3h-1v1h3v3h1v3h1v4h1M12 7V6h1V5h-1V4h-2v1H9v1h1v1Z" />
                 </svg>
 
-
-                {%elif pokemon.weight>200 and pokemon.weight<=700%} Normal <svg xmlns="http://www.w3.org/2000/svg"
-                    width="24" height="24" viewBox="0 0 24 24">
+                {%if pokemon.weight<=200%} Lightweight <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                    viewBox="0 0 24 24">
                     <path fill="currentColor"
-                        d="M13 5h-2v8h-1v4h4v-4h-1zM9 7H5v2H3v2H1v6h2v2h2v-2H3v-6h2V9h4zm12 4h2v6h-2zm-2-2h2v2h-2zm0 0h-4V7h4zm2 8v2h-2v-2z" />
+                        d="M9 5h6v2H9zm10 4h-4V7h4zm2 2h-2V9h2zm0 6v-6h2v6zm0 0v2h-2v-2zM1 11h2v6H1zm2 6h2v2H3zm11-4h-4v-2H8V9H6V7H4v2h2v2h2v2h2v4h4z" />
                     </svg>
 
-                    {%elif pokemon.weight>700%}
 
-                    Heavy
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                    {%elif pokemon.weight>200 and pokemon.weight<=700%} Normal <svg xmlns="http://www.w3.org/2000/svg"
+                        width="24" height="24" viewBox="0 0 24 24">
                         <path fill="currentColor"
-                            d="M15 5H9v2H5v2H3v2H1v6h2v2h2v-2H3v-6h2V9h4V7h6zm8 6h-2v6h-2v2h2v-2h2zm-13 2h4v4h-4zm6-2h-2v2h2zm2-2v2h-2V9zm0 0V7h2v2z" />
-                    </svg>
-                    {%endif%}
-        </div>
-        <!-- Altura -->
-        <div>Height: {{pokemon.height*10}} cm</div>
-        <!-- Tipo e icono -->
-        <div class="flex flex-row  gap-2">
-            {%for type in pokemon.types%}
-            <div class="text-black border-1 font-bold px-2 rounded-2xl" style="background-color: {{colors[type]}}">
+                            d="M13 5h-2v8h-1v4h4v-4h-1zM9 7H5v2H3v2H1v6h2v2h2v-2H3v-6h2V9h4zm12 4h2v6h-2zm-2-2h2v2h-2zm0 0h-4V7h4zm2 8v2h-2v-2z" />
+                        </svg>
 
-                {{type.capitalize()}}
+                        {%elif pokemon.weight>700%}
+
+                        Heavy
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                            <path fill="currentColor"
+                                d="M15 5H9v2H5v2H3v2H1v6h2v2h2v-2H3v-6h2V9h4V7h6zm8 6h-2v6h-2v2h2v-2h2zm-13 2h4v4h-4zm6-2h-2v2h2zm2-2v2h-2V9zm0 0V7h2v2z" />
+                        </svg>
+                        {%endif%}
             </div>
-            <img class="w-7 h-7 relative  right-1" src="{{url_for('static',filename='images/Types/'+type+'.png')}}"
-                alt="type_icon" />
+            <!-- Altura -->
+            <div>Height: {{pokemon.height*10}} cm</div>
+            <!-- Tipo e icono -->
+            <div class="flex flex-row  gap-2">
+                {%for type in pokemon.types%}
+                <div class="text-black border-1 font-bold px-2 rounded-2xl" style="background-color: {{colors[type]}}">
+
+                    {{type.capitalize()}}
+                </div>
+                <img class="w-7 h-7 relative  right-1" src="{{url_for('static',filename='images/Types/'+type+'.png')}}"
+                    alt="type_icon" />
+                {%endfor%}
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="text-white   grid grid-cols-2  grid-row-3 gap-x-6 gap-y-2 ">
+            {%for stat in pokemon.stats %}
+            <!-- Stat individual -->
+            <div class="border-2 border-black pt-2 px-2 rounded-3xl flex flex-col justify-evenly"
+                style="background-color: darkgrey; box-shadow: 1px 1px 10px rgba(235, 182, 182,0.2),-1px 1px 10px rgba(235, 182, 182)">
+
+                <p>{{stat.name.capitalize()}}:{{stat.value}}</p>
+
+                <progress class=" progress max-w-80 h-5" value="{{stat.value}}" max="150"></progress>
+            </div>
+
             {%endfor%}
+
+
         </div>
-    </div>
-
-    <!-- Stats -->
-    <div class="text-white   grid grid-cols-2  grid-row-3 gap-x-6 gap-y-2 ">
-        {%for stat in pokemon.stats %}
-        <!-- Stat individual -->
-        <div class="border-2 border-black pt-2 px-2 rounded-3xl flex flex-col justify-evenly" style="background-color: darkgrey; box-shadow: 1px 1px 10px rgba(235, 182, 182,0.2),-1px 1px 10px rgba(235, 182, 182)">
-
-            <p>{{stat.name.capitalize()}}:{{stat.value}}</p>
-
-            <progress class=" progress max-w-80 h-5" value="{{stat.value}}" max="150"></progress>
-        </div>
-
-        {%endfor%}
-
-
-    </div>
 
     </div>
 
     <!-- Ataques -->
-    <div class="w-full h-[40vh]   grid grid-cols-1 2xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 overflow-y-scroll gap-3">
+    <div
+        class="w-full h-[40vh]   grid grid-cols-1 2xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 overflow-y-scroll gap-3">
         {%for move in pokemon.moves%}
         <!-- Ataque individual -->
-        <div class="border-2 rounded-2xl  flex flex-col justify-center items-center" style="background-color: darkslategray; ">
-            <h2 class="text-white mx-2 text-center text-2xl" >{{move.name.capitalize()}}</h2>
+        <div class="border-2 rounded-2xl  flex flex-col justify-center items-center"
+            style="background-color: darkslategray; ">
+            <h2 class="text-white mx-2 text-center text-2xl">{{move.name.capitalize()}}</h2>
             <!-- Datos de ataques -->
             <div class="text-center flex flex-col justify-center items-center" style="line-height: 2rem; ">
-                <div class="flex justify-center">Type: 
-                    <div class="border-1 px-1 rounded-3xl" style="background-color: {{colors[move.type]}}"> {{move.type.capitalize()}}</div>
+                <div class="flex justify-center">Type:
+                    <div class="border-1 px-1 rounded-3xl" style="background-color: {{colors[move.type]}}">
+                        {{move.type.capitalize()}}</div>
                 </div>
                 <div>Power: {{move.power}}</div>
                 <progress class="progress w-56 " value="{{move.power}}" max="150"></progress>
                 <div>Accuracy: {{move.accuracy}}</div>
                 <progress class="progress w-56" value="{{move.accuracy}}" max="100"></progress>
+            </div>
         </div>
-    </div>
-    {%endfor%}
+        {%endfor%}
     </div>
 </section>
 {% endblock %}

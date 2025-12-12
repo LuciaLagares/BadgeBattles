@@ -1,15 +1,33 @@
 {% extends "base.html" %} {% block title %}Pokemon List{% endblock %}
 {% block trainer%}
 {% if session.trainer%}
-<div class="text-xl mx-5"> Welcome <strong>{{session.trainer.name.capitalize()}}</strong></div>
+<div class="text-xl mx-5">
+    <a href="{{url_for('trainer.trainer_details')}}" class="flex flex-row justify-items-center items-center gap-4">
+
+
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <path fill="currentColor"
+                d="M17 5V3h-1V2h-2V1h-4v1H8v1H7v2H6v4h1v2h1v1h2v1h4v-1h2v-1h1V9h1V5zm-2 4v1h-1v1h-4v-1H9V9H8V5h1V4h1V3h4v1h1v1h1v4zm6 10v-1h-1v-1h-1v-1h-2v-1H7v1H5v1H4v1H3v1H2v3h1v1h18v-1h1v-3zM5 19v-1h2v-1h10v1h2v1h1v2H4v-2z" />
+        </svg>
+        <div class="flex flex-col">
+            <h6 class="text-[0.9rem] border-b">My BadgeBattles</h6>
+            <div>
+                <p class="text-[0.8rem]">
+                    Welcome <strong>{{session.trainer.name.capitalize()}}</strong>
+                </p>
+            </div>
+        </div>
+    </a>
+</div>
 {% endif%}
 {%endblock%}
 
 {% block main %}
 
 
-<div class="w-[100%] h-[100%] flex flex-nowrap justify-around items-center:left overflow-y-scroll 2xl:overflow-y-hidden">
-     
+<div
+    class="w-[100%] h-[100%] flex flex-nowrap justify-around items-center:left overflow-y-scroll 2xl:overflow-y-hidden">
+
     <section
         class="grid w-[80vw] grid-cols-[repeat(auto-fit,minmax(250px,_max-content))] justify-center gap-x-20 pt-2 ">
         <!-- Iteración cartas pokemon -->
@@ -68,12 +86,12 @@
 
     </section>
     <form class="text-white w-[10%]" action="{{url_for('pokemon.pokemon_list')}}" method="POST">
-            <label for="pokemon_finder">Name of the pokemon:</label>
-            <input class="w-[100%]" type="text" name="pokemon_finder" id="pokemon_finder" required>
-            <button type="submit" class="btn btn-primary">Search</button>
-            <div>
-                {{error}}
-            </div>
-        </form>
+        <label for="pokemon_finder">Name of the pokemon:</label>
+        <input class="w-[100%]" type="text" name="pokemon_finder" id="pokemon_finder" required>
+        <button type="submit" class="btn btn-primary">Search</button>
+        <div>
+            {{error}}
+        </div>
+    </form>
 </div>
 {% endblock %}

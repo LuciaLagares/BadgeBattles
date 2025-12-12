@@ -35,34 +35,34 @@
                     <ul tabindex="0"
                         class="menu menu-sm dropdown-content bg-neutral text-neutral-content rounded-box z-1 mt-3 w-52 p-2 shadow">
                         <li><a class="cursor-pointer" href="{{url_for('pokemon.pokemon_list')}}">Pokemon List</a></li>
-                        <li><a>Item 3</a></li>
                     </ul>
                 </div>
                 <a class="btn btn-ghost text-xl" href="{{url_for('home.welcome')}}">Badge Battles</a>
-                
+
             </div>
             <div class="navbar-center hidden lg:flex">
                 <ul class="menu menu-horizontal px-1">
                     <li><a class="cursor-pointer" href="{{url_for('pokemon.pokemon_list')}}">Pokemon List</a></li>
-                    <li><a>Item 3</a></li>
+         
                 </ul>
             </div>
             <div class="navbar-end">
                 {% block trainer%}{%endblock%}
                 {% block form%}{%endblock%}
-             
+
             </div>
         </div>
     </header>
-    <main class="h-[85vh] w-full  flex  justify-center" style=" background-size: contain; background-image: url('{{url_for('static',filename='images/bg_web_dark.jpg')}}'); ">
-       
+    <main class="h-[85vh] w-full  flex  justify-center"
+        style=" background-size: contain; background-image: url('{{url_for('static',filename='images/bg_web_dark.jpg')}}'); ">
+
         {% block main %}
         {% endblock %}
     </main>
 
     <footer class="footer sm:footer-horizontal bg-neutral text-neutral-content  h-[10vh]">
-        <aside >
-            <img   width="50" height="50" viewBox="0 0 24 24" class="rounded-md ml-5 mt-2"
+        <aside>
+            <img width="50" height="50" viewBox="0 0 24 24" class="rounded-md ml-5 mt-2"
                 src="{{ url_for('static', filename='images/logo.png') }}" fill-rule="evenodd" clip-rule="evenodd"
                 class="fill-current">
             <path

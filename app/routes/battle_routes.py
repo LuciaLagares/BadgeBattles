@@ -1,15 +1,14 @@
 
-from datetime import datetime
 from flask import Blueprint, redirect, render_template, request, session, url_for
 import logging
 
-from sqlalchemy import Date
+
 from app.colors import colors
 from app.decorators import login_required
 from app.models.battle import Battle
 from app.models.pokemon import Pokemon
-from app.repositories.battle_repo import create_battle
 from app.services import battle_service
+from app.services.battleDB_service import create_battle_service
 logging.basicConfig(level=logging.DEBUG)
 battle_bp = Blueprint('battle', __name__, template_folder='templates')
 
@@ -59,13 +58,12 @@ def pokemon_battle():
             attacker_pokemon_id=attacker_pokemon['id']
             defender_pokemon=session['enemy_pokemon']
             defender_pokemon_id=defender_pokemon['id']
-            if winner.id==attacker_pokemon_id:
-                result=True
-            else:
-                result=False
-                
-            fecha=datetime.now()
-            create_battle(attacker_id=attacker_id,defender_id=defender_id,attacker_pokemon=attacker_pokemon_id,defender_pokemon=defender_pokemon_id,result=result,date=fecha)    
+            
+            result=battle_service.battle_result(winner.id,attacker_pokemon_id)
+            
+
+            create_battle_service(attacker_id=attacker_id,defender_id=defender_id,attacker_pokemon_id=attacker_pokemon_id,defender_pokemon_id=defender_pokemon_id,result=result)
+             
             
             
             

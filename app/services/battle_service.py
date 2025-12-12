@@ -155,3 +155,9 @@ def rivalSpriteSelector(trainer_id):
     return rivals_without_trainer[random.randint(0, len(rivals_without_trainer)-1)]
     
     
+def battle_result(winner_id,attacker_pokemon_id):
+        """Recibe la ID del pokemon ganador y la compara con el id del pokemon atacante"""
+        if winner_id==attacker_pokemon_id:
+            return True
+        else:
+            return False

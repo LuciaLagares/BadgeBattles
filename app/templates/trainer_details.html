@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}Trainer Details{% endblock %}
+{% block main %}
+
+<div class="hover-3d h-[375px] w-[550px] p-6" >
+  <!-- content -->
+  <figure class="relative max-w-[100%] max-h-[100%] rounded-2xl bg-auto bg-no-repeat bg-contain p-4"style="background-image: url(https://lh6.googleusercontent.com/proxy/xYXrZi0Fa80v6AvUJGqptkOFAt07BPkzvDy9KVsRxbNW58Pb5XiRLBAWIkckbIukActpzgZZZ1YBB8i7pY4_esdjWm-gPXsjJpbZegv0wQ0vD81AXg);">
+
+    <img class="absolute left-80 top-20" src="{{url_for('static', filename=session.trainer.sprite)}}" alt="3D card" />
+  </figure>
+  <!-- 8 empty divs needed for the 3D effect -->
+   <div></div>
+   <div></div>
+   <div></div>
+   <div></div>
+   <div></div>
+   <div></div>
+   <div></div>
+   <div></div>
+
+</div>
+{%endblock%}

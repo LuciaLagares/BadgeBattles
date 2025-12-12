@@ -2,9 +2,11 @@ import os
 import sqlite3
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from app.models import trainer
 from app.routes.home_routes import home_bp
 from app.routes.pokemon_routes import pokemon_bp
 from app.routes.battle_routes import battle_bp
+from app.routes.trainer_routes import trainer_bp
 from app.database.db import db
 import logging
 
@@ -55,6 +57,7 @@ Session(app)
 app.register_blueprint(home_bp, url_prefix='/')
 app.register_blueprint(pokemon_bp, url_prefix='/pokemons')
 app.register_blueprint(battle_bp, url_prefix='/battle')
+app.register_blueprint(trainer_bp, url_prefix='/trainer')
 
 
 # Para ejecutar usar: ./.venv/Scripts/flask --app app.main create-tables
