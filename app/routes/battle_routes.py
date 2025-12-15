@@ -79,10 +79,15 @@ def pokemon_battle():
 
         else:
             return render_template("pokemon_battle.html", colors=colors)
+        
+        
+        
 @battle_bp.route("/battle_details/<int:battle_ID>",methods=["GET"])
 def battle_details(battle_ID):
     battle=get_single_battle_by_id(battle_ID)
+    date=battle.date.strftime("%Y-%m-%d %H:%M:%S")
+
 
     
-    id=battle.id
-    return f'hola {id}'
+
+    return render_template("battle_details.html",battle_details=battle,date=date)
