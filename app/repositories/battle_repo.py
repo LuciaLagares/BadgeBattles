@@ -18,6 +18,12 @@ def get_battle_by_id(id_db):
         return battle
     return None
 
+def get_all_battles_id(id_db):
+
+    battles=BattleDB.query.filter((BattleDB.attacker_id==id_db) | (BattleDB.defender_id==id_db)).all()
+    if battles:
+        return battles
+    return None
 
 def get_battle_attacker(id_db):
     battles = BattleDB.query.filter_by(attacker_id=id_db).all()

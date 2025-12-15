@@ -8,7 +8,7 @@ from app.decorators import login_required
 from app.models.battle import Battle
 from app.models.pokemon import Pokemon
 from app.services import battle_service
-from app.services.battleDB_service import create_battle_service
+from app.services.battleDB_service import create_battle_service, get_single_battle_by_id
 logging.basicConfig(level=logging.DEBUG)
 battle_bp = Blueprint('battle', __name__, template_folder='templates')
 
@@ -79,3 +79,10 @@ def pokemon_battle():
 
         else:
             return render_template("pokemon_battle.html", colors=colors)
+@battle_bp.route("/battle_details/<int:battle_ID>",methods=["GET"])
+def battle_details(battle_ID):
+    battle=get_single_battle_by_id(battle_ID)
+
+    
+    id=battle.id
+    return f'hola {id}'

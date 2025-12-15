@@ -2,7 +2,7 @@ from app.database.db import db
 from app.models.exceptions import TrainerAlreadyExistException, TrainerNotFound, WrongPassword
 from app.models.trainer import Trainer
 
-from app.repositories.trainer_repo import create_trainer, get_trainer_by_name
+from app.repositories.trainer_repo import create_trainer, get_trainer_by_id, get_trainer_by_name
 
 
 def register_trainer(name, password, gender):
@@ -28,6 +28,12 @@ def authenticate_trainer(name, password):
 
     return trainer
 
+
+def get_trainer_by_id_service(id):
+    trainer=get_trainer_by_id(id)
+    if trainer:
+        return trainer
+    return None
 
 def add_opponets_service():
     rivals=[
