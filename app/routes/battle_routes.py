@@ -1,5 +1,5 @@
 
-from flask import Blueprint, redirect, render_template, request, session, url_for
+from flask import Blueprint, flash, redirect, render_template, request, session, url_for
 import logging
 
 
@@ -83,11 +83,18 @@ def pokemon_battle():
         
         
 @battle_bp.route("/battle_details/<int:battle_ID>",methods=["GET"])
+@login_required
 def battle_details(battle_ID):
     battle=get_single_battle_by_id(battle_ID)
-    date=battle.date.strftime("%Y-%m-%d %H:%M:%S")
+    if battle:
+        date=battle.date.strftime("%Y-%m-%d %H:%M:%S")
+        return render_template("battle_details.html",battle_details=battle,date=date)
+    flash('There is no battle for that ID')
+    return redirect(url_for('trainer.trainer_details', error='There is no battle for that ID'))
 
+@battle_bp.route("/delete_battle",methods=["GET"])
+@login_required
+def delete_battle(battle_ID):
 
+    pass
     
-
-    return render_template("battle_details.html",battle_details=battle,date=date)

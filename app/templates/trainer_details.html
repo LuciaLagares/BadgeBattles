@@ -3,27 +3,43 @@
 {% block title %}Trainer Details{% endblock %}
 {% block main %}
 <div class="flex flex-row w-[100%] justify-evenly">
+  <div>
 
-  <div class="hover-3d h-[375px] w-[550px] p-6" >
-    <!-- content -->
-    <figure class="relative max-w-[100%] max-h-[100%] rounded-2xl bg-auto bg-no-repeat bg-contain p-4"style="background-image: url(https://lh6.googleusercontent.com/proxy/xYXrZi0Fa80v6AvUJGqptkOFAt07BPkzvDy9KVsRxbNW58Pb5XiRLBAWIkckbIukActpzgZZZ1YBB8i7pY4_esdjWm-gPXsjJpbZegv0wQ0vD81AXg);">
+    <div class="hover-3d h-[375px] w-[550px] p-6" >
+      <!-- content -->
+      <figure class="relative max-w-[100%] max-h-[100%] rounded-2xl bg-auto bg-no-repeat bg-contain p-4"style="background-image: url(https://lh6.googleusercontent.com/proxy/xYXrZi0Fa80v6AvUJGqptkOFAt07BPkzvDy9KVsRxbNW58Pb5XiRLBAWIkckbIukActpzgZZZ1YBB8i7pY4_esdjWm-gPXsjJpbZegv0wQ0vD81AXg);">
+        
+        <img class="absolute left-80 top-20" src="{{url_for('static', filename=session.trainer.sprite)}}" alt="3D card" />
+        <p class=" absolute left-12 top-18">{{session.trainer.name}}</p>
+        <p class=" absolute left-12 top-36">{{session.trainer.id}}</p>
+      </figure>
+      <!-- 8 empty divs needed for the 3D effect -->
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
       
-      <img class="absolute left-80 top-20" src="{{url_for('static', filename=session.trainer.sprite)}}" alt="3D card" />
-      <p class=" absolute left-12 top-18">{{session.trainer.name}}</p>
-      <p class=" absolute left-12 top-36">{{session.trainer.id}}</p>
-    </figure>
-    <!-- 8 empty divs needed for the 3D effect -->
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    
+    </div>
+    {% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <p class="bg-red-500 text-white p-4 rounded-2xl text-center">
+      {{ messages[0] }}
+    </p>
+  {% endif %}
+{% endwith %}
   </div>
-
+  {%if battles_details|length==0%}
+  <div class=" flex flex-col justify-between text-center mt-6 p-6 bg-white h-[200px]" style="border-radius: 1rem; box-shadow: 0 0 5px black;">
+    <p>You didn´t do any battle yet</p>
+    <a  href="{{url_for('pokemon.pokemon_list')}}">
+      <button class="btn btn-primary">DO IT NOW!</button>
+    </a>
+  </div>
+  {%else%}
   <div class="p-6">
     <table class="bg-white overflow-hidden" style="border-radius: 1rem; box-shadow: 0 0 5px black;">
       <thead>
@@ -38,28 +54,29 @@
       <tbody>
         {%for battle_details in battles_details%}
         <tr>
-       
-
+          
+          
           
           <td class="px-4 border text-center">{{battle_details.result}}</td>
-     
-
+          
+          
           <td class="px-4 border text-center">{{battle_details.rol|capitalize}}</td>
 
           <td class="px-4 border text-center">{{battle_details.pokemon.name |capitalize}}</td>
-
+          
           <td class="px-4 border text-center">
             
             <a href="{{url_for('battle.battle_details', battle_ID=battle_details.id)}}"><button class="cursor-pointer" title="Details"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M16 11v2h-1v1h-1v1h-1v1h-2v-1h-1v-1H9v-1H8v-2h2v-1h1V8h2v1h1v1h1v1z"/><path fill="currentColor" d="M22 11V9h-1V8h-1V7h-1V6h-2V5H7v1H5v1H4v1H3v1H2v2H1v2h1v2h1v1h1v1h1v1h2v1h10v-1h2v-1h1v-1h1v-1h1v-2h1v-2zm-4 2h-1v2h-1v1h-1v1h-2v1h-2v-1H9v-1H8v-1H7v-2H6v-2h1V9h1V8h1V7h2V6h2v1h2v1h1v1h1v2h1z"/></svg></button></a>
             <a href="eliminar batlla"><button class="cursor-pointer" title="Delete"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M21 5H7v2H5v2H3v2H1v2h2v2h2v2h2v2h16V5zM7 17v-2H5v-2H3v-2h2V9h2V7h14v10zm8-6h-2V9h-2v2h2v2h-2v2h2v-2h2v2h2v-2h-2zm0 0V9h2v2z"/></svg></button></a>
             
-   
-        </tr>
-        {%endfor%}
-      </tbody>
-    </table>
-    
-
-  </div>
+            
+          </tr>
+          {%endfor%}
+        </tbody>
+      </table>
+      
+      
+    </div>
+    {%endif%}
 </div>
 {%endblock%}
