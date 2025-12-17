@@ -8,7 +8,7 @@ from app.decorators import login_required
 from app.models.battle import Battle
 from app.models.pokemon import Pokemon
 from app.services import battle_service
-from app.services.battleDB_service import create_battle_service, get_single_battle_by_id
+from app.services.battleDB_service import create_battle_service, delete_battle_by_id, get_single_battle_by_id
 logging.basicConfig(level=logging.DEBUG)
 battle_bp = Blueprint('battle', __name__, template_folder='templates')
 
@@ -90,11 +90,18 @@ def battle_details(battle_ID):
         date=battle.date.strftime("%Y-%m-%d %H:%M:%S")
         return render_template("battle_details.html",battle_details=battle,date=date)
     flash('There is no battle for that ID')
-    return redirect(url_for('trainer.trainer_details', error='There is no battle for that ID'))
+    return redirect(url_for('trainer.trainer_details'))
 
-@battle_bp.route("/delete_battle",methods=["GET"])
+@battle_bp.route("/delete_battle/<int:battle_ID>",methods=["GET"])
 @login_required
 def delete_battle(battle_ID):
-
-    pass
+    print('--------------------------------------------',battle_ID)
+    trainer_id=session['trainer']['id']
+    battle=get_single_battle_by_id(battle_ID)
+    if battle.attacker_id==trainer_id:
+        delete_battle_by_id(battle_ID)
+        return redirect(url_for('trainer.trainer_details'))
+    flash(f'You were a defender in battle ID {battle.id}')
+    return redirect(url_for('trainer.trainer_details'))
+    
     
