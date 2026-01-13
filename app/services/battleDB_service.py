@@ -12,8 +12,8 @@ def create_battle_service(
 
     create_battleDB(attacker_id=attacker_id,defender_id=defender_id,attacker_pokemon=attacker_pokemon_id,defender_pokemon=defender_pokemon_id,result=result,date=fecha)   
     
-def get_all_battles_details(battle_id):
-    battles=get_all_battles_id(battle_id)
+def get_all_battles_details(trainer_id):
+    battles=get_all_battles_id(trainer_id)
     if battles:
         return  battles
     
