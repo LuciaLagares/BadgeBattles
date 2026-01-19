@@ -1,10 +1,27 @@
 import app.repositories.pokemon_repo as pokemon_repo
+import app.clients.poke_client as poke_client
 import random
 import math
 
 
+# def get_pokemons():
+#     return pokemon_repo.get_pokemons()
+
 def get_pokemons():
-    return pokemon_repo.get_pokemons()
+    # Este busca todos los pokemons para poder elegir el pokemon rival aleatoriamente
+    URL = "https://pokeapi.co/api/v2/pokemon"
+    # data = poke_client.fetch_all_pokemon(0,8)
+
+        
+def get_list_pokemons(offset,limit):
+    # Para listar pokemons para elegir
+    data = poke_client.fetch_all_pokemon(0,8)
+    raw_pokemons=data["results"]
+    urls=[]
+    for raw_pokemon in raw_pokemons:
+        urls.append(raw_pokemon["url"])
+    
+        
 
 
 def get_pokemon_by_ID(id):
