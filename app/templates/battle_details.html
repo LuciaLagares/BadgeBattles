@@ -5,48 +5,63 @@
 
 
 
-<div class="overflow-x-auto">
+<div class="overflow-x-auto h-[100vh] flex-col">
   <table class="table">
     <!-- head -->
-     attacker_id=attacker_id, defender_id=defender_id,
-                      attacker_pokemon_id=attacker_pokemon, defender_pokemon_id=defender_pokemon, result=result, date=date
+    <!-- attacker_id=attacker_id, defender_id=defender_id,
+                      attacker_pokemon_id=attacker_pokemon, defender_pokemon_id=defender_pokemon, result=result, date=date -->
     <thead>
       <tr>
         <th>Date</th>
         <th>Attacker Name</th>
+        <th>Attacker Pokemon</th>
         <th>Defender Name</th>
+        <th>Defender Pokemon</th>
+        <th>Result</th>
 
-        <th>Job</th>
-        
+
+
       </tr>
     </thead>
     <tbody>
-      <!-- row 1 -->
-    
-        <tr class="hover:bg-base-300">
-       
+      <tr class="hover:bg-base-300">
+        <td class="px-4 border text-center">{{date}}</td>
+        <td class="px-4 border text-center">{{battle_details.attacker.name}}</td>
+        <td class="px-4 border text-center">{{user_pokemon.name|capitalize}}</td>
+        <td class="px-4 border text-center">{{battle_details.defender.name}}</td>
+        <td class="px-4 border text-center">{{enemy_pokemon.name|capitalize}}</td>
+        {%if battle_details.result==1%}
+        <td class="px-4 border text-center">Winner {{battle_details.attacker.name}}</td>
+        {%else%}
+        <td class="px-4 border text-center">Winner {{battle_details.defender.name}}</td>
 
-          
-          <td class="px-4 border text-center">{{date}}</td>
-          <td class="px-4 border text-center">{{battle_details.attacker.name}}</td>
-          <td class="px-4 border text-center">{{battle_details.defender.name}}</td>
-     
+        {%endif%}
+      </tr>
 
-          <td class="px-4 border text-center"></td>
 
-          <td class="px-4 border text-center"></td>
-
-          <td class="px-4 border text-center">
+      <!-- <td class="px-4 border text-center">
             
-            <a href="{{url_for('battle.battle_details', battle_ID=battle_details.id)}}"><button class="cursor-pointer" title="Details"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M16 11v2h-1v1h-1v1h-1v1h-2v-1h-1v-1H9v-1H8v-2h2v-1h1V8h2v1h1v1h1v1z"/><path fill="currentColor" d="M22 11V9h-1V8h-1V7h-1V6h-2V5H7v1H5v1H4v1H3v1H2v2H1v2h1v2h1v1h1v1h1v1h2v1h10v-1h2v-1h1v-1h1v-1h1v-2h1v-2zm-4 2h-1v2h-1v1h-1v1h-2v1h-2v-1H9v-1H8v-1H7v-2H6v-2h1V9h1V8h1V7h2V6h2v1h2v1h1v1h1v2h1z"/></svg></button></a>
-            
-   
-        </tr>
-  
-      
+            <a href="{{url_for('battle.battle_details', battle_ID=battle_details.id)}}"><button class="cursor-pointer" title="Details"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M16 11v2h-1v1h-1v1h-1v1h-2v-1h-1v-1H9v-1H8v-2h2v-1h1V8h2v1h1v1h1v1z"/><path fill="currentColor" d="M22 11V9h-1V8h-1V7h-1V6h-2V5H7v1H5v1H4v1H3v1H2v2H1v2h1v2h1v1h1v1h1v1h2v1h10v-1h2v-1h1v-1h1v-1h1v-2h1v-2zm-4 2h-1v2h-1v1h-1v1h-2v1h-2v-1H9v-1H8v-1H7v-2H6v-2h1V9h1V8h1V7h2V6h2v1h2v1h1v1h1v2h1z"/></svg></button></a> -->
+
+
+
     </tbody>
   </table>
-</div>
+
+<figure class="flex justify-evenly bg-base-300 relative">
+  <div class="bg-red-400 w-[100%] flex flex-col justify-center items-center">
+    <img class="h-50"  src="{{url_for('static', filename=battle_details.attacker.sprite)}}" alt="">
+    <img class="h-100" src="{{user_pokemon.sprites.front_default}}" alt="{{user_pokemon.name}}">
+    
+  </div>
+  <div class="divider divider-horizontal absolute z-10 bottom-[50%]">Versus</div>
+  <div class="bg-blue-400 w-[100%] flex flex-col justify-center items-center">
+    
+    <img class="h-50" src="{{url_for('static', filename=battle_details.defender.sprite)}}" alt="">
+    <img class="h-100" src="{{enemy_pokemon.sprites.front_default}}" alt="{{enemy_pokemon.name}}">
+  </div>
+</figure>
+
 
 </div>
 {%endblock%}

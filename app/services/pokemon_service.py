@@ -1,3 +1,4 @@
+from app.clients.adaptor.poke_adaptor import from_api_to_pokemon, from_api_to_pokemon_list
 import app.repositories.pokemon_repo as pokemon_repo
 import app.clients.poke_client as poke_client
 import random
@@ -12,16 +13,31 @@ def get_pokemons():
     URL = "https://pokeapi.co/api/v2/pokemon"
     # data = poke_client.fetch_all_pokemon(0,8)
 
-        
-def get_list_pokemons(offset,limit):
+
+def get_list_pokemons(offset, limit):
     # Para listar pokemons para elegir
-    data = poke_client.fetch_all_pokemon(0,8)
-    raw_pokemons=data["results"]
-    urls=[]
-    for raw_pokemon in raw_pokemons:
-        urls.append(raw_pokemon["url"])
+    data = poke_client.fetch_all_pokemon(offset, limit)
+    if data is None:
+
+        return None
+    list_pokemons = data["results"]
+    if list_pokemons is None:
+
+        return None
+    urls = []
+    for item_pokemon in list_pokemons:
+        urls.append(item_pokemon["url"])
+
+    raw_pokemons = poke_client.fetch_pokemons_parallel(urls)
+    if raw_pokemons is None:
+
+        return None
+
+    pokemons = from_api_to_pokemon_list(raw_pokemons)
     
-        
+    return pokemons
+
+
 
 
 def get_pokemon_by_ID(id):
@@ -63,3 +79,10 @@ def get_stat_value(pokemon, stat_name):
             searched_stat = stat.get('value', 0)
             break
     return searched_stat
+
+
+if __name__ == "__main__":
+    print("Este código execútase cando o script é executado directamente.")
+
+    data = get_list_pokemons(0, 4)
+    print(data)

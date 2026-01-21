@@ -9,6 +9,7 @@ from app.models.battle import Battle
 from app.models.pokemon import Pokemon
 from app.services import battle_service
 from app.services.battleDB_service import create_battle_service, delete_battle_by_id, get_single_battle_by_id
+from app.services.pokemon_service import get_pokemon_by_ID
 logging.basicConfig(level=logging.DEBUG)
 battle_bp = Blueprint('battle', __name__, template_folder='templates')
 
@@ -58,16 +59,9 @@ def pokemon_battle():
             attacker_pokemon_id=attacker_pokemon['id']
             defender_pokemon=session['enemy_pokemon']
             defender_pokemon_id=defender_pokemon['id']
-            
-            result=battle_service.battle_result(winner.id,attacker_pokemon_id)
-            
-
+            result=battle_service.battle_result(winner.id,attacker_pokemon_id)       
             create_battle_service(attacker_id=attacker_id,defender_id=defender_id,attacker_pokemon_id=attacker_pokemon_id,defender_pokemon_id=defender_pokemon_id,result=result)
-             
-            
-            
-            
-            
+
             turnos = session['battle'].turno
             logHistoric = session['battle'].log
             session.pop('battle', None)
@@ -88,14 +82,17 @@ def battle_details(battle_ID):
     battle=get_single_battle_by_id(battle_ID)
     if battle:
         date=battle.date.strftime("%Y-%m-%d %H:%M:%S")
-        return render_template("battle_details.html",battle_details=battle,date=date)
+        user_pokemon=get_pokemon_by_ID(battle.attacker_pokemon)
+        enemy_pokemon=get_pokemon_by_ID(battle.defender_pokemon) 
+        
+        
+        return render_template("battle_details.html",battle_details=battle,user_pokemon=user_pokemon,enemy_pokemon=enemy_pokemon,date=date)
     flash('There is no battle for that ID')
     return redirect(url_for('trainer.trainer_details'))
 
 @battle_bp.route("/delete_battle/<int:battle_ID>",methods=["GET"])
 @login_required
 def delete_battle(battle_ID):
-    print('--------------------------------------------',battle_ID)
     trainer_id=session['trainer']['id']
     battle=get_single_battle_by_id(battle_ID)
     if battle.attacker_id==trainer_id:

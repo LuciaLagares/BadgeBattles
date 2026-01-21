@@ -2,7 +2,7 @@ from flask import Blueprint, redirect, render_template, request, session, url_fo
 from app.colors import colors
 from app.decorators import login_required
 from app.services import battle_service, pokemon_service
-from app.services.pokemon_service import get_pokemons
+from app.services.pokemon_service import get_list_pokemons, get_pokemons
 
 
 pokemon_bp = Blueprint('pokemon', __name__, template_folder='templates')
@@ -10,7 +10,8 @@ pokemon_bp = Blueprint('pokemon', __name__, template_folder='templates')
 
 @pokemon_bp.route("/", methods=["GET", "POST"])
 def pokemon_list():
-    pokemons = get_pokemons()
+    # pokemons = get_pokemons()
+    pokemons=get_list_pokemons(0,8)
     error = ''
 
     if request.method == "POST":
