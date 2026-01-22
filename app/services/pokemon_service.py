@@ -1,4 +1,4 @@
-from app.clients.adaptor.poke_adaptor import from_api_to_pokemon, from_api_to_pokemon_list
+from app.clients.adaptor.poke_adaptor import from_api_move_to_move, from_api_to_pokemon, from_api_to_pokemon_list
 import app.repositories.pokemon_repo as pokemon_repo
 import app.clients.poke_client as poke_client
 import random
@@ -33,11 +33,39 @@ def get_list_pokemons(offset, limit):
 
         return None
 
-    pokemons = from_api_to_pokemon_list(raw_pokemons)
-    
+    pokemons_without_moves = from_api_to_pokemon_list(raw_pokemons)
+
+    # pokemons = get_moves_from_api(pokemons_without_moves)
+
+    # return pokemons
+    return   pokemons_without_moves 
+
+
+def get_moves_from_api(pokemons):
+    for pokemon in pokemons:
+        get_moves_from_api_individual(pokemon)
     return pokemons
 
 
+def get_moves_from_api_individual(pokemon):
+    clean_moves = []
+    raw_moves = poke_client.fetch_pokemons_moves_by_pokemon_id(pokemon.id)
+    cnt = 0
+    for raw_move in raw_moves:
+        raw_single_move = poke_client.fetch_moves_by_id(
+            raw_move["move"]["url"])
+
+        if raw_single_move["power"] is not None:
+            # traduzco
+            move = from_api_move_to_move(raw_single_move)
+            clean_moves.append(move)
+            cnt += 1
+
+        if cnt >= 20:
+            break
+        elif len(clean_moves) > 9:
+            break
+        pokemon.asing_moves(clean_moves)
 
 
 def get_pokemon_by_ID(id):
@@ -45,7 +73,15 @@ def get_pokemon_by_ID(id):
     if id < 0 or id is None:
         return None
 
-    return pokemon_repo.search_by_id(id)
+    raw_pokemon = poke_client.fetch_pokemon_detail_by_id(id)
+    if raw_pokemon is None:
+        return None
+    pokemon_wm = from_api_to_pokemon(raw_pokemon)
+    get_moves_from_api_individual(pokemon_wm)
+    return pokemon_wm
+
+    # return pokemon_repo.search_by_id(id)
+
 
 # Recibe el ID, y un valor max(propobilidad),
 # hará raices cuadradas hasta hacer que el ID sea menor que el máximo

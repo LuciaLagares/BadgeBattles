@@ -27,6 +27,10 @@ class Pokemon:
         }
         return pokemon
 
+    def asing_moves(self,moves):
+        self.moves=moves
+        
+        
     @staticmethod
     def from_dict(dict):
         

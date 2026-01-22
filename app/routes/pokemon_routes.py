@@ -46,8 +46,10 @@ def pokemon_list():
 @login_required
 def pokemon_details(pokemon_ID):
 
+    print(pokemon_ID)
     visual_pokemon = pokemon_service.get_pokemon_by_ID(pokemon_ID)
 
     # Randomnizador de Shiny
     is_shiny = pokemon_service.is_pokemon_shiny(visual_pokemon.id, 10)
+
     return render_template("pokemon_details.html", pokemon=visual_pokemon, is_shiny=is_shiny, colors=colors)

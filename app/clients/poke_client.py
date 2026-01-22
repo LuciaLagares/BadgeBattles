@@ -3,6 +3,7 @@ from concurrent.futures import ThreadPoolExecutor
 
 
 URL = "https://pokeapi.co/api/v2/pokemon"
+URL_movements= "https://pokeapi.co/api/v2/move"
 
 
 def fetch_all_pokemon(offset, limit):
@@ -38,12 +39,25 @@ def fetch_pokemons_parallel(urls):
     with ThreadPoolExecutor(max_workers=4) as executor:
         return list(executor.map(fetch_pokemon_detail_by_url, urls))
 
+def fetch_pokemons_moves_by_pokemon_id(id):
+    raw_pokemon=fetch_pokemon_detail_by_id(id)
+    return raw_pokemon['moves']
+
+def fetch_moves_by_id(url):
+    response=requests.get(url)
+    response.raise_for_status()
+    return response.json()
+    
 
 
 if __name__ == "__main__":
     print("Este código execútase cando o script é executado directamente.")
 
-    data = fetch_pokemons_parallel(["https://pokeapi.co/api/v2/pokemon/1/","https://pokeapi.co/api/v2/pokemon/2/","https://pokeapi.co/api/v2/pokemon/3/"])
+    # data = fetch_pokemons_parallel(["https://pokeapi.co/api/v2/pokemon/1/","https://pokeapi.co/api/v2/pokemon/2/","https://pokeapi.co/api/v2/pokemon/3/"])
     # data=fetch_all_pokemon(0, 10000000)
-    for d in data:
-        print(d["name"])
+    # for d in data:
+    #     print(d["name"])
+    data=fetch_moves_by_id(144)
+    
+    
+    print(data['power'])

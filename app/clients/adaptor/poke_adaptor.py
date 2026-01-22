@@ -64,6 +64,17 @@ def from_api_types_to_types(types):
         cleaned_types.append(type["type"]["name"])
     return cleaned_types
 
+def from_api_move_to_move(move):
+    
+    cleaned_move={
+        "name":move["name"],
+        "url":None,
+        "accuracy":move["accuracy"],
+        "power":move["power"],
+        "type":move["type"]["name"]
+    }
+    return cleaned_move
+    
 
 
     
