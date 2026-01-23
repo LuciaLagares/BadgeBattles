@@ -1,3 +1,4 @@
+from app.clients.adaptor import poke_adaptor
 from app.clients.adaptor.poke_adaptor import from_api_move_to_move, from_api_to_pokemon, from_api_to_pokemon_list
 import app.repositories.pokemon_repo as pokemon_repo
 import app.clients.poke_client as poke_client
@@ -10,13 +11,18 @@ import math
 
 def get_pokemons():
     # Este busca todos los pokemons para poder elegir el pokemon rival aleatoriamente
-    URL = "https://pokeapi.co/api/v2/pokemon"
+    URL = "https://pokeapi.co/api/v2/pokemon?limit=1000000"
     # data = poke_client.fetch_all_pokemon(0,8)
+    data = poke_client.fetch_all_pokemons(URL)
+    if data is None:
+        return None
+
+    return data["results"]
 
 
 def get_list_pokemons(offset, limit):
     # Para listar pokemons para elegir
-    data = poke_client.fetch_all_pokemon(offset, limit)
+    data = poke_client.fetch_pokemons(offset, limit)
     if data is None:
 
         return None
@@ -38,7 +44,7 @@ def get_list_pokemons(offset, limit):
     # pokemons = get_moves_from_api(pokemons_without_moves)
 
     # return pokemons
-    return   pokemons_without_moves 
+    return pokemons_without_moves
 
 
 def get_moves_from_api(pokemons):
@@ -51,13 +57,16 @@ def get_moves_from_api_individual(pokemon):
     clean_moves = []
     raw_moves = poke_client.fetch_pokemons_moves_by_pokemon_id(pokemon.id)
     cnt = 0
+    print("Cantidad de movimienots",len(raw_moves))
     for raw_move in raw_moves:
-        raw_single_move = poke_client.fetch_moves_by_id(
+        print(raw_move["move"]["url"])
+        raw_single_move = poke_client.fetch_move_by_url(
             raw_move["move"]["url"])
-
+        print("RAAW-movimiento",raw_single_move["name"])
         if raw_single_move["power"] is not None:
             # traduzco
             move = from_api_move_to_move(raw_single_move)
+            print("movimiento", move)
             clean_moves.append(move)
             cnt += 1
 
@@ -65,7 +74,10 @@ def get_moves_from_api_individual(pokemon):
             break
         elif len(clean_moves) > 9:
             break
+        # print("cantidad movimientos:", clean_moves)
         pokemon.asing_moves(clean_moves)
+
+    return pokemon
 
 
 def get_pokemon_by_ID(id):
@@ -77,8 +89,10 @@ def get_pokemon_by_ID(id):
     if raw_pokemon is None:
         return None
     pokemon_wm = from_api_to_pokemon(raw_pokemon)
-    get_moves_from_api_individual(pokemon_wm)
-    return pokemon_wm
+
+    complete_pokemon = get_moves_from_api_individual(pokemon_wm)
+    print(len(complete_pokemon.moves))
+    return complete_pokemon
 
     # return pokemon_repo.search_by_id(id)
 
@@ -101,10 +115,20 @@ def is_pokemon_shiny(id, max):
 def get_pokemon_by_name(pokemon_name):
     if pokemon_name:
         pokemons = get_pokemons()
+
         for pokemon in pokemons:
 
-            if pokemon.name.lower() == pokemon_name.lower():
-                return pokemon
+            if pokemon["name"].lower() == pokemon_name.lower():
+                raw_pokemon = poke_client.fetch_pokemon_detail_by_name(
+                    pokemon['name'])
+                pokemon_without_moves = poke_adaptor.from_api_to_pokemon(
+                    raw_pokemon)
+
+                pokemon_complete = get_moves_from_api_individual(
+                    pokemon_without_moves)
+
+                return pokemon_complete
+
     return None
 
 
@@ -121,4 +145,3 @@ if __name__ == "__main__":
     print("Este código execútase cando o script é executado directamente.")
 
     data = get_list_pokemons(0, 4)
-    print(data)

@@ -16,13 +16,15 @@ def pokemon_list():
 
     if request.method == "POST":
         pokemon_selected = request.form.get('pokemon_finder')
+       
         my_pokemon = pokemon_service.get_pokemon_by_name(
             pokemon_selected)
 
         if my_pokemon is not None:
             enemy_pokemon = battle_service.enemy_pokemon_selector(
                 my_pokemon)
-
+            enemy_pokemon=pokemon_service.get_pokemon_by_name(enemy_pokemon["name"])
+           
             session['enemy_pokemon'] = enemy_pokemon.to_dict()
             trainer=session['trainer']
             trainer_id=trainer['id']
@@ -46,7 +48,7 @@ def pokemon_list():
 @login_required
 def pokemon_details(pokemon_ID):
 
-    print(pokemon_ID)
+
     visual_pokemon = pokemon_service.get_pokemon_by_ID(pokemon_ID)
 
     # Randomnizador de Shiny

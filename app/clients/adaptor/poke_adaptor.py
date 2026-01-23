@@ -36,7 +36,9 @@ def from_api_to_pokemon(api_pokemon):
 
 
 def from_api_stats_to_stats(api_pokemon):
+
     cleaned_stats = []
+    
     raw_stats = api_pokemon["stats"]
     for raw_stat in raw_stats:
         stat = {
@@ -75,6 +77,10 @@ def from_api_move_to_move(move):
     }
     return cleaned_move
     
-
-
+def from_api_moves_to_moves(moves):
+    cleaned_moves=[]
+    for move in moves:
+        clean_move=from_api_move_to_move(move)
+        cleaned_moves.append(clean_move)
+    return cleaned_moves
     

@@ -3,21 +3,22 @@ from operator import indexOf
 from app.models.battle import Battle
 import app.repositories.pokemon_repo as pokemon_repo
 from app.repositories.trainer_repo import get_all_trainers
-from app.services.pokemon_service import get_stat_value
+from app.services.pokemon_service import get_pokemons, get_stat_value
 import random
 
 
 def enemy_pokemon_selector(my_pokemon):
-    pokemons = pokemon_repo.get_pokemons()
+    pokemons = get_pokemons()
     randomPokemonNumber = random.randint(0, len(pokemons)-1)
     enemy_pokemon = pokemons[randomPokemonNumber]
     if len(pokemons) >= 2:
-        if (enemy_pokemon.id == my_pokemon.id):
+        if (enemy_pokemon["name"] == my_pokemon.name):
             return enemy_pokemon_selector(my_pokemon)
     return enemy_pokemon
 
 
 def random_moves(pokemon, moves):
+    
     random_move = pokemon.moves[random.randint(0, len(pokemon.moves)-1)]
     if (random_move not in moves):
         moves.append(random_move)
@@ -86,6 +87,8 @@ def attack(attacker, reciever, attacker_move, battle):
 
 
 def calculate_precision(move):
+    if move["accuracy"] is None:
+        return True
     probability = move['accuracy']/10
     random_number = random.randint(1, 10)
     if probability >= random_number:
