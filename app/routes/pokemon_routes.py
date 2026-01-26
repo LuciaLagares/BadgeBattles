@@ -24,6 +24,7 @@ def pokemon_list():
             enemy_pokemon = battle_service.enemy_pokemon_selector(
                 my_pokemon)
             enemy_pokemon=pokemon_service.get_pokemon_by_name(enemy_pokemon["name"])
+            
            
             session['enemy_pokemon'] = enemy_pokemon.to_dict()
             trainer=session['trainer']
@@ -36,6 +37,7 @@ def pokemon_list():
             session['pokemon_selected'] = my_pokemon.to_dict()
             session['my_pokemon_moves'] = my_pokemon_moves
 
+      
             return redirect(url_for('battle.pokemon_battle'))
         else:
             error = 'Your pokemon is not in the list'

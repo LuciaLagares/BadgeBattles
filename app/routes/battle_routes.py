@@ -84,8 +84,7 @@ def battle_details(battle_ID):
         date=battle.date.strftime("%Y-%m-%d %H:%M:%S")
         user_pokemon=get_pokemon_by_ID(battle.attacker_pokemon)
         enemy_pokemon=get_pokemon_by_ID(battle.defender_pokemon) 
-        
-        
+        print(battle.result)
         return render_template("battle_details.html",battle_details=battle,user_pokemon=user_pokemon,enemy_pokemon=enemy_pokemon,date=date)
     flash('There is no battle for that ID')
     return redirect(url_for('trainer.trainer_details'))

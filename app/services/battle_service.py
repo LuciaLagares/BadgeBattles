@@ -18,7 +18,13 @@ def enemy_pokemon_selector(my_pokemon):
 
 
 def random_moves(pokemon, moves):
-    
+    if len(pokemon.moves) == 0:
+        return [{
+            "name": "struggle",
+            "accuracy": 100,
+            "power": 10,
+            "type": "normal"
+        }]
     random_move = pokemon.moves[random.randint(0, len(pokemon.moves)-1)]
     if (random_move not in moves):
         moves.append(random_move)
@@ -52,18 +58,18 @@ def attack_battle(battle, option):
     # Comparamos que pokemon es más rapido para que empiece el combate
     if enemy_pokemon.stats[5]['value'] >= my_pokemon.stats[5]['value']:
 
-        if attack(enemy_pokemon,my_pokemon,enemy_move,battle):
-            return enemy_pokemon,my_pokemon
+        if attack(enemy_pokemon, my_pokemon, enemy_move, battle):
+            return enemy_pokemon, my_pokemon
         else:
-            if attack(my_pokemon,enemy_pokemon,my_move,battle):
-                return my_pokemon,enemy_pokemon 
-    else:    
-        if attack(my_pokemon,enemy_pokemon,my_move,battle):
-            return my_pokemon,enemy_pokemon
+            if attack(my_pokemon, enemy_pokemon, my_move, battle):
+                return my_pokemon, enemy_pokemon
+    else:
+        if attack(my_pokemon, enemy_pokemon, my_move, battle):
+            return my_pokemon, enemy_pokemon
         else:
-            if attack(enemy_pokemon,my_pokemon,enemy_move,battle):
-                return enemy_pokemon,my_pokemon
-    return False,False
+            if attack(enemy_pokemon, my_pokemon, enemy_move, battle):
+                return enemy_pokemon, my_pokemon
+    return False, False
 
 
 def attack(attacker, reciever, attacker_move, battle):
@@ -98,6 +104,13 @@ def calculate_precision(move):
 
 
 def enemy_attack(moves):
+    if(len(moves)==0):
+        return {
+            "name": "struggle",
+            "accuracy": 100,
+            "power": 10,
+            "type": "normal"
+        }
     return moves[random.randint(0, len(moves)-1)]
 
 
@@ -149,18 +162,18 @@ def evaluate_pokemon(hp):
 
 
 def rivalSpriteSelector(trainer_id):
-    rivals=get_all_trainers()
-    rivals_without_trainer=[]
+    rivals = get_all_trainers()
+    rivals_without_trainer = []
     for rival in rivals:
-        if rival.id==trainer_id:
+        if rival.id == trainer_id:
             continue
         rivals_without_trainer.append(rival)
     return rivals_without_trainer[random.randint(0, len(rivals_without_trainer)-1)]
-    
-    
-def battle_result(winner_id,attacker_pokemon_id):
-        """Recibe la ID del pokemon ganador y la compara con el id del pokemon atacante"""
-        if winner_id==attacker_pokemon_id:
-            return True
-        else:
-            return False
+
+
+def battle_result(winner_id, attacker_pokemon_id):
+    """Recibe la ID del pokemon ganador y la compara con el id del pokemon atacante"""
+    if winner_id == attacker_pokemon_id:
+        return True
+    else:
+        return False

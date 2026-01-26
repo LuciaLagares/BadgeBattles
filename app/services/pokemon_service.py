@@ -1,7 +1,8 @@
 from app.clients.adaptor import poke_adaptor
 from app.clients.adaptor.poke_adaptor import from_api_move_to_move, from_api_to_pokemon, from_api_to_pokemon_list
 import app.repositories.pokemon_repo as pokemon_repo
-import app.clients.poke_client as poke_client
+from app.clients.poke_client  import poke_client
+# import app.clients.poke_client as poke_client
 import random
 import math
 
@@ -30,20 +31,23 @@ def get_list_pokemons(offset, limit):
     if list_pokemons is None:
 
         return None
-    urls = []
+    ids = []
     for item_pokemon in list_pokemons:
-        urls.append(item_pokemon["url"])
+        #       url="https://pokeapi.co/api/v2/pokemon/1/"
+            # urls=url.split("/")
+            # print("hola",urls[len(urls)-2])
+            url=item_pokemon["url"]
+            urls=url.split("/")
+            id=urls[len(urls)-2]
+            ids.append(id)
 
-    raw_pokemons = poke_client.fetch_pokemons_parallel(urls)
+    raw_pokemons = poke_client.fetch_pokemons_parallel(ids)
     if raw_pokemons is None:
 
         return None
 
     pokemons_without_moves = from_api_to_pokemon_list(raw_pokemons)
 
-    # pokemons = get_moves_from_api(pokemons_without_moves)
-
-    # return pokemons
     return pokemons_without_moves
 
 
@@ -56,26 +60,27 @@ def get_moves_from_api(pokemons):
 def get_moves_from_api_individual(pokemon):
     clean_moves = []
     raw_moves = poke_client.fetch_pokemons_moves_by_pokemon_id(pokemon.id)
-    cnt = 0
-    print("Cantidad de movimienots",len(raw_moves))
+    cnt = len(pokemon.moves)
+    # print("Cantidad de movimienots",len(raw_moves))
     for raw_move in raw_moves:
-        print(raw_move["move"]["url"])
+
         raw_single_move = poke_client.fetch_move_by_url(
             raw_move["move"]["url"])
-        print("RAAW-movimiento",raw_single_move["name"])
+
         if raw_single_move["power"] is not None:
             # traduzco
             move = from_api_move_to_move(raw_single_move)
-            print("movimiento", move)
-            clean_moves.append(move)
-            cnt += 1
 
-        if cnt >= 20:
+            clean_moves.append(move)
+            cnt -= 1
+
+        if cnt ==0:
             break
         elif len(clean_moves) > 9:
             break
         # print("cantidad movimientos:", clean_moves)
-        pokemon.asing_moves(clean_moves)
+    pokemon.asing_moves(clean_moves)
+
 
     return pokemon
 
@@ -91,7 +96,6 @@ def get_pokemon_by_ID(id):
     pokemon_wm = from_api_to_pokemon(raw_pokemon)
 
     complete_pokemon = get_moves_from_api_individual(pokemon_wm)
-    print(len(complete_pokemon.moves))
     return complete_pokemon
 
     # return pokemon_repo.search_by_id(id)

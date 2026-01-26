@@ -30,10 +30,13 @@
         <td class="px-4 border text-center">{{user_pokemon.name|capitalize}}</td>
         <td class="px-4 border text-center">{{battle_details.defender.name}}</td>
         <td class="px-4 border text-center">{{enemy_pokemon.name|capitalize}}</td>
-        {%if battle_details.result==1%}
+
+
+        {% if battle_details.result =="1" %}
         <td class="px-4 border text-center">Winner {{battle_details.attacker.name}}</td>
         {%else%}
         <td class="px-4 border text-center">Winner {{battle_details.defender.name}}</td>
+  
 
         {%endif%}
       </tr>
@@ -48,19 +51,19 @@
     </tbody>
   </table>
 
-<figure class="flex justify-evenly bg-base-300 relative">
-  <div class="bg-red-400 w-[100%] flex flex-col justify-center items-center">
-    <img class="h-50"  src="{{url_for('static', filename=battle_details.attacker.sprite)}}" alt="">
-    <img class="h-100" src="{{user_pokemon.sprites.front_default}}" alt="{{user_pokemon.name}}">
-    
-  </div>
-  <div class="divider divider-horizontal absolute z-10 bottom-[50%]">Versus</div>
-  <div class="bg-blue-400 w-[100%] flex flex-col justify-center items-center">
-    
-    <img class="h-50" src="{{url_for('static', filename=battle_details.defender.sprite)}}" alt="">
-    <img class="h-100" src="{{enemy_pokemon.sprites.front_default}}" alt="{{enemy_pokemon.name}}">
-  </div>
-</figure>
+  <figure class="flex justify-evenly bg-base-300 relative">
+    <div class="bg-red-400 w-[100%] flex flex-col justify-center items-center">
+      <img class="h-50" src="{{url_for('static', filename=battle_details.attacker.sprite)}}" alt="">
+      <img class="h-100" src="{{user_pokemon.sprites.front_default}}" alt="{{user_pokemon.name}}">
+
+    </div>
+    <div class="divider divider-horizontal absolute z-10 bottom-[50%]">Versus</div>
+    <div class="bg-blue-400 w-[100%] flex flex-col justify-center items-center">
+
+      <img class="h-50" src="{{url_for('static', filename=battle_details.defender.sprite)}}" alt="">
+      <img class="h-100" src="{{enemy_pokemon.sprites.front_default}}" alt="{{enemy_pokemon.name}}">
+    </div>
+  </figure>
 
 
 </div>
