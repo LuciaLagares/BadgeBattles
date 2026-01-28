@@ -35,3 +35,11 @@ def delete_battle(battle):
     db.session.delete(battle)
     db.session.commit()
     return True
+
+def get_won_battles_by_trainer_id(id_trainer):
+    battles=BattleDB.query.filter(((BattleDB.attacker_id==id_trainer) & (BattleDB.result==1)) | ((BattleDB.defender_id==id_trainer) & (BattleDB.result==0))).count()
+    return battles
+    
+def get_lost_battles_by_trainer_id(id_trainer):
+    battles=BattleDB.query.filter(((BattleDB.attacker_id==id_trainer) & (BattleDB.result==0)) | ((BattleDB.defender_id==id_trainer) & (BattleDB.result==1))).count()
+    return battles

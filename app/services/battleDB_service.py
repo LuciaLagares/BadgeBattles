@@ -1,5 +1,5 @@
 from datetime import datetime
-from app.repositories.battle_repo import create_battleDB, delete_battle, get_all_battles_id, get_battle_by_id
+from app.repositories.battle_repo import create_battleDB, delete_battle, get_all_battles_id, get_battle_by_id, get_lost_battles_by_trainer_id, get_won_battles_by_trainer_id
 
 
 def create_battle_service(
@@ -29,4 +29,15 @@ def delete_battle_by_id(battle_id):
     battle=get_single_battle_by_id(battle_id)
     if battle:
         delete_battle(battle=battle)
-    
+        
+def won_battles_by_trainer_id(trainer_id):
+    battle=get_won_battles_by_trainer_id(trainer_id)
+    if battle:
+        return battle
+    return None
+
+def lost_battles_by_trainer_id(trainer_id):
+    battle=get_lost_battles_by_trainer_id(trainer_id)
+    if battle:
+        return battle
+    return None

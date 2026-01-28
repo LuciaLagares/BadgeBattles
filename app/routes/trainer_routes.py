@@ -2,7 +2,7 @@
 from flask import Blueprint, render_template, request, session
 
 from app.decorators import login_required
-from app.services.battleDB_service import get_all_battles_details
+from app.services.battleDB_service import get_all_battles_details, lost_battles_by_trainer_id, won_battles_by_trainer_id
 from app.services.pokemon_service import get_pokemon_by_ID
 from app.services.trainer_service import get_trainer_by_id_service
 
@@ -15,15 +15,9 @@ def trainer_details():
 
     id=session['trainer']['id']
     battles=get_all_battles_details(id)
-    
-    
-    #     attacker_id,
-    # defender_id,
-    # attacker_pokemon_id,
-    # defender_pokemon_id,
-    # result):
-    # 
-    # 
+    won_battles=won_battles_by_trainer_id(id)
+    lost_battles=lost_battles_by_trainer_id(id)
+    # MODIFICAR
     battles_details=[]
     if battles is not None:
         for battle in battles:
@@ -45,7 +39,7 @@ def trainer_details():
     # 
     
     
-    return render_template("trainer_details.html", battles_details=battles_details)
+    return render_template("trainer_details.html", battles_details=battles_details, victories=won_battles, defeats=lost_battles)
 
 
 #     for battle in battles:

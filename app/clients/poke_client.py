@@ -70,9 +70,7 @@ class PokeClient:
             return self._cache_moves_data [url_move]
         response = requests.get(url_move)
         response.raise_for_status()
-
         data=response.json()
-        
         self._cache_moves_data[url_move]=data
         return data
 

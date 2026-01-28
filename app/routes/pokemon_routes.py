@@ -1,4 +1,5 @@
-from flask import Blueprint, redirect, render_template, request, session, url_for
+from math import ceil
+from flask import Blueprint, abort, redirect, render_template, request, session, url_for
 from app.colors import colors
 from app.decorators import login_required
 from app.services import battle_service, pokemon_service
@@ -10,16 +11,44 @@ pokemon_bp = Blueprint('pokemon', __name__, template_folder='templates')
 
 @pokemon_bp.route("/", methods=["GET", "POST"])
 def pokemon_list():
+    limit=8
+    offset=0
     # pokemons = get_pokemons()
-    pokemons=get_list_pokemons(0,8)
-    error = ''
+    # pokemons_pages=len(get_pokemons())
+    # 
+    # Total pages tiene la cantidad total de paginas
+    page_str=request.args.get("page")
+    if(page_str is not None):
+        try:
+            page=int(page_str)
+            
+            def calculate_page_pokemon(page):
+                if page<=0:
+                    limit=8
+                    offset=0
+                    
+                else:
+                    offset=(page*8)-8
+                    limit=8
+                
+                return offset,limit
+            
+            offset,limit=calculate_page_pokemon(page)
+    
+        except:
+            
+            return redirect(url_for("pokemon.pokemon_list"))
+   
 
+    pokemons,pokemon_pages=get_list_pokemons(offset,limit)
+    error = ''
+    total_pages=ceil(pokemon_pages/8)
+    if len(pokemons)==0:
+        return redirect(url_for("pokemon.pokemon_list",page=total_pages))
     if request.method == "POST":
-        pokemon_selected = request.form.get('pokemon_finder')
-       
+        pokemon_selected = request.form.get('pokemon_finder')       
         my_pokemon = pokemon_service.get_pokemon_by_name(
             pokemon_selected)
-
         if my_pokemon is not None:
             enemy_pokemon = battle_service.enemy_pokemon_selector(
                 my_pokemon)
@@ -42,7 +71,7 @@ def pokemon_list():
         else:
             error = 'Your pokemon is not in the list'
             return render_template("pokemon_list.html", pokemons=pokemons, colors=colors, error=error)
-    else:
+    else: 
         return render_template("pokemon_list.html", pokemons=pokemons, colors=colors, error=error)
 
 
