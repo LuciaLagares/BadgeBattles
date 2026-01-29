@@ -34,10 +34,10 @@ def won_battles_by_trainer_id(trainer_id):
     battle=get_won_battles_by_trainer_id(trainer_id)
     if battle:
         return battle
-    return None
+    return 0
 
 def lost_battles_by_trainer_id(trainer_id):
     battle=get_lost_battles_by_trainer_id(trainer_id)
     if battle:
         return battle
-    return None
+    return 0
