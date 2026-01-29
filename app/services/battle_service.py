@@ -151,6 +151,8 @@ def calculate_HP_to_substract(attacker, reciever, move):
 
 def substract_HP(pokemon, damage):
     hp = pokemon.stats[0]['value']-damage
+    if hp<=0:
+        hp=0
     return int(hp)
 
 

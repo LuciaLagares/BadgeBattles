@@ -24,7 +24,7 @@
 
 {% block main %}
 
-
+<div class=" flex flex-col items-center">
 <div
     class="w-[100%] h-[100%] flex flex-nowrap justify-around items-center:left overflow-y-scroll 2xl:overflow-y-hidden">
 
@@ -83,8 +83,8 @@
 
         {%endfor%}
 
-
     </section>
+    
     <form class="text-white w-[10%]" action="{{url_for('pokemon.pokemon_list')}}" method="POST">
         <label for="pokemon_finder">Name of the pokemon:</label>
         <input class="w-[100%]" type="text" name="pokemon_finder" id="pokemon_finder" required>
@@ -93,5 +93,14 @@
             {{error}}
         </div>
     </form>
+    
 </div>
+<form method="GET" class=" flex gap-10">
+    <button name="page" type="submit" value={{page-1}} class="btn btn-primary">Previous</button>
+    <p>{{page}} of {{total_pages}}</p>
+    <button name="page" type="submit" value={{page+1}} class="btn btn-primary">Next</button>
+
+</form>
+</div>
+
 {% endblock %}

@@ -13,6 +13,8 @@ pokemon_bp = Blueprint('pokemon', __name__, template_folder='templates')
 def pokemon_list():
     limit=8
     offset=0
+    page=1
+    total_pages=169
     # pokemons = get_pokemons()
     # pokemons_pages=len(get_pokemons())
     # 
@@ -21,6 +23,9 @@ def pokemon_list():
     if(page_str is not None):
         try:
             page=int(page_str)
+            
+            if page<=0:
+                return redirect(url_for("pokemon.pokemon_list"))
             
             def calculate_page_pokemon(page):
                 if page<=0:
@@ -37,14 +42,14 @@ def pokemon_list():
     
         except:
             
-            return redirect(url_for("pokemon.pokemon_list"))
+            return redirect(url_for("pokemon.pokemon_list",total_pages=total_pages, page=page))
    
 
     pokemons,pokemon_pages=get_list_pokemons(offset,limit)
     error = ''
     total_pages=ceil(pokemon_pages/8)
     if len(pokemons)==0:
-        return redirect(url_for("pokemon.pokemon_list",page=total_pages))
+        return redirect(url_for("pokemon.pokemon_list",total_pages=total_pages, page=page))
     if request.method == "POST":
         pokemon_selected = request.form.get('pokemon_finder')       
         my_pokemon = pokemon_service.get_pokemon_by_name(
@@ -70,9 +75,9 @@ def pokemon_list():
             return redirect(url_for('battle.pokemon_battle'))
         else:
             error = 'Your pokemon is not in the list'
-            return render_template("pokemon_list.html", pokemons=pokemons, colors=colors, error=error)
+            return render_template("pokemon_list.html", pokemons=pokemons, colors=colors, error=error,total_pages=total_pages, page=page)
     else: 
-        return render_template("pokemon_list.html", pokemons=pokemons, colors=colors, error=error)
+        return render_template("pokemon_list.html", pokemons=pokemons, colors=colors, error=error,total_pages=total_pages, page=page)
 
 
 @pokemon_bp.route("/<int:pokemon_ID>/")
