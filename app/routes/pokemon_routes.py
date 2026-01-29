@@ -3,7 +3,7 @@ from flask import Blueprint, abort, redirect, render_template, request, session,
 from app.colors import colors
 from app.decorators import login_required
 from app.services import battle_service, pokemon_service
-from app.services.pokemon_service import get_list_pokemons, get_pokemons
+from app.services.pokemon_service import calculate_page_pokemon, get_list_pokemons, get_pokemons
 
 
 pokemon_bp = Blueprint('pokemon', __name__, template_folder='templates')
@@ -14,11 +14,7 @@ def pokemon_list():
     limit=8
     offset=0
     page=1
-    total_pages=169
-    # pokemons = get_pokemons()
-    # pokemons_pages=len(get_pokemons())
-    # 
-    # Total pages tiene la cantidad total de paginas
+    total_pages=None
     page_str=request.args.get("page")
     if(page_str is not None):
         try:
@@ -26,17 +22,7 @@ def pokemon_list():
             
             if page<=0:
                 return redirect(url_for("pokemon.pokemon_list"))
-            
-            def calculate_page_pokemon(page):
-                if page<=0:
-                    limit=8
-                    offset=0
-                    
-                else:
-                    offset=(page*8)-8
-                    limit=8
-                
-                return offset,limit
+
             
             offset,limit=calculate_page_pokemon(page)
     
@@ -46,10 +32,16 @@ def pokemon_list():
    
 
     pokemons,pokemon_pages=get_list_pokemons(offset,limit)
+ 
+    if len(pokemons)==0 and pokemon_pages is None:
+        abort(404)
     error = ''
+    
+    if pokemons is None:
+        pokemons=[]
     total_pages=ceil(pokemon_pages/8)
-    if len(pokemons)==0:
-        return redirect(url_for("pokemon.pokemon_list",total_pages=total_pages, page=page))
+    if(page>total_pages):
+        return redirect(url_for("pokemon.pokemon_list", page=total_pages))
     if request.method == "POST":
         pokemon_selected = request.form.get('pokemon_finder')       
         my_pokemon = pokemon_service.get_pokemon_by_name(

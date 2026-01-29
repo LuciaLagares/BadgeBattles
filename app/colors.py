@@ -13,5 +13,7 @@ colors = {
         'steel': 'lightslategray',
         'fairy': 'violet',
         'ice': 'lightsteelblue',
+        "bug": "lightgreen",
+        "normal":"lightgray"
         
 }

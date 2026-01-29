@@ -26,7 +26,7 @@ def get_list_pokemons(offset, limit):
     data = poke_client.fetch_pokemons(offset, limit)
     if data is None:
 
-        return None
+        return [], None
     list_pokemons = data["results"]
 
     if list_pokemons is None:
@@ -138,6 +138,18 @@ def get_stat_value(pokemon, stat_name):
             searched_stat = stat.get('value', 0)
             break
     return searched_stat
+
+
+def calculate_page_pokemon(page):
+    if page <= 0:
+        limit = 8
+        offset = 0
+
+    else:
+        offset = (page*8)-8
+        limit = 8
+
+    return offset, limit
 
 
 if __name__ == "__main__":
