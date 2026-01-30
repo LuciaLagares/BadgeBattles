@@ -1,10 +1,11 @@
 import requests
 from concurrent.futures import ThreadPoolExecutor
+from cachetools import TTLCache
 URL = "https://pokeapi.co/api/v2/pokemon"
 URL_movements = "https://pokeapi.co/api/v2/move"
 class PokeClient:
     def __init__(self):
-        self._cache_pokemon = {}
+        self._cache_pokemon = TTLCache(maxsize=10,ttl=60)
         self._cache_moves_per_pokemon = {}
         self._cache_moves_data = {}
 
@@ -31,20 +32,24 @@ class PokeClient:
         except:
             return None
 
-
-# def fetch_pokemon_detail_by_id(id):
-#     response = requests.get(URL+f"/{id}")
-#     response.raise_for_status()
-#     return response.json()
-
     def fetch_pokemon_detail_by_id(self, id):
+        
         try:
             if id in self._cache_pokemon:
+                print("Recuperado:", id)
                 return self._cache_pokemon[id]
             response = requests.get(URL+f"/{id}")
             response.raise_for_status()
             data = response.json()
+            print("Antes de guardar")
+            print(f"Tamaño antes de guardar el pokemon ID -> {id}: {len(self._cache_pokemon)}")
+            print(id in self._cache_pokemon)
+            print(list(self._cache_pokemon.keys()))
             self._cache_pokemon[id] = data
+            print("Despues de guardar")
+            print(f"Tamaño despues de guardar el pokemon ID -> {id}: {len(self._cache_pokemon)}")
+            print(id in self._cache_pokemon)
+            print(list(self._cache_pokemon.keys()))
             return data
         except:
             return None
@@ -96,22 +101,9 @@ class PokeClient:
 
 poke_client = PokeClient()
 
-    # def fetch_pokemons_moves_by_pokemon_id(id):
-    #     raw_pokemon = fetch_pokemon_detail_by_id(id)
-    #     return raw_pokemon['moves']
-
-
-    # def fetch_move_by_url(url_move):
-
-    #     response = requests.get(url_move)
-    #     response.raise_for_status()
-
-    #     return response.json()
-
-
 if __name__ == "__main__":
     print("Este código execútase cando o script é executado directamente.")
-
+   
     # data = fetch_pokemons_parallel(["https://pokeapi.co/api/v2/pokemon/1/","https://pokeapi.co/api/v2/pokemon/2/","https://pokeapi.co/api/v2/pokemon/3/"])
     # data=fetch_all_pokemon(0, 10000000)
     # for d in data:
