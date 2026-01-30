@@ -16,7 +16,14 @@ Crear entorno virtual usando python -m venv .venv
 
 Instalar las dependencias con ./venv/Scripts/pip.exe install -r ./requirements.txt
 
+Para la creación de la base de datos ejecutar: ./.venv/Scripts/flask --app app.main create-tables
+
+Para la población de entrenadores en la base de datos, ejecutar: ./.venv/Scripts/flask --app app.main add-opponents
+
+En caso de querer registrar o utilizar un entrenador predefinido en la base de datos, en la pagina de login será necesario escribir su nombre, e introducir la contraseña:0000
+
 Ejecutar el documento utilizando ./venv/Scripts/python -m app.main
+
 
 Registrate  con tu nombre y género, haz click sobre la carta del Pokemon que te interesa para poder ver sus estadísticas, una vez decidas tu favorito, escribe su nombre en el buscador de la lista y disfruta de las batallas!
 
