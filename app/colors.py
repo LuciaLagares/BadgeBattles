@@ -14,6 +14,8 @@ colors = {
         'fairy': 'violet',
         'ice': 'lightsteelblue',
         "bug": "lightgreen",
-        "normal":"lightgray"
+        "normal":"lightgray",
+        "ground":"burlywood",
+        "fairy":"palevioletred",
         
 }
