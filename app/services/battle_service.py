@@ -12,6 +12,8 @@ def enemy_pokemon_selector(my_pokemon):
     randomPokemonNumber = random.randint(0, len(pokemons)-1)
     enemy_pokemon = pokemons[randomPokemonNumber]
     if len(pokemons) >= 2:
+        print(enemy_pokemon["name"])
+        print(my_pokemon.name)
         if (enemy_pokemon["name"] == my_pokemon.name):
             return enemy_pokemon_selector(my_pokemon)
     return enemy_pokemon

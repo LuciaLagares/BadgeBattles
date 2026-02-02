@@ -49,6 +49,7 @@ def pokemon_list():
         if my_pokemon is not None:
             enemy_pokemon = battle_service.enemy_pokemon_selector(
                 my_pokemon)
+            print(enemy_pokemon)
             enemy_pokemon=pokemon_service.get_pokemon_by_name(enemy_pokemon["name"])
             
            

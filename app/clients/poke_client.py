@@ -43,7 +43,7 @@ class PokeClient:
 
     def fetch_pokemon_detail_by_id(self, id):
         now = time.time()
-        TTL = now + 120
+        TTL = now + 60
         size = 20
         try:
             if id in self._cache_pokemon:
@@ -89,13 +89,13 @@ class PokeClient:
 
     def fetch_pokemons_moves_by_pokemon_id(self, id):
         now = time.time()
-        TTL = now + 120
+        TTL = now + 60
         size = 100
         try:
             if id in self._cache_moves_per_pokemon:
                 if now < self._cache_moves_per_pokemon[id]["TTL_key"]:
                     data = self._cache_moves_per_pokemon[id]["data_key"]
-                return data
+                    return data
             raw_pokemon = self.fetch_pokemon_detail_by_id(id)
 
             data = raw_pokemon['moves']
@@ -109,28 +109,43 @@ class PokeClient:
         except:
             return None
 
+
     def fetch_move_by_url(self, url_move):
         now = time.time()
-        TTL = now + 120
+        TTL = now + 60
         size = 100
         try:
             if url_move in self._cache_moves_data:
                 if now < self._cache_moves_data[url_move]["TTL_key"]:
                     data = self._cache_moves_data[url_move]["data_key"]
-                return data
+                    return data
+
             response = requests.get(url_move)
             response.raise_for_status()
             data = response.json()
             dataTTL = {"data_key": data,
                        "TTL_key": TTL}
+
             if len(self._cache_moves_data) >= size:
                 self._cache_moves_data.popitem(last=True)
                 self._cache_moves_data[url_move] = dataTTL
             else:
                 self._cache_moves_data[url_move] = dataTTL
+
             return data
         except:
             return None
+    # def fetch_move_by_url(self, url_move):
+    #     try:
+    #         if url_move in self._cache_moves_data:
+    #             return self._cache_moves_data[url_move]
+    #         response = requests.get(url_move)
+    #         response.raise_for_status()
+    #         data = response.json()
+    #         self._cache_moves_data[url_move] = data
+    #         return data
+    #     except:
+    #         return None
 
 
 poke_client = PokeClient()
@@ -139,28 +154,7 @@ poke_client = PokeClient()
 if __name__ == "__main__":
     print("Este código execútase cando o script é executado directamente.")
 
-    # def fetch_move_by_url(self, url_move):
-    #     now = time.time()
-    #     TTL = now + 120
-    #     size = 100
-    #     try:
-    #         if url_move in self._cache_moves_data:
-    #             if now < self._cache_moves_data[url_move]["TTL_key"]:
-    #                 data = self._cache_moves_data[id]["data_key"]
-    #             return data
-    #         response = requests.get(url_move)
-    #         response.raise_for_status()
-    #         data = response.json()
-    #         dataTTL = {"data_key": data,
-    #                    "TTL_key": TTL}
-    #         if len(self._cache_moves_data)>=size:
-    #             self._cache_moves_data.popitem(last=True)
-    #             self._cache_moves_data[url_move]= dataTTL
-    #         else:
-    #             self._cache_moves_data[url_move]= dataTTL
-    #         return data
-    #     except:
-    #         return None
+
 
     # def fetch_move_by_url(self, url_move):
     #     try:

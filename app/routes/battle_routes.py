@@ -25,21 +25,21 @@ def pokemon_battle():
         my_pokemon_dict = session.get('pokemon_selected')
         
         if my_pokemon_dict is None:
-            return render_template("pokemon.pokemon_list", error='No Pokemon was selected')
+            return redirect(url_for("pokemon.pokemon_list"))
         my_pokemon=Pokemon.from_dict(my_pokemon_dict)
        
       
         my_pokemon_moves = session.get('my_pokemon_moves')
         enemy_pokemon_dict = session.get('enemy_pokemon')
         if enemy_pokemon_dict is None:
-            return render_template("pokemon.pokemon_list", error='No enemy Pokemon was selected')
+            return redirect(url_for("pokemon.pokemon_list"))
         enemy_pokemon=Pokemon.from_dict(enemy_pokemon_dict)
         if my_pokemon and my_pokemon_moves and enemy_pokemon:
             
             battle_dict= battle_service.create_battle(
                 my_pokemon, enemy_pokemon, my_pokemon_moves).to_dict()
             if battle_dict is None:
-                return render_template("pokemon.pokemon_list", error='It was not possible to create a Battle')
+                return redirect(url_for("pokemon.pokemon_list"))
             session['battle'] = Battle.from_dict(battle_dict)
             return render_template("pokemon_battle.html", colors=colors)
         else:

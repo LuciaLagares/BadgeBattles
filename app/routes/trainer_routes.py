@@ -14,6 +14,7 @@ trainer_bp = Blueprint('trainer', __name__, template_folder='templates')
 def trainer_details():
 
     id=session['trainer']['id']
+
     battles=get_all_battles_details(id)
     won_battles=won_battles_by_trainer_id(id)
     lost_battles=lost_battles_by_trainer_id(id)

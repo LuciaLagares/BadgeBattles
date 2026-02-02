@@ -61,19 +61,30 @@ def get_moves_from_api(pokemons):
 def get_moves_from_api_individual(pokemon):
     clean_moves = []
     raw_moves = poke_client.fetch_pokemons_moves_by_pokemon_id(pokemon.id)
-    cnt = len(raw_moves)
-    for raw_move in raw_moves:
-        raw_single_move = poke_client.fetch_move_by_url(
-            raw_move["move"]["url"])
-        if raw_single_move["power"] is not None:
-            move = from_api_move_to_move(raw_single_move)
-            clean_moves.append(move)
-            cnt -= 1
+    if raw_moves is None:
+        clean_moves=[{
+            "name": "struggle",
+            "accuracy": 100,
+            "power": 10,
+            "type": "normal"
+        }]
+   
+    else:
+        cnt = len(raw_moves)
+        for raw_move in raw_moves:
+            print(raw_move["move"]["url"])
+            raw_single_move = poke_client.fetch_move_by_url(
+                raw_move["move"]["url"])
+            if raw_single_move["power"] is not None:
+                move = from_api_move_to_move(raw_single_move)
+                print(move["name"])
+                clean_moves.append(move)
+                cnt -= 1
 
-        if cnt == 0:
-            break
-        elif len(clean_moves) > 9:
-            break
+            if cnt == 0:
+                break
+            elif len(clean_moves) > 9:
+                break
         # print("cantidad movimientos:", clean_moves)
     pokemon.asing_moves(clean_moves)
 
