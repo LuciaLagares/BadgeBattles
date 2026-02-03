@@ -5,7 +5,8 @@
 {% block main %}
 
 <div class="hero  bg-cover bg-no-repeat"
-  style="background-image: url(../static/images/Batalla\ Épica\ en\ la\ Liga\ Pokémon.png);">
+
+  style="background-image: url("{{ url_for('static', filename='images/Batalla Épica en la Liga Pokémon.png') }}");">
   <div class="hero-overlay"></div>
   <div class="hero-content text-neutral-content text-center flex flex-col justify-center items-center">
     <div class="max-w-md">

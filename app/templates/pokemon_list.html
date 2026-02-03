@@ -42,9 +42,14 @@
                     <!-- Imagen -->
                     <figure class=" border-5 mx-15"
                         style="background-color:rgba(89, 106, 4, 0.5); border-radius: 2rem; box-shadow: 5px 2px 5px black;">
-
+                {%if pokemon.sprites.front_default%}
                         <img class="transform hover:scale-200 duration-300 ease-in-out"
                             src="{{pokemon.sprites.front_default}}" alt="{{pokemon.name}}" />
+                        {%else%}
+                        <img class="w-15 h-15  transform hover:scale-200 duration-300 ease-in-out"
+                     src="{{url_for('static', filename='/images/default.png')}}" alt="{{pokemon.name}}" />
+
+                        {%endif%}
                     </figure>
                     <!-- Cuerpo carta -->
                     <div class="card-body items-center text-center  px-2">
@@ -96,18 +101,17 @@
 
     </div>
     <form method="GET" class=" flex gap-10 items-center">
-        {% if page<2 %} 
-            <button name="page" type="submit" disabled value={{page-1}} class="btn btn-primary">
+        {% if page<2 %} <button name="page" type="submit" disabled value={{page-1}} class="btn btn-primary">
             Previous</button>
-        {% else %}
+            {% else %}
             <button name="page" type="submit" value={{page-1}} class="btn btn-primary">Previous</button>
-        {%endif%}
+            {%endif%}
             <p class="text-white">{{page}} of {{total_pages}}</p>
-        {% if page>=total_pages%}
+            {% if page>=total_pages%}
             <button name="page" type="submit" disabled value={{page+1}} class="btn btn-primary">Next</button>
-        {% else %}
+            {% else %}
             <button name="page" type="submit" value={{page+1}} class="btn btn-primary">Next</button>
-        {%endif%}
+            {%endif%}
 
     </form>
 </div>

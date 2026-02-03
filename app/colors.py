@@ -5,17 +5,17 @@ colors = {
         'grass': 'olive',
         'poison': 'fuchsia',
         'water': 'blue',
-        'fighting': 'saddlebrown',
-        'dragon': 'mediumblue',
-        'normal': 'bisque',
-        'ground': 'tan',
         'dark': 'grey',
         'steel': 'lightslategray',
-        'fairy': 'violet',
-        'ice': 'lightsteelblue',
         "bug": "lightgreen",
         "normal":"lightgray",
         "ground":"burlywood",
         "fairy":"palevioletred",
+        "fighting":"darkkhaki",
+        "psychic":"pink",
+        "rock":"brown",
+        "ghost":"magenta",
+        "ice":"lightblue",
+        "dragon":"indigo"
         
 }

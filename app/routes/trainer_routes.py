@@ -26,7 +26,19 @@ def trainer_details():
 
             battle_dict['id']=battle.id
             result=int(battle.result)
-            battle_dict['result']='Win' if result==1 else 'Lose'
+            print(result)
+            
+            if(result==1):
+                if(battle.attacker_id==id):
+                    battle_dict['result']='Win'
+                else:
+                    battle_dict['result']='Lose'
+                    
+            else:
+                if(battle.attacker_id==id):
+                    battle_dict['result']='Lose'
+                else:
+                    battle_dict['result']='Win'
             if id==battle.attacker_id:
                 battle_dict['rol']='Attacker'
                 battle_dict['pokemon']=get_pokemon_by_ID(battle.attacker_pokemon)

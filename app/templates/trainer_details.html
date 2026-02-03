@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 
 {% block title %}Trainer Details{% endblock %}
+{% block form%}
+     <a href="{{url_for('home.logout')}}" class="btn btn-primary"> Cerrar sesión</a>
+{%endblock%}
 {% block main %}
 <div class="flex flex-row w-[100%] justify-evenly">
   <div>
