@@ -39,7 +39,7 @@
                 <!-- Slide1 -->
                 <div id="slide1" class="carousel-item relative w-full h-[100%] overflow-visible"
                     style="flex-shrink: 0;">
-
+                    {%if pokemon.sprites.front_default%}
                     {%if is_shiny%}
 
                     <img class=" mx-auto self-center p-10 w-100 h-100" src="{{pokemon.sprites.front_shiny}}" />
@@ -47,6 +47,12 @@
                     <img class=" mx-auto self-center p-10 w-100 h-100" src="{{pokemon.sprites.front_default}}" />
 
                     {%endif%}
+                    {%else%}
+                    <img class="w-70 h-70 relative left-20 top-4 "
+                        src="{{url_for('static', filename='/images/default.png')}}" alt="{{pokemon.name}}" />
+
+                    {%endif%}
+
                     <!-- Botones slide 1 -->
                     <div class="absolute left-1 right-1 top-1/2 flex -translate-y-1/2 transform justify-between">
                         <a href="#slide4" class="shadow-none bg-transparent border-0 h-100" style="content: ' ';"></a>
@@ -57,10 +63,17 @@
                 <!-- Slide2 -->
                 <div id="slide2" class="carousel-item relative w-full h-[100%] overflow-visible"
                     style="flex-shrink: 0;">
-                    {%if is_shiny%}
-                    <img class=" mx-auto self-center p-10 w-100 h-100" src="{{pokemon.sprites.back_shiny}}" />
+                    {%if pokemon.sprites.back_default%}
+                        {%if is_shiny%}
+                        <img class=" mx-auto self-center p-10 w-100 h-100" src="{{pokemon.sprites.back_shiny}}" />
+                        {%else%}
+                        <img class="  mx-auto self-center p-10 w-100 h-100" src="{{pokemon.sprites.back_default}}" />
+
+                        {%endif%}
+
                     {%else%}
-                    <img class="  mx-auto self-center p-10 w-100 h-100" src="{{pokemon.sprites.back_default}}" />
+                    <img class="w-70 h-70 relative left-20 top-4 "
+                        src="{{url_for('static', filename='/images/default.png')}}" alt="{{pokemon.name}}" />
 
                     {%endif%}
                     <!-- Botones slide 2-->

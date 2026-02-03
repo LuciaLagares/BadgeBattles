@@ -76,10 +76,16 @@
             </div>
          </div>
          <!-- Image -->
-         <figure class=" w-[15%] h-[100%]">
-            <img class="h-full h-full object-cover scale-300 relative top-8"
-               src="{{session.pokemon_selected.sprites.back_default}}" alt="BackImage">
-         </figure>
+          {%if session.pokemon_selected.sprites.back_default%}
+          <figure class=" w-[15%] h-[100%]">
+             <img class="h-full h-full object-cover scale-300 relative top-8"
+                src="{{session.pokemon_selected.sprites.back_default}}" alt="BackImage">
+          </figure>
+          {%else%}
+                    <img class="w-100 h-100 relative left-20 top-4"
+                        src="{{url_for('static', filename='/images/default.png')}}" alt="default_image" />
+
+                    {%endif%}
 
       </div>
 
@@ -121,10 +127,17 @@
             </div>
          </div>
          <!-- Image -->
+           {%if session.enemy_pokemon.sprites.front_default%}
          <figure class=" w-[15%] h-[100%]">
             <img class="h-full h-full object-cover scale-180" src="{{session.enemy_pokemon.sprites.front_default}}"
                alt="BackImage">
-         </figure>
+            </figure>
+               {%else%}
+               <img class="w-70 h-70 relative"
+               src="{{url_for('static', filename='/images/default.png')}}" alt="default_image" />
+               
+               {%endif%}
+               
 
       </div>
    </div>
